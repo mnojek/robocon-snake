@@ -1,0 +1,34 @@
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+#game-container {
+    display: inline-block;
+    position: relative;
+}
+
+#game-info {
+    color: white;
+    font-size: 20px;
+}
+
+body {
+    text-align: center;
+    background-color: #222;
+    color: white;
+    font-family: 'Arial', sans-serif;
+}
+
+canvas {
+    background-color: black;
+    border: 1px solid white;
+    display: block;
+    margin: 0 auto;
+}
+
+h1 {
+    color: lime;
+}
