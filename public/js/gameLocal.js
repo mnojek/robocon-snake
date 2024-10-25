@@ -235,18 +235,20 @@ function displayGameOver() {
   ctx.fillText("Game Over", canvas.width / 2 - 80, canvas.height / 2 - 20);
 
   setTimeout(() => {
-    promptForHighscore();
+    document.getElementById("game-over-screen").style.display = "flex";
   }, 1000);
 }
 
-// Prompt for player name (simplified)
-function promptForHighscore() {
-  let playerName = prompt("Enter your name for the highscore:");
+// Handle form submission
+document.getElementById("highscore-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+  const playerName = document.getElementById("player-name").value;
   if (playerName) {
     saveHighscore(playerName, score);
     displayHighscoreBoard(); // Display highscores after saving
+    document.getElementById("game-over-screen").style.display = "none";
   }
-}
+});
 
 // Save highscore to localStorage
 function saveHighscore(name, score) {

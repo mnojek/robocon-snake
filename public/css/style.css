@@ -1,3 +1,35 @@
+#game-over-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+#highscore-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#highscore-form input {
+    margin: 10px 0;
+    padding: 5px;
+    font-size: 16px;
+}
+
+#highscore-form button {
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     text-align: center;
