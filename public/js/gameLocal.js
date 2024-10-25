@@ -4,10 +4,13 @@ const ctx = canvas.getContext("2d");
 // Game settings
 const gridSize = 20; // Size of each square on the grid
 let map = [];
+let currentMap = 1; // Start with the first map
 let snake = []; // Snake starts with one segment
 let direction = { x: 1, y: 0 }; // Snake starts moving right
 let food = {}; // Starting food position
 let score = 0;
+let scoreOnMap = 0;
+let scoreToNextMap = 2;
 let lives = 3;
 let isGameOver = false;
 
@@ -16,7 +19,7 @@ let walls = []; // Array to store wall coordinates
 // Function to load the map from a text file
 async function loadMap() {
   try {
-    const response = await fetch("maps/map.txt");
+    const response = await fetch(`maps/map-${currentMap}.txt`);
     const mapText = await response.text();
     const mapLines = mapText.split("\n");
 
@@ -82,11 +85,31 @@ function moveSnake() {
 
   // Remove the last segment unless the snake eats food
   if (head.x === food.x && head.y === food.y) {
-    score++;
-    generateFood();
+    eatFood();
   } else {
     snake.pop();
   }
+}
+
+function eatFood() {
+  score++; // Increment the score
+  scoreOnMap++; // Increment the score for the current map
+  if (scoreOnMap >= scoreToNextMap) {
+    loadNextMap(); // Load the next map if score reaches 20
+  } else {
+    // Logic for spawning new food
+    generateFood();
+  }
+}
+
+function loadNextMap() {
+  currentMap++;
+  scoreOnMap = 0;
+  walls = []; // Reset walls array
+  map = []; // Reset map array
+  snake = [{ x: 40, y: 40 }]; // Reset snake position
+  direction = { x: 1, y: 0 };
+  loadMap();
 }
 
 // Update checkCollisions function
@@ -158,8 +181,15 @@ function draw() {
 
 // Generate new food position
 function generateFood() {
-  food.x = Math.floor((Math.random() * canvas.width) / gridSize) * gridSize;
-  food.y = Math.floor((Math.random() * canvas.height) / gridSize) * gridSize;
+  let validPosition = false;
+
+  while (!validPosition) {
+    food.x = Math.floor((Math.random() * canvas.width) / gridSize) * gridSize;
+    food.y = Math.floor((Math.random() * canvas.height) / gridSize) * gridSize;
+
+    // Check if the generated position is not on a wall
+    validPosition = !walls.some(wall => wall.x === food.x && wall.y === food.y);
+  }
 }
 
 function displayGameOver() {
