@@ -3,6 +3,8 @@ const ctx = canvas.getContext("2d");
 
 // Game settings
 const gridSize = 20; // Size of each square on the grid
+const scoreToNextMap = 2;
+let isPaused = false; // Add a flag to control the game loop
 let map = [];
 let currentMap = 1; // Start with the first map
 let snake = []; // Snake starts with one segment
@@ -10,7 +12,6 @@ let direction = { x: 1, y: 0 }; // Snake starts moving right
 let food = {}; // Starting food position
 let score = 0;
 let scoreOnMap = 0;
-let scoreToNextMap = 2;
 let lives = 3;
 let isGameOver = false;
 
@@ -61,10 +62,11 @@ function checkWallCollision(head) {
 
 // Game loop
 function gameLoop() {
-  if (isGameOver) return;
-
-  update();
-  draw();
+  if (isGameOver) return; // Check if the game is paused or over
+  if (!isPaused) {
+    update();
+    draw();
+  }
 
   setTimeout(gameLoop, 100); // Control the snake speed (100ms per frame)
 }
@@ -102,7 +104,31 @@ function eatFood() {
   }
 }
 
+// Function to display the countdown
+function displayCountdown(callback) {
+  isPaused = true; // Pause the game loop
+  let countdown = 3;
+  const interval = setInterval(() => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    ctx.fillStyle = "white";
+    ctx.font = "30px Arial";
+    ctx.fillText(
+      `Next map in ${countdown}...`,
+      canvas.width / 2 - 80,
+      canvas.height / 2 - 20
+    );
+    countdown--;
+
+    if (countdown < 0) {
+      clearInterval(interval);
+      isPaused = false; // Resume the game loop
+      callback(); // Call the callback function to load the next map
+    }
+  }, 1000); // Update every second
+}
+
 function loadNextMap() {
+  displayCountdown(() => {
   currentMap++;
   scoreOnMap = 0;
   walls = []; // Reset walls array
@@ -110,6 +136,7 @@ function loadNextMap() {
   snake = [{ x: 40, y: 40 }]; // Reset snake position
   direction = { x: 1, y: 0 };
   loadMap();
+  });
 }
 
 // Update checkCollisions function
