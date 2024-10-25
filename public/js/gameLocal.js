@@ -2,6 +2,7 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 // Game settings
+let keyQueue = [];
 const gridSize = 20; // Size of each square on the grid
 const scoreToNextMap = 10;
 let isPaused = false; // Add a flag to control the game loop
@@ -65,6 +66,14 @@ function checkWallCollision(head) {
 function gameLoop() {
   if (isGameOver) return; // Check if the game is paused or over
   if (!isPaused) {
+    // Process the key queue
+    while (keyQueue.length > 0) {
+      const newDirection = keyQueue.shift();
+      if (!isOppositeDirection(newDirection, direction)) {
+        direction = newDirection;
+        break; // Process only the first valid direction
+      }
+    }
     update();
     draw();
   }
@@ -289,19 +298,34 @@ async function startGame() {
 
 startGame();
 
+function isOppositeDirection(newDirection, currentDirection) {
+  return (
+    (newDirection.x === -currentDirection.x && newDirection.y === 0) ||
+    (newDirection.y === -currentDirection.y && newDirection.x === 0)
+  );
+}
+
 document.addEventListener("keydown", (e) => {
+  let newDirection;
   switch (e.key) {
     case "ArrowUp":
-      if (direction.y === 0) direction = { x: 0, y: -1 };
+      newDirection = { x: 0, y: -1 };
       break;
     case "ArrowDown":
-      if (direction.y === 0) direction = { x: 0, y: 1 };
+      newDirection = { x: 0, y: 1 };
       break;
     case "ArrowLeft":
-      if (direction.x === 0) direction = { x: -1, y: 0 };
+      newDirection = { x: -1, y: 0 };
       break;
     case "ArrowRight":
-      if (direction.x === 0) direction = { x: 1, y: 0 };
+      newDirection = { x: 1, y: 0 };
       break;
+    default:
+      return; // Ignore other keys
+  }
+
+  // Add the new direction to the queue if it's not opposite to the current direction
+  if (!isOppositeDirection(newDirection, direction)) {
+    keyQueue.push(newDirection);
   }
 });
