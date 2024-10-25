@@ -288,6 +288,43 @@ function displayHighscoreBoard() {
       140 + index * 30
     );
   });
+
+  // Display "Press enter to start again" below the player scores
+  ctx.fillText(
+    "Press enter to start again",
+    canvas.width / 2 - 80,
+    140 + highscores.length * 30 + 40
+  );
+
+  // Add event listener for Enter key to restart the game
+  document.addEventListener("keydown", handleEnterKey);
+}
+
+function handleEnterKey(event) {
+  if (event.key === "Enter") {
+    document.removeEventListener("keydown", handleEnterKey); // Remove the event listener
+    restartGame();
+  }
+}
+
+function restartGame() {
+  // Reset game state
+  keyQueue = [];
+  isPaused = false;
+  map = [];
+  currentMap = 1;
+  snake = [];
+  gameSpeed = 100;
+  direction = { x: 1, y: 0 };
+  food = {};
+  score = 0;
+  scoreOnMap = 0;
+  lives = 3;
+  isGameOver = false;
+  walls = [];
+
+  // Restart the game
+  startGame();
 }
 
 // Start the game
