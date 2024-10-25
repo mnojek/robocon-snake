@@ -3,11 +3,12 @@ const ctx = canvas.getContext("2d");
 
 // Game settings
 const gridSize = 20; // Size of each square on the grid
-const scoreToNextMap = 2;
+const scoreToNextMap = 10;
 let isPaused = false; // Add a flag to control the game loop
 let map = [];
 let currentMap = 1; // Start with the first map
 let snake = []; // Snake starts with one segment
+let gameSpeed = 100; // Initial snake speed
 let direction = { x: 1, y: 0 }; // Snake starts moving right
 let food = {}; // Starting food position
 let score = 0;
@@ -68,7 +69,7 @@ function gameLoop() {
     draw();
   }
 
-  setTimeout(gameLoop, 100); // Control the snake speed (100ms per frame)
+  setTimeout(gameLoop, gameSpeed); // Control the snake speed (100ms per frame)
 }
 
 // Update game state
@@ -102,6 +103,14 @@ function eatFood() {
     // Logic for spawning new food
     generateFood();
   }
+  increaseSpeed(); // Increase the game speed
+}
+
+// Function to increase the game speed
+function increaseSpeed() {
+  if (gameSpeed > 50) { // Set a minimum speed limit
+    gameSpeed -= 5; // Decrease the interval by 5ms
+  }
 }
 
 // Function to display the countdown
@@ -131,6 +140,7 @@ function loadNextMap() {
   displayCountdown(() => {
   currentMap++;
   scoreOnMap = 0;
+  gameSpeed = 100; // Reset the game speed
   walls = []; // Reset walls array
   map = []; // Reset map array
   snake = [{ x: 40, y: 40 }]; // Reset snake position
