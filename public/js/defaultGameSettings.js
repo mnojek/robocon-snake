@@ -9,4 +9,5 @@ export const defaultGameSettings = {
   initialMapScore: 0,
   initialFood: {},
   initialMap: 1, // Start with the first map
+  numberOfMaps: 3, // Number of maps available
 };

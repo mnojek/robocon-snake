@@ -1,6 +1,6 @@
 // map.js
 import { defaultGameSettings } from "./defaultGameSettings.js";
-import { displayCountdown } from "./ui.js";
+import { displayCountdown, displayGameOver } from "./ui.js";
 import { canvas, ctx, gridSize } from "./ui.js";
 import { snake, resetSnake } from "./snake.js";
 import { gameState, resetGameSpeed } from "./main.js";
@@ -8,6 +8,7 @@ import { gameState, resetGameSpeed } from "./main.js";
 export const scoreToNextMap = defaultGameSettings.scoreToNextMap;
 export const map = {
   currentMap: defaultGameSettings.initialMap,
+  numberOfMaps: defaultGameSettings.numberOfMaps,
   tiles: [],
   walls: [], // Array to store wall coordinates
   food: { ...defaultGameSettings.initialFood },
@@ -17,6 +18,10 @@ export const map = {
 export async function loadMap() {
   try {
     const response = await fetch(`maps/map-${map.currentMap}.txt`);
+    if (!response.ok) {
+      console.warn(`Map file maps/map-${map.currentMap}.txt not found.`);
+      return;
+    }
     const mapText = await response.text();
     let mapLines = mapText
       .split("\n")
@@ -57,6 +62,10 @@ export async function loadMap() {
 }
 
 export function loadNextMap() {
+  if (map.currentMap >= map.numberOfMaps) {
+    console.log("Game over");
+    displayGameOver();
+  }
   displayCountdown(1, "Next map in", () => {
     map.currentMap++;
     gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
