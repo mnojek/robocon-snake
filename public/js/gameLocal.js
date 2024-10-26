@@ -218,6 +218,7 @@ function loseLife() {
 
 // Reset snake position after losing life
 function resetSnake() {
+  keyQueue = [];
   snake = [{ x: 40, y: 40 }];
   direction = { x: 1, y: 0 };
 }
