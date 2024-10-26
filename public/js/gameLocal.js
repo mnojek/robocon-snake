@@ -2,7 +2,6 @@
 // TODO: Validate map files
 // TODO: Add fruits with more points that disappear after a while
 
-
 import { defaultGameSettings } from "./defaultGameSettings.js";
 
 const canvas = document.getElementById("gameCanvas");
@@ -25,7 +24,7 @@ let scoreOnMap = defaultGameSettings.initialMapScore;
 let lives = defaultGameSettings.initialLives;
 
 let isGameOver = false;
-let isPaused = false; // Add a flag to control the game loop
+let isPaused = false; // Flag to control the game loop
 
 
 // Function to load the map from a text file
@@ -33,10 +32,20 @@ async function loadMap() {
   try {
     const response = await fetch(`maps/map-${currentMap}.txt`);
     const mapText = await response.text();
-    const mapLines = mapText.split("\n");
+    let mapLines = mapText
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
     snake = []; // Clear the snake array
     walls = []; // Clear the walls array
     map = []; // Clear the map array
+
+    const mapHeight = mapLines.length;
+    const mapWidth = mapLines[0].length;
+
+    // Set the canvas size based on the map dimensions
+    canvas.width = mapWidth * gridSize;
+    canvas.height = mapHeight * gridSize;
 
     for (let y = 0; y < mapLines.length; y++) {
       const row = [];
