@@ -2,6 +2,11 @@
 // TODO: Validate map files
 // TODO: Add fruits with more points that disappear after a while
 // TODO: Add prettier hearts
+// TODO: Add bigger maps and increase grid size
+// TODO: Add RoboCon themed background
+// TODO: Customize the snake for robocon
+// TODO: Save highest score of the player
+// TODO: Make the extra fruit blink when it is about to disappear
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import {

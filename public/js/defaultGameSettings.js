@@ -1,5 +1,5 @@
 export const defaultGameSettings = {
-  gridSize: 20, // Size of each square on the grid
+  gridSize: 40, // Size of each square on the grid
   scoreToNextMap: 10,
   initialGameSpeed: 150, // Initial snake speed
   initialDirection: { x: 1, y: 0 }, // Snake starts moving right
