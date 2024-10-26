@@ -1,9 +1,17 @@
 // main.js
 // TODO: Validate map files
 // TODO: Add fruits with more points that disappear after a while
+// TODO: Add prettier hearts
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
-import { map, loadMap, drawWalls, drawSnake, drawFood } from "./map.js";
+import {
+  map,
+  loadMap,
+  drawWalls,
+  drawSnake,
+  drawFood,
+  drawExtraFruit,
+} from "./map.js";
 import { updateSnakePosition, snake } from "./snake.js";
 import { ctx, canvas, displayCountdown, updateLivesDisplay } from "./ui.js";
 
@@ -13,6 +21,7 @@ export const gameState = {
   gameSpeed: defaultGameSettings.initialGameSpeed,
   score: defaultGameSettings.initialScore,
   scoreOnMap: defaultGameSettings.initialMapScore,
+  extraFruitEaten: false,
 };
 export let keyQueue = [];
 
@@ -130,6 +139,7 @@ export function draw() {
   drawWalls();
   drawSnake();
   drawFood();
+  drawExtraFruit();
 
   // Update score and lives
   document.getElementById("score").textContent = gameState.score;

@@ -1,4 +1,3 @@
-
 // ui.js
 import { handleEnterKey } from "./main.js";
 import { defaultGameSettings } from "./defaultGameSettings.js";

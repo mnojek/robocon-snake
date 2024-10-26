@@ -13,6 +13,12 @@ export const map = {
   walls: [], // Array to store wall coordinates
   food: { ...defaultGameSettings.initialFood },
 };
+export const extraFruit = {
+  position: null,
+  timer: null,
+  image: new Image(),
+};
+extraFruit.image.src = "images/rf.png"; // Path to your extra fruit image
 
 // Function to load the map from a text file
 export async function loadMap() {
@@ -68,6 +74,8 @@ export function loadNextMap() {
   }
   displayCountdown(1, "Next map in", () => {
     map.currentMap++;
+    snake.foodEaten = 0; // Reset the food eaten counter
+    gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
     gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
     resetGameSpeed(); // Reset the game speed
     map.walls = []; // Reset walls array
@@ -107,6 +115,27 @@ export function drawFood() {
   ctx.fillRect(map.food.x, map.food.y, gridSize, gridSize);
 }
 
+export function drawExtraFruit() {
+  console.log("extraFruit.position", extraFruit.position);
+  if (extraFruit.position) {
+    ctx.fillStyle = "yellow";
+    ctx.fillRect(
+      extraFruit.position.x,
+      extraFruit.position.y,
+      gridSize,
+      gridSize
+    );
+    // FIXME: The image does not render properly
+    ctx.drawImage(
+      extraFruit.image,
+      extraFruit.x,
+      extraFruit.y,
+      gridSize,
+      gridSize
+    );
+  }
+}
+
 export function generateFood(canvas, gridSize) {
   let validPosition = false;
 
@@ -124,5 +153,47 @@ export function generateFood(canvas, gridSize) {
       !snake.snakeSegments.some(
         (segment) => segment.x === map.food.x && segment.y === map.food.y
       );
+  }
+}
+
+// Function to spawn extra fruit at a random position
+export function spawnExtraFruit() {
+  let validPosition = false;
+
+  while (!validPosition) {
+    extraFruit.position = {
+      x: Math.floor((Math.random() * canvas.width) / gridSize) * gridSize,
+      y: Math.floor((Math.random() * canvas.height) / gridSize) * gridSize,
+    };
+
+    // Check if the generated position is not on a wall or on the snake
+    validPosition =
+      !map.walls.some(
+        (wall) =>
+          wall.x === extraFruit.position.x && wall.y === extraFruit.position.y
+      ) &&
+      !snake.snakeSegments.some(
+        (segment) =>
+          segment.x === extraFruit.position.x &&
+          segment.y === extraFruit.position.y
+      ) &&
+      !(
+        map.food.x === extraFruit.position.x &&
+        map.food.y === extraFruit.position.y
+      );
+  }
+  // Set a timer to remove the extra fruit after a certain time (e.g., 10 seconds)
+  extraFruit.timer = setTimeout(() => {
+    extraFruit.position = null; // Remove extra fruit after the timer
+    extraFruit.timer = null; // Clear the timer
+  }, 10000); // 10 seconds
+}
+
+// Function to remove the extra fruit
+export function removeExtraFruit() {
+  extraFruit.position = null;
+  if (extraFruit.timer) {
+    clearTimeout(extraFruit.timer); // Clear the timer if it's still running
+    extraFruit.timer = null;
   }
 }

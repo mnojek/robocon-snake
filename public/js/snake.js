@@ -7,6 +7,10 @@ import {
   drawWalls,
   drawFood,
   generateFood,
+  spawnExtraFruit,
+  removeExtraFruit,
+  drawExtraFruit,
+  extraFruit,
 } from "./map.js";
 import {
   gameState,
@@ -15,12 +19,19 @@ import {
   resetGameSpeed,
   increaseSpeed,
 } from "./main.js";
-import { ctx, canvas, gridSize, displayGameOver, updateLivesDisplay } from "./ui.js";
+import {
+  ctx,
+  canvas,
+  gridSize,
+  displayGameOver,
+  updateLivesDisplay,
+} from "./ui.js";
 
 export const snake = {
   snakeSegments: [...defaultGameSettings.initialSnakePosition],
   lives: defaultGameSettings.initialLives,
   direction: { ...defaultGameSettings.initialDirection },
+  foodEaten: 0,
 
   getHead() {
     return this.snakeSegments[0];
@@ -42,7 +53,6 @@ export const snake = {
     }
   },
 };
-export let food = { ...defaultGameSettings.initialFood };
 
 // Update game state
 export function updateSnakePosition() {
@@ -78,16 +88,30 @@ export function checkCollisions() {
       loseLife();
     }
   }
+  // Extra fruit collision
+  if (
+    extraFruit.position &&
+    head.x === extraFruit.position.x &&
+    head.y === extraFruit.position.y
+  ) {
+    gameState.score += 5; // Give 5 extra points
+    gameState.extraFruitEaten = true; // Set the extra fruit eaten flag
+    removeExtraFruit(); // Remove the extra fruit
+  }
 }
 
 export function eatFood() {
   gameState.score++; // Increment the score
   gameState.scoreOnMap++; // Increment the score for the current map
+  snake.foodEaten++; // Increment the food eaten counter
   if (gameState.scoreOnMap >= scoreToNextMap) {
     loadNextMap(); // Load the next map if score reaches the limit per map
   } else {
     // Logic for spawning new food
     generateFood(canvas, gridSize);
+    if (snake.foodEaten === 1) {
+      spawnExtraFruit(canvas, gridSize);
+    }
   }
   increaseSpeed(); // Increase the game speed
 }
@@ -106,6 +130,7 @@ export function blinkSnake(times, callback) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawWalls();
       drawFood();
+      drawExtraFruit();
     } else {
       // Show the snake
       draw();
@@ -126,8 +151,12 @@ export function checkWallCollision(head) {
 // Handle losing life
 export function loseLife() {
   snake.lives--;
+  snake.foodEaten = 0; // Reset the food eaten counter
   updateLivesDisplay(snake.lives); // Update the lives display
   resetGameSpeed(); // Reset the game speed
+  if (extraFruit.position) {
+    removeExtraFruit(); // Remove the extra fruit if it exists
+  }
   if (snake.lives <= 0) {
     gameState.isGameOver = true;
     snake.snakeSegments = []; // Clear the snake
@@ -136,6 +165,10 @@ export function loseLife() {
     gameState.isPaused = true;
     blinkSnake(3, () => {
       resetSnake();
+      if (gameState.extraFruitEaten) {
+        gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
+        gameState.score -= 5; // Deduct 5 points if the extra fruit was eaten
+      }
       gameState.score -= gameState.scoreOnMap; // Reset the score for the current map
       gameState.scoreOnMap = 0; // Reset the score for the current map
       gameState.isPaused = false; // Resume the game loop
