@@ -1,11 +1,10 @@
 // TODO: Blink snake 3 times when dead
-// TODO: Add a countdown before starting the game
 // TODO: Show different head for the snake
 // TODO: Validate map files
 // TODO: Add fruits with more points that disappear after a while
 
 
-import { defaultGameSettings as defaultGameSettings } from "./defaultGameSettings.js";
+import { defaultGameSettings } from "./defaultGameSettings.js";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -137,15 +136,15 @@ function increaseSpeed() {
 }
 
 // Function to display the countdown
-function displayCountdown(callback) {
+function displayCountdown(seconds, text, callback) {
   isPaused = true; // Pause the game loop
-  let countdown = 3;
+  let countdown = seconds;
   const interval = setInterval(() => {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
     ctx.fillStyle = "white";
     ctx.font = "30px Arial";
     ctx.fillText(
-      `Next map in ${countdown}...`,
+      `${text} ${countdown}...`,
       canvas.width / 2 - 80,
       canvas.height / 2 - 20
     );
@@ -154,13 +153,13 @@ function displayCountdown(callback) {
     if (countdown < 0) {
       clearInterval(interval);
       isPaused = false; // Resume the game loop
-      callback(); // Call the callback function to load the next map
+      callback();
     }
   }, 1000); // Update every second
 }
 
 function loadNextMap() {
-  displayCountdown(() => {
+  displayCountdown(3, "Next map in", () => {
     currentMap++;
     scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
     gameSpeed = defaultGameSettings.initialGameSpeed; // Reset the game speed
@@ -363,7 +362,9 @@ function restartGame() {
 // Start the game
 async function startGame() {
   await loadMap();
-  gameLoop();
+  displayCountdown(3, "Start in", () => {
+    gameLoop();
+  });
 }
 
 startGame();
