@@ -43,8 +43,14 @@ body {
 }
 
 #game-info {
-    color: white;
-    font-size: 20px;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start
+}
+
+#lives img {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 body {

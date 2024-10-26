@@ -15,7 +15,7 @@ import {
   resetGameSpeed,
   increaseSpeed,
 } from "./main.js";
-import { ctx, canvas, gridSize, displayGameOver } from "./ui.js";
+import { ctx, canvas, gridSize, displayGameOver, updateLivesDisplay } from "./ui.js";
 
 export const snake = {
   snakeSegments: [...defaultGameSettings.initialSnakePosition],
@@ -28,7 +28,6 @@ export const snake = {
 
   // Move the snake
   move() {
-    console.log(this.snakeSegments);
     const head = {
       x: this.snakeSegments[0].x + this.direction.x * gridSize,
       y: this.snakeSegments[0].y + this.direction.y * gridSize,
@@ -127,6 +126,7 @@ export function checkWallCollision(head) {
 // Handle losing life
 export function loseLife() {
   snake.lives--;
+  updateLivesDisplay(snake.lives); // Update the lives display
   resetGameSpeed(); // Reset the game speed
   if (snake.lives <= 0) {
     gameState.isGameOver = true;

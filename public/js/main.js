@@ -6,7 +6,7 @@
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { map, loadMap, drawWalls, drawSnake, drawFood } from "./map.js";
 import { updateSnakePosition, snake } from "./snake.js";
-import { ctx, canvas, displayCountdown } from "./ui.js";
+import { ctx, canvas, displayCountdown, updateLivesDisplay } from "./ui.js";
 
 export const gameState = {
   isPaused: false,
@@ -134,13 +134,14 @@ export function draw() {
 
   // Update score and lives
   document.getElementById("score").textContent = gameState.score;
-  document.getElementById("lives").textContent = snake.lives;
+  updateLivesDisplay(snake.lives);
 }
 
 // Start the game
 async function startGame() {
   await loadMap();
   displayCountdown(1, "Start in", () => {
+    document.getElementById("game-info").style.display = "flex";
     gameLoop();
   });
 }

@@ -82,3 +82,19 @@ export function displayCountdown(seconds, text, callback) {
     }
   }, 1000); // Update every second
 }
+
+export function updateLivesDisplay(lives) {
+  const livesContainer = document.getElementById("lives");
+  livesContainer.innerHTML = ""; // Clear any previous content
+
+  for (let i = 0; i < lives; i++) {
+    const heartImg = document.createElement("img");
+    heartImg.src = "images/heart.png"; // Path to the heart image
+    heartImg.alt = "Life"; // Alt text for accessibility
+    heartImg.style.width = "16px"; // Set size of the heart image (adjust as needed)
+    heartImg.style.height = "16px";
+    heartImg.style.marginRight = "5px"; // Add some spacing between hearts
+
+    livesContainer.appendChild(heartImg);
+  }
+}
