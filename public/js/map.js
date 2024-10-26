@@ -87,8 +87,17 @@ export function drawWalls() {
 }
 
 export function drawSnake() {
-  ctx.fillStyle = "green";
-  snake.snakeSegments.forEach((segment) => {
+  // Make sure there are snake segments before drawing
+  if (snake.snakeSegments.length === 0) return;
+
+  // Draw the head in a different color
+  const head = snake.getHead();
+  ctx.fillStyle = "#66ff66"; // Set the color for the snake's head
+  ctx.fillRect(head.x, head.y, gridSize, gridSize);
+
+  // Draw the rest of the snake segments in green
+  ctx.fillStyle = "green"; // Set the color for the body
+  snake.snakeSegments.slice(1).forEach((segment) => {
     ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
   });
 }
