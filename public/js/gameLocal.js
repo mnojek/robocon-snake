@@ -211,6 +211,8 @@ function loseLife() {
     displayGameOver();
   } else {
     resetSnake();
+    score -= scoreOnMap; // Reset the score for the current map
+    scoreOnMap = 0; // Reset the score for the current map
   }
 }
 
@@ -261,6 +263,7 @@ function displayGameOver() {
   ctx.fillStyle = "white";
   ctx.font = "30px Arial";
   ctx.fillText("Game Over", canvas.width / 2 - 80, canvas.height / 2 - 20);
+  document.getElementById("final-score").textContent = score;
 
   setTimeout(() => {
     document.getElementById("game-over-screen").style.display = "flex";
