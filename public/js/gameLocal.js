@@ -1,23 +1,36 @@
+// TODO: Blink snake 3 times when dead
+// TODO: Reset the points when lives are lost, but keep when the map changes
+// TODO: Add a countdown before starting the game
+// TODO: Show different head for the snake
+// TODO: Calidate map files
+// Start game with longer snake
+// Add fruits with more points that disappear after a while
+
+
+import { defaultGameSettings as defaultGameSettings } from "./defaultGameSettings.js";
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 // Game settings
 let keyQueue = [];
-const gridSize = 20; // Size of each square on the grid
-const scoreToNextMap = 10;
-let isPaused = false; // Add a flag to control the game loop
+const gridSize = defaultGameSettings.gridSize;
+const scoreToNextMap = defaultGameSettings.scoreToNextMap;
+let currentMap = defaultGameSettings.initialMap;
 let map = [];
-let currentMap = 1; // Start with the first map
-let snake = []; // Snake starts with one segment
-let gameSpeed = 100; // Initial snake speed
-let direction = { x: 1, y: 0 }; // Snake starts moving right
-let food = {}; // Starting food position
-let score = 0;
-let scoreOnMap = 0;
-let lives = 3;
-let isGameOver = false;
-
 let walls = []; // Array to store wall coordinates
+
+let snake = [...defaultGameSettings.initialSnakePosition];
+let gameSpeed = defaultGameSettings.initialGameSpeed;
+let direction = { ...defaultGameSettings.initialDirection };
+let food = { ...defaultGameSettings.initialFood };
+let score = defaultGameSettings.initialScore;
+let scoreOnMap = defaultGameSettings.initialMapScore;
+let lives = defaultGameSettings.initialLives;
+
+let isGameOver = false;
+let isPaused = false; // Add a flag to control the game loop
+
 
 // Function to load the map from a text file
 async function loadMap() {
@@ -147,14 +160,14 @@ function displayCountdown(callback) {
 
 function loadNextMap() {
   displayCountdown(() => {
-  currentMap++;
-  scoreOnMap = 0;
-  gameSpeed = 100; // Reset the game speed
-  walls = []; // Reset walls array
-  map = []; // Reset map array
-  snake = [{ x: 40, y: 40 }]; // Reset snake position
-  direction = { x: 1, y: 0 };
-  loadMap();
+    currentMap++;
+    scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
+    gameSpeed = defaultGameSettings.initialGameSpeed; // Reset the game speed
+    walls = []; // Reset walls array
+    map = []; // Reset map array
+    snake = [...defaultGameSettings.initialSnakePosition]; // Reset snake position
+    direction = { ...defaultGameSettings.initialDirection }; // Reset snake direction
+    loadMap();
   });
 }
 
@@ -190,6 +203,7 @@ function loseLife() {
   lives--;
   if (lives <= 0) {
     isGameOver = true;
+    snake = []; // Clear the snake
     displayGameOver();
   } else {
     resetSnake();
@@ -308,20 +322,23 @@ function handleEnterKey(event) {
 }
 
 function restartGame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   // Reset game state
   keyQueue = [];
-  isPaused = false;
-  map = [];
-  currentMap = 1;
-  snake = [];
-  gameSpeed = 100;
-  direction = { x: 1, y: 0 };
-  food = {};
-  score = 0;
-  scoreOnMap = 0;
-  lives = 3;
   isGameOver = false;
+  isPaused = false;
+
+  currentMap = 1;
+  map = [];
   walls = [];
+
+  snake = [...defaultGameSettings.initialSnakePosition];
+  gameSpeed = defaultGameSettings.initialGameSpeed;
+  score = defaultGameSettings.initialScore;
+  lives = defaultGameSettings.initialLives;
+  direction = { ...defaultGameSettings.initialDirection };
+  food = { ...defaultGameSettings.initialFood };
+  scoreOnMap = defaultGameSettings.initialMapScore;
 
   // Restart the game
   startGame();
