@@ -2,9 +2,8 @@
 // TODO: Reset the points when lives are lost, but keep when the map changes
 // TODO: Add a countdown before starting the game
 // TODO: Show different head for the snake
-// TODO: Calidate map files
-// Start game with longer snake
-// Add fruits with more points that disappear after a while
+// TODO: Validate map files
+// TODO: Add fruits with more points that disappear after a while
 
 
 import { defaultGameSettings as defaultGameSettings } from "./defaultGameSettings.js";
@@ -38,6 +37,9 @@ async function loadMap() {
     const response = await fetch(`maps/map-${currentMap}.txt`);
     const mapText = await response.text();
     const mapLines = mapText.split("\n");
+    snake = []; // Clear the snake array
+    walls = []; // Clear the walls array
+    map = []; // Clear the map array
 
     for (let y = 0; y < mapLines.length; y++) {
       const row = [];
@@ -46,17 +48,18 @@ async function loadMap() {
           walls.push({ x: x * gridSize, y: y * gridSize });
           row.push("#");
         } else if (mapLines[y][x] === "S") {
-          snake[0] = { x: x * gridSize, y: y * gridSize };
-          row.push(" ");
+          snake.push({ x: x * gridSize, y: y * gridSize });
+          row.push("S");
         } else if (mapLines[y][x] === "F") {
           food = { x: x * gridSize, y: y * gridSize };
-          row.push(" ");
+          row.push("F");
         } else {
           row.push(" ");
         }
       }
       map.push(row);
     }
+    snake.reverse(); // Reverse the snake array
   } catch (error) {
     console.error("Error loading the map:", error);
   }
