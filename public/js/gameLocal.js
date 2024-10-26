@@ -91,7 +91,7 @@ function gameLoop() {
     draw();
   }
 
-  setTimeout(gameLoop, gameSpeed); // Control the snake speed (100ms per frame)
+  setTimeout(gameLoop, gameSpeed); // Control the snake speed (100ms per frame by default)
 }
 
 // Update game state
@@ -120,7 +120,7 @@ function eatFood() {
   score++; // Increment the score
   scoreOnMap++; // Increment the score for the current map
   if (scoreOnMap >= scoreToNextMap) {
-    loadNextMap(); // Load the next map if score reaches 20
+    loadNextMap(); // Load the next map if score reaches the limit per map
   } else {
     // Logic for spawning new food
     generateFood();
@@ -201,6 +201,7 @@ function checkCollisions() {
 // Handle losing life
 function loseLife() {
   lives--;
+  gameSpeed = defaultGameSettings.initialGameSpeed; // Reset the game speed
   if (lives <= 0) {
     isGameOver = true;
     snake = []; // Clear the snake
@@ -247,8 +248,9 @@ function generateFood() {
     food.x = Math.floor((Math.random() * canvas.width) / gridSize) * gridSize;
     food.y = Math.floor((Math.random() * canvas.height) / gridSize) * gridSize;
 
-    // Check if the generated position is not on a wall
-    validPosition = !walls.some(wall => wall.x === food.x && wall.y === food.y);
+    // Check if the generated position is not on a wall or on the snake
+    validPosition = !walls.some(wall => wall.x === food.x && wall.y === food.y) &&
+                    !snake.some(segment => segment.x === food.x && segment.y === food.y);
   }
 }
 
