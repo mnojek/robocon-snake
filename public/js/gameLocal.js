@@ -1,4 +1,3 @@
-// TODO: Blink snake 3 times when dead
 // TODO: Show different head for the snake
 // TODO: Validate map files
 // TODO: Add fruits with more points that disappear after a while
@@ -68,6 +67,18 @@ function drawWalls() {
   walls.forEach((wall) => {
     ctx.fillRect(wall.x, wall.y, gridSize, gridSize);
   });
+}
+
+function drawSnake() {
+  ctx.fillStyle = "green";
+  snake.forEach((segment) => {
+    ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
+  });
+}
+
+function drawFood() {
+  ctx.fillStyle = "red";
+  ctx.fillRect(food.x, food.y, gridSize, gridSize);
 }
 
 // Check if the snake collides with a wall
@@ -158,6 +169,26 @@ function displayCountdown(seconds, text, callback) {
   }, 1000); // Update every second
 }
 
+function blinkSnake(times, callback) {
+  let count = 0;
+  const interval = setInterval(() => {
+    if (count % 2 === 0) {
+      // Hide the snake
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawWalls();
+      drawFood();
+    } else {
+      // Show the snake
+      draw();
+    }
+    count++;
+    if (count >= times * 2) {
+      clearInterval(interval);
+      callback();
+    }
+  }, 300); // Blink every 300ms
+}
+
 function loadNextMap() {
   displayCountdown(3, "Next map in", () => {
     currentMap++;
@@ -207,9 +238,13 @@ function loseLife() {
     snake = []; // Clear the snake
     displayGameOver();
   } else {
-    resetSnake();
-    score -= scoreOnMap; // Reset the score for the current map
-    scoreOnMap = 0; // Reset the score for the current map
+    isPaused = true;
+    blinkSnake(3, () => {
+      resetSnake();
+      score -= scoreOnMap; // Reset the score for the current map
+      scoreOnMap = 0; // Reset the score for the current map
+      isPaused = false; // Resume the game loop
+    });
   }
 }
 
@@ -234,18 +269,9 @@ function draw() {
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw walls
   drawWalls();
-
-  // Draw snake
-  ctx.fillStyle = "green";
-  snake.forEach((segment) => {
-    ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
-  });
-
-  // Draw food
-  ctx.fillStyle = "red";
-  ctx.fillRect(food.x, food.y, gridSize, gridSize);
+  drawSnake();
+  drawFood();
 
   // Update score and lives
   document.getElementById("score").textContent = score;
