@@ -1,5 +1,4 @@
 // TODO: Blink snake 3 times when dead
-// TODO: Reset the points when lives are lost, but keep when the map changes
 // TODO: Add a countdown before starting the game
 // TODO: Show different head for the snake
 // TODO: Validate map files
@@ -48,7 +47,6 @@ async function loadMap() {
           walls.push({ x: x * gridSize, y: y * gridSize });
           row.push("#");
         } else if (mapLines[y][x] === "S") {
-          snake.push({ x: x * gridSize, y: y * gridSize });
           row.push("S");
         } else if (mapLines[y][x] === "F") {
           food = { x: x * gridSize, y: y * gridSize };
@@ -59,7 +57,7 @@ async function loadMap() {
       }
       map.push(row);
     }
-    snake.reverse(); // Reverse the snake array
+    resetSnake(); // Reset the snake position
   } catch (error) {
     console.error("Error loading the map:", error);
   }
@@ -219,9 +217,18 @@ function loseLife() {
 // Reset snake position after losing life
 function resetSnake() {
   keyQueue = [];
-  snake = [{ x: 40, y: 40 }];
-  direction = { x: 1, y: 0 };
+  snake = [];
+  for (let y = 0; y < map.length; y++) {
+    for (let x = 0; x < map[y].length; x++) {
+      if (map[y][x] === "S") {
+        snake.push({ x: x * gridSize, y: y * gridSize });
+      }
+    }
+  }
+  snake.reverse(); // Reverse the snake array
+  direction = { ...defaultGameSettings.initialDirection };
 }
+
 
 // Modify the game loop to draw walls
 function draw() {
