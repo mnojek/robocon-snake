@@ -21,35 +21,39 @@ export const snake = {
   snakeSegments: [...defaultGameSettings.initialSnakePosition],
   lives: defaultGameSettings.initialLives,
   direction: { ...defaultGameSettings.initialDirection },
+
+  getHead() {
+    return this.snakeSegments[0];
+  },
+
+  // Move the snake
+  move() {
+    console.log(this.snakeSegments);
+    const head = {
+      x: this.snakeSegments[0].x + this.direction.x * gridSize,
+      y: this.snakeSegments[0].y + this.direction.y * gridSize,
+    };
+    this.snakeSegments.unshift(head);
+
+    // Remove the last segment unless the snake eats food
+    if (head.x === map.food.x && head.y === map.food.y) {
+      eatFood();
+    } else {
+      this.snakeSegments.pop();
+    }
+  },
 };
 export let food = { ...defaultGameSettings.initialFood };
 
 // Update game state
 export function updateSnakePosition() {
-  moveSnake();
+  snake.move();
   checkCollisions();
-}
-
-// Move the snake
-export function moveSnake() {
-  console.log(snake.snakeSegments);
-  const head = {
-    x: snake.snakeSegments[0].x + snake.direction.x * gridSize,
-    y: snake.snakeSegments[0].y + snake.direction.y * gridSize,
-  };
-  snake.snakeSegments.unshift(head);
-
-  // Remove the last segment unless the snake eats food
-  if (head.x === map.food.x && head.y === map.food.y) {
-    eatFood();
-  } else {
-    snake.snakeSegments.pop();
-  }
 }
 
 // Update checkCollisions function
 export function checkCollisions() {
-  const head = snake.snakeSegments[0];
+  const head = snake.getHead();
 
   // Wall collision
   if (checkWallCollision(head)) {
@@ -89,6 +93,12 @@ export function eatFood() {
   increaseSpeed(); // Increase the game speed
 }
 
+/**
+ * Blinks the dead snake on the canvas a specified number of times.
+ *
+ * @param {number} times - The number of times to blink the snake.
+ * @param {Function} callback - The function to call after blinking is complete.
+ */
 export function blinkSnake(times, callback) {
   let count = 0;
   const interval = setInterval(() => {

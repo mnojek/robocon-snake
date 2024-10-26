@@ -1,3 +1,5 @@
+
+// ui.js
 import { handleEnterKey } from "./main.js";
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { gameState, saveHighscore } from "./main.js";

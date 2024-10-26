@@ -1,3 +1,4 @@
+// main.js
 // TODO: Show different head for the snake
 // TODO: Validate map files
 // TODO: Add fruits with more points that disappear after a while
