@@ -109,7 +109,7 @@ export function eatFood() {
   } else {
     // Logic for spawning new food
     generateFood(canvas, gridSize);
-    if (snake.foodEaten === 1) {
+    if (snake.foodEaten === 5) {
       spawnExtraFruit(canvas, gridSize);
     }
   }

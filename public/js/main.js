@@ -149,7 +149,7 @@ export function draw() {
 // Start the game
 async function startGame() {
   await loadMap();
-  displayCountdown(1, "Start in", () => {
+  displayCountdown(3, "Start in", () => {
     document.getElementById("game-info").style.display = "flex";
     gameLoop();
   });

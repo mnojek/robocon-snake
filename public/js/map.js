@@ -72,7 +72,7 @@ export function loadNextMap() {
     console.log("Game over");
     displayGameOver();
   }
-  displayCountdown(1, "Next map in", () => {
+  displayCountdown(3, "Next map in", () => {
     map.currentMap++;
     snake.foodEaten = 0; // Reset the food eaten counter
     gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
@@ -116,7 +116,6 @@ export function drawFood() {
 }
 
 export function drawExtraFruit() {
-  console.log("extraFruit.position", extraFruit.position);
   if (extraFruit.position) {
     ctx.fillStyle = "yellow";
     ctx.fillRect(

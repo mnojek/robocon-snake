@@ -36,19 +36,21 @@
 
     <script type="module" src="js/main.js"></script>
     <script>
-        // Function to validate input
-        function validateInput() {
-            const playerNameInput = document.getElementById('player-name');
-            const pattern = /^[A-Za-z0-9]+$/; // Regular expression for lowercase letters and numbers
+      // Function to validate input
+      function validateInput() {
+        const playerNameInput = document.getElementById("player-name");
+        const pattern = /^[A-Za-z0-9]+$/; // Regular expression for lowercase letters and numbers
 
-            if (!pattern.test(playerNameInput.value)) {
-                alert('Please enter a valid name with lowercase letters and numbers only.');
-                return false; // Prevent form submission
-            }
-
-            // Optionally, you can do something with the validated input here, e.g., send to the server
-            return true; // Allow form submission
+        if (!pattern.test(playerNameInput.value)) {
+          alert(
+            "Please enter a valid name with lowercase letters and numbers only."
+          );
+          return false; // Prevent form submission
         }
+
+        // Optionally, you can do something with the validated input here, e.g., send to the server
+        return true; // Allow form submission
+      }
     </script>
   </body>
 </html>
