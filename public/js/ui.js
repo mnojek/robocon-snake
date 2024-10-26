@@ -28,6 +28,10 @@ document
       saveHighscore(playerName, gameState.score);
       displayHighscoreBoard(); // Display highscores after saving
       document.getElementById("game-over-screen").style.display = "none";
+      // Focus on the player name input
+      const playerNameInput = document.getElementById("player-name");
+      // FIXME: This doesn't work
+      playerNameInput.focus();
     }
   });
 
