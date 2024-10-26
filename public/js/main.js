@@ -7,7 +7,13 @@ import { map, loadMap, drawWalls, drawSnake, drawFood } from "./map.js";
 import { updateSnakePosition, snake } from "./snake.js";
 import { ctx, canvas, displayCountdown } from "./ui.js";
 
-export const gameState = { isPaused: false, isGameOver: false, gameSpeed: defaultGameSettings.initialGameSpeed, score: defaultGameSettings.initialScore, scoreOnMap: defaultGameSettings.initialMapScore };
+export const gameState = {
+  isPaused: false,
+  isGameOver: false,
+  gameSpeed: defaultGameSettings.initialGameSpeed,
+  score: defaultGameSettings.initialScore,
+  scoreOnMap: defaultGameSettings.initialMapScore,
+};
 export let keyQueue = [];
 
 // Save highscore to localStorage

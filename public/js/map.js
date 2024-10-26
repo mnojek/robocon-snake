@@ -93,7 +93,8 @@ export function generateFood(canvas, gridSize) {
   let validPosition = false;
 
   while (!validPosition) {
-    map.food.x = Math.floor((Math.random() * canvas.width) / gridSize) * gridSize;
+    map.food.x =
+      Math.floor((Math.random() * canvas.width) / gridSize) * gridSize;
     map.food.y =
       Math.floor((Math.random() * canvas.height) / gridSize) * gridSize;
 

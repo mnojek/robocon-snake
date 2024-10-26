@@ -1,10 +1,27 @@
 // snake.js
 import { defaultGameSettings } from "./defaultGameSettings.js";
-import { scoreToNextMap, map, loadNextMap, drawWalls, drawFood, generateFood } from "./map.js";
-import { gameState, draw, keyQueue, resetGameSpeed, increaseSpeed } from "./main.js";
+import {
+  scoreToNextMap,
+  map,
+  loadNextMap,
+  drawWalls,
+  drawFood,
+  generateFood,
+} from "./map.js";
+import {
+  gameState,
+  draw,
+  keyQueue,
+  resetGameSpeed,
+  increaseSpeed,
+} from "./main.js";
 import { ctx, canvas, gridSize, displayGameOver } from "./ui.js";
 
-export const snake = { snakeSegments: [...defaultGameSettings.initialSnakePosition], lives: defaultGameSettings.initialLives, direction: { ...defaultGameSettings.initialDirection } };
+export const snake = {
+  snakeSegments: [...defaultGameSettings.initialSnakePosition],
+  lives: defaultGameSettings.initialLives,
+  direction: { ...defaultGameSettings.initialDirection },
+};
 export let food = { ...defaultGameSettings.initialFood };
 
 // Update game state
@@ -33,12 +50,12 @@ export function moveSnake() {
 // Update checkCollisions function
 export function checkCollisions() {
   const head = snake.snakeSegments[0];
-  
+
   // Wall collision
   if (checkWallCollision(head)) {
     loseLife();
   }
-  
+
   // Border collision
   if (
     head.x < 0 ||
@@ -48,7 +65,7 @@ export function checkCollisions() {
   ) {
     loseLife();
   }
-  
+
   // Self-collision
   for (let i = 1; i < snake.snakeSegments.length; i++) {
     if (
