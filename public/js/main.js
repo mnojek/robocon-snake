@@ -1,12 +1,9 @@
 // main.js
 // TODO: Validate map files
-// TODO: Add fruits with more points that disappear after a while
-// TODO: Add prettier hearts
-// TODO: Add bigger maps and increase grid size
+// TODO: Add bigger maps
 // TODO: Add RoboCon themed background
 // TODO: Customize the snake for robocon
 // TODO: Save highest score of the player
-// TODO: Make the extra fruit blink when it is about to disappear
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import {
@@ -16,6 +13,7 @@ import {
   drawSnake,
   drawFood,
   drawExtraFruit,
+  extraFruit,
 } from "./map.js";
 import { updateSnakePosition, snake } from "./snake.js";
 import { ctx, canvas, displayCountdown, updateLivesDisplay } from "./ui.js";
@@ -141,10 +139,12 @@ export function draw() {
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  drawFood();
+  if (extraFruit.position && extraFruit.visible) {
+    drawExtraFruit();
+  }
   drawWalls();
   drawSnake();
-  drawFood();
-  drawExtraFruit();
 
   // Update score and lives
   document.getElementById("score").textContent = gameState.score;

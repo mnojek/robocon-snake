@@ -16,7 +16,10 @@ export const map = {
 export const extraFruit = {
   position: null,
   timer: null,
+  blinkTimer: null,
   image: new Image(),
+  blinking: false,
+  visible: true,
 };
 extraFruit.image.src = "images/rf.png"; // Path to your extra fruit image
 
@@ -117,18 +120,10 @@ export function drawFood() {
 
 export function drawExtraFruit() {
   if (extraFruit.position) {
-    ctx.fillStyle = "yellow";
-    ctx.fillRect(
-      extraFruit.position.x,
-      extraFruit.position.y,
-      gridSize,
-      gridSize
-    );
-    // FIXME: The image does not render properly
     ctx.drawImage(
       extraFruit.image,
-      extraFruit.x,
-      extraFruit.y,
+      extraFruit.position.x,
+      extraFruit.position.y,
       gridSize,
       gridSize
     );
@@ -181,18 +176,46 @@ export function spawnExtraFruit() {
         map.food.y === extraFruit.position.y
       );
   }
-  // Set a timer to remove the extra fruit after a certain time (e.g., 10 seconds)
+  // Set a timer to remove the extra fruit after a certain time
   extraFruit.timer = setTimeout(() => {
     extraFruit.position = null; // Remove extra fruit after the timer
     extraFruit.timer = null; // Clear the timer
   }, 10000); // 10 seconds
+
+  extraFruit.blinkTimer = setTimeout(() => {
+    blinkExtraFruit(5, () => {
+      // Do nothing after blinking
+      extraFruit.blinking = false;
+    });
+  }, 7000);
+}
+
+export function blinkExtraFruit(times, callback) {
+  extraFruit.blinking = true;
+  let count = 0;
+  extraFruit.visible = true;
+  const interval = setInterval(() => {
+    extraFruit.visible = !extraFruit.visible; // Toggle visibility
+    count++;
+    if (count >= times * 2) {
+      clearInterval(interval);
+      extraFruit.blinking = false;
+      extraFruit.visible = true; // Ensure it ends up visible
+      callback();
+    }
+  }, 300); // Blink every 300ms
 }
 
 // Function to remove the extra fruit
 export function removeExtraFruit() {
   extraFruit.position = null;
+  extraFruit.blinking = false;
   if (extraFruit.timer) {
     clearTimeout(extraFruit.timer); // Clear the timer if it's still running
     extraFruit.timer = null;
+  }
+  if (extraFruit.blinkTimer) {
+    clearTimeout(extraFruit.blinkTimer); // Clear the blink timer if it's still running
+    extraFruit.blinkTimer = null;
   }
 }
