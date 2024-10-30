@@ -124,7 +124,9 @@ export function drawSnake() {
 
 export function drawFood() {
   ctx.fillStyle = "red";
-  ctx.fillRect(map.food.x, map.food.y, gridSize, gridSize);
+  ctx.beginPath();
+  ctx.arc(map.food.x + gridSize / 2, map.food.y + gridSize / 2, gridSize / 2, 0, Math.PI * 2);
+  ctx.fill();
 }
 
 export function drawExtraFruit() {
