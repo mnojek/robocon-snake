@@ -7,13 +7,12 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body style="font-family: 'RBCN22', 'Arial', sans-serif;">
-    <!-- <h1>RoboCon 2025 Snake Game</h1> -->
     <div id="game-container">
-      <canvas id="gameCanvas" width="400" height="400"></canvas>
       <div id="game-info">
         <p>Score: <span id="score">0</span></p>
         <p>Lives: <span id="lives"></span></p>
       </div>
+      <canvas id="gameCanvas" width="400" height="400"></canvas>
     </div>
 
     <div id="game-over-screen" style="display: none">
@@ -36,10 +35,9 @@
 
     <script type="module" src="js/main.js"></script>
     <script>
-      // Function to validate input
       function validateInput() {
         const playerNameInput = document.getElementById("player-name");
-        const pattern = /^[A-Za-z0-9]+$/; // Regular expression for lowercase letters and numbers
+        const pattern = /^[A-Za-z0-9]+$/; // Regular expression for letters and numbers
 
         if (!pattern.test(playerNameInput.value)) {
           alert(
@@ -48,7 +46,6 @@
           return false; // Prevent form submission
         }
 
-        // Optionally, you can do something with the validated input here, e.g., send to the server
         return true; // Allow form submission
       }
     </script>

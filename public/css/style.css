@@ -48,9 +48,15 @@ body {
 }
 
 #game-info {
-    display: none;
-    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
     align-items: flex-start
+}
+
+#lives {
+    width: 100px;
+    text-align: left;
+    display: inline-block;
 }
 
 #lives img {
