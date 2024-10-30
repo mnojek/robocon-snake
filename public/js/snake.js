@@ -95,7 +95,7 @@ export function checkCollisions() {
     head.x === extraFruit.position.x &&
     head.y === extraFruit.position.y
   ) {
-    gameState.score += 5; // Give 5 extra points
+    gameState.score += defaultGameSettings.extraFruitScore; // Give 5 extra points
     gameState.extraFruitEaten = true; // Set the extra fruit eaten flag
     removeExtraFruit(); // Remove the extra fruit
   }
@@ -110,7 +110,7 @@ export function eatFood() {
   } else {
     // Logic for spawning new food
     generateFood(canvas, gridSize);
-    if (snake.foodEaten === 5) {
+    if (snake.foodEaten === defaultGameSettings.foodToExtraFruit) {
       spawnExtraFruit(canvas, gridSize);
     }
   }
@@ -169,7 +169,7 @@ export function loseLife() {
       resetSnake();
       if (gameState.extraFruitEaten) {
         gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
-        gameState.score -= 5; // Deduct 5 points if the extra fruit was eaten
+        gameState.score -= defaultGameSettings.extraFruitScore; // Deduct 5 points if the extra fruit was eaten
       }
       gameState.score -= gameState.scoreOnMap; // Reset the score for the current map
       gameState.scoreOnMap = 0; // Reset the score for the current map

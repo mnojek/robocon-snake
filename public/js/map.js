@@ -78,7 +78,7 @@ export async function loadMap() {
 export function loadNextMap() {
   if (map.currentMap >= map.numberOfMaps) {
     console.log("Game over");
-    gameState.score += snake.lives * 10; // Add 10 points for each remaining life
+    gameState.score += snake.lives * defaultGameSettings.extraScoreForRemainingLife; // Add 10 points for each remaining life
     displayGameOver();
   } else {
     displayCountdown(3, "Next map in", () => {
@@ -112,7 +112,7 @@ export function drawSnake() {
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
   ctx.strokeStyle = "green";
-  ctx.lineWidth = gridSize;
+  ctx.lineWidth = gridSize * 0.8;
   ctx.beginPath();
   ctx.moveTo(
     snake.snakeSegments[0].x + gridSize / 2,
@@ -130,18 +130,18 @@ export function drawSnake() {
 export function drawFood() {
   ctx.fillStyle = "red";
   ctx.beginPath();
-  ctx.arc(map.food.x + gridSize / 2, map.food.y + gridSize / 2, gridSize / 2, 0, Math.PI * 2);
+  ctx.arc(map.food.x + gridSize / 2, map.food.y + gridSize / 2, gridSize / 2.5, 0, Math.PI * 2);
   ctx.fill();
 }
-
 export function drawExtraFruit() {
   if (extraFruit.position) {
+    const fruitSize = gridSize * 0.8;
     ctx.drawImage(
       extraFruit.image,
-      extraFruit.position.x,
-      extraFruit.position.y,
-      gridSize,
-      gridSize
+      extraFruit.position.x + (gridSize - fruitSize) / 2,
+      extraFruit.position.y + (gridSize - fruitSize) / 2,
+      fruitSize,
+      fruitSize
     );
   }
 }

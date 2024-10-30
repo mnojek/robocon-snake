@@ -3,6 +3,7 @@
 // TODO: Add bigger maps
 // TODO: Customize the snake for robocon
 // TODO: Save highest score of the player
+// TODO: Maybe with each point show the RF script next to the game that gets completed?
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import {
@@ -35,7 +36,7 @@ export function saveHighscore(name, score) {
 
   // Sort the highscores by score, highest first, and keep only the top 5
   highscores.sort((a, b) => b.score - a.score);
-  highscores = highscores.slice(0, 5); // Keep top 5 scores
+  highscores = highscores.slice(0, defaultGameSettings.bestScoresToDisplay); // Keep top 5 scores
 
   localStorage.setItem("highscores", JSON.stringify(highscores));
 }
@@ -81,7 +82,7 @@ function isOppositeDirection(newDirection, currentDirection) {
 }
 
 // Function to increase the game speed
-export function increaseSpeed(points = 5) {
+export function increaseSpeed(points = defaultGameSettings.snakeSpeedIncrement) {
   if (gameState.snakeSpeed > 50) {
     // Set a minimum speed limit
     gameState.snakeSpeed -= points; // Decrease the interval by X ms
@@ -99,7 +100,7 @@ export function restartGame() {
   gameState.isGameOver = false;
   gameState.isPaused = false;
 
-  map.currentMap = 1;
+  map.currentMap = defaultGameSettings.initialMap;
   map.tiles.length = 0;
   map.walls.length = 0;
 
