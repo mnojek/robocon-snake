@@ -41,21 +41,32 @@ export function displayHighscoreBoard() {
   ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the game area
 
   ctx.fillStyle = "white";
-  ctx.font = "20px 'RBCN22'";
-  ctx.fillText("Highscore Board:", canvas.width / 2 - 80, 100);
+  ctx.font = "32px 'RBCN22'";
+  ctx.textAlign = "center"; // Center align text
+  ctx.fillText("Highscore Board:", canvas.width / 2, 100);
 
+  ctx.font = "24px 'RBCN22'";
   highscores.forEach((scoreEntry, index) => {
+    ctx.textAlign = "left"; // Align text to the left for player names
     ctx.fillText(
-      `${index + 1}. ${scoreEntry.name}: ${scoreEntry.score}`,
-      canvas.width / 2 - 80,
+      `${index + 1}. ${scoreEntry.name}`,
+      canvas.width / 2 - 100,
+      140 + index * 30
+    );
+    ctx.textAlign = "right"; // Align text to the right for scores
+    ctx.fillText(
+      `${scoreEntry.score}`,
+      canvas.width / 2 + 100,
       140 + index * 30
     );
   });
 
   // Display "Press enter to start again" below the player scores
+  ctx.textAlign = "center"; // Center align text
+  ctx.font = "32px 'RBCN22'";
   ctx.fillText(
     "Press enter to start again",
-    canvas.width / 2 - 80,
+    canvas.width / 2,
     140 + highscores.length * 30 + 40
   );
 
