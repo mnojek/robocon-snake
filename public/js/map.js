@@ -101,16 +101,23 @@ export function drawSnake() {
   // Make sure there are snake segments before drawing
   if (snake.snakeSegments.length === 0) return;
 
-  // Draw the head in a different color
-  const head = snake.getHead();
-  ctx.fillStyle = "#66ff66"; // Set the color for the snake's head
-  ctx.fillRect(head.x, head.y, gridSize, gridSize);
-
-  // Draw the rest of the snake segments in green
-  ctx.fillStyle = "green"; // Set the color for the body
-  snake.snakeSegments.slice(1).forEach((segment) => {
-    ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
-  });
+  // Draw snake with smooth, rounded edges
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
+  ctx.strokeStyle = "green";
+  ctx.lineWidth = gridSize;
+  ctx.beginPath();
+  ctx.moveTo(
+    snake.snakeSegments[0].x + gridSize / 2,
+    snake.snakeSegments[0].y + gridSize / 2
+  );
+  for (let i = 1; i < snake.snakeSegments.length; i++) {
+    ctx.lineTo(
+      snake.snakeSegments[i].x + gridSize / 2,
+      snake.snakeSegments[i].y + gridSize / 2
+    );
+  }
+  ctx.stroke();
 }
 
 export function drawFood() {
