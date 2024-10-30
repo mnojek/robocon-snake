@@ -11,6 +11,7 @@ import {
   removeExtraFruit,
   drawExtraFruit,
   extraFruit,
+  drawBackground,
 } from "./map.js";
 import {
   gameState,
@@ -128,6 +129,7 @@ export function blinkSnake(times, callback) {
     if (count % 2 === 0) {
       // Hide the snake
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBackground();
       drawWalls();
       drawFood();
       drawExtraFruit();
