@@ -9,7 +9,7 @@ export const gridSize = defaultGameSettings.gridSize;
 
 export function displayGameOver() {
   ctx.fillStyle = "white";
-  ctx.font = "30px Arial";
+  ctx.font = "30px 'RBCN22'";
   ctx.fillText("Game Over", canvas.width / 2 - 80, canvas.height / 2 - 20);
   document.getElementById("final-score").textContent = gameState.score;
 
@@ -41,7 +41,7 @@ export function displayHighscoreBoard() {
   ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the game area
 
   ctx.fillStyle = "white";
-  ctx.font = "20px Arial";
+  ctx.font = "20px 'RBCN22'";
   ctx.fillText("Highscore Board:", canvas.width / 2 - 80, 100);
 
   highscores.forEach((scoreEntry, index) => {
@@ -64,18 +64,11 @@ export function displayHighscoreBoard() {
 }
 
 // Function to display the countdown
-export function displayCountdown(seconds, text, callback) {
+export function displayCountdown(count, message, callback) {
   gameState.isPaused = true; // Pause the game loop
-  let countdown = seconds;
+  let countdown = count;
   const interval = setInterval(() => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-    ctx.fillStyle = "white";
-    ctx.font = "30px Arial";
-    ctx.fillText(
-      `${text} ${countdown}...`,
-      canvas.width / 2 - 80,
-      canvas.height / 2 - 20
-    );
+    drawCountdown();
     countdown--;
 
     if (countdown < 0) {
@@ -84,6 +77,16 @@ export function displayCountdown(seconds, text, callback) {
       callback();
     }
   }, 1000); // Update every second
+
+  function drawCountdown() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Set the custom font
+    ctx.font = "48px 'RBCN22'";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(message + " " + countdown, canvas.width / 2, canvas.height / 2);
+  }
 }
 
 export function updateLivesDisplay(lives) {

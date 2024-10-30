@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'RBCN22';
+    src: url('../fonts/RBCN22.ttf') format('truetype');
+}
+
 #game-over-screen {
     display: flex;
     flex-direction: column;
@@ -31,7 +36,7 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'RBCN22', 'Arial', sans-serif;
     text-align: center;
     margin: 0;
     padding: 0;
@@ -57,7 +62,7 @@ body {
     text-align: center;
     background-color: #222;
     color: white;
-    font-family: 'Arial', sans-serif;
+    font-family: 'RBCN22', 'Arial', sans-serif;
 }
 
 canvas {
