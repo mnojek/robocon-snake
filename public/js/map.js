@@ -3,7 +3,7 @@ import { defaultGameSettings } from "./defaultGameSettings.js";
 import { displayCountdown, displayGameOver } from "./ui.js";
 import { canvas, ctx, gridSize } from "./ui.js";
 import { snake, resetSnake } from "./snake.js";
-import { gameState, resetGameSpeed } from "./main.js";
+import { gameState, resetSnakeSpeed } from "./main.js";
 
 export const scoreToNextMap = defaultGameSettings.scoreToNextMap;
 export const map = {
@@ -11,7 +11,7 @@ export const map = {
   numberOfMaps: defaultGameSettings.numberOfMaps,
   tiles: [],
   walls: [], // Array to store wall coordinates
-  food: { ...defaultGameSettings.initialFood },
+  food: { ...defaultGameSettings.initialFoodPosition },
 };
 export const extraFruit = {
   position: null,
@@ -73,20 +73,22 @@ export async function loadMap() {
 export function loadNextMap() {
   if (map.currentMap >= map.numberOfMaps) {
     console.log("Game over");
+    gameState.score += snake.lives * 10; // Add 10 points for each remaining life
     displayGameOver();
+  } else {
+    displayCountdown(3, "Next map in", () => {
+      map.currentMap++;
+      snake.foodEaten = 0; // Reset the food eaten counter
+      gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
+      gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
+      resetSnakeSpeed(); // Reset the game speed
+      map.walls = []; // Reset walls array
+      map.tiles = []; // Reset map array
+      snake.snakeSegments = [...defaultGameSettings.initialSnakePosition]; // Reset snake position
+      snake.direction = { ...defaultGameSettings.initialSnakeDirection }; // Reset snake direction
+      loadMap();
+    });
   }
-  displayCountdown(3, "Next map in", () => {
-    map.currentMap++;
-    snake.foodEaten = 0; // Reset the food eaten counter
-    gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
-    gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
-    resetGameSpeed(); // Reset the game speed
-    map.walls = []; // Reset walls array
-    map.tiles = []; // Reset map array
-    snake.snakeSegments = [...defaultGameSettings.initialSnakePosition]; // Reset snake position
-    snake.direction = { ...defaultGameSettings.initialDirection }; // Reset snake direction
-    loadMap();
-  });
 }
 
 // Draw walls on the canvas

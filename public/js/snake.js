@@ -16,7 +16,7 @@ import {
   gameState,
   draw,
   keyQueue,
-  resetGameSpeed,
+  resetSnakeSpeed,
   increaseSpeed,
 } from "./main.js";
 import {
@@ -29,8 +29,8 @@ import {
 
 export const snake = {
   snakeSegments: [...defaultGameSettings.initialSnakePosition],
-  lives: defaultGameSettings.initialLives,
-  direction: { ...defaultGameSettings.initialDirection },
+  lives: defaultGameSettings.initialSnakeLives,
+  direction: { ...defaultGameSettings.initialSnakeDirection },
   foodEaten: 0,
 
   getHead() {
@@ -153,7 +153,7 @@ export function loseLife() {
   snake.lives--;
   snake.foodEaten = 0; // Reset the food eaten counter
   updateLivesDisplay(snake.lives); // Update the lives display
-  resetGameSpeed(); // Reset the game speed
+  resetSnakeSpeed(); // Reset the game speed
   if (extraFruit.position) {
     removeExtraFruit(); // Remove the extra fruit if it exists
   }
@@ -188,5 +188,5 @@ export function resetSnake() {
     }
   }
   snake.snakeSegments.reverse(); // Reverse the snake array
-  snake.direction = { ...defaultGameSettings.initialDirection };
+  snake.direction = { ...defaultGameSettings.initialSnakeDirection };
 }

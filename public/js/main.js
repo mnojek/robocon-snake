@@ -21,7 +21,7 @@ import { ctx, canvas, displayCountdown, updateLivesDisplay } from "./ui.js";
 export const gameState = {
   isPaused: false,
   isGameOver: false,
-  gameSpeed: defaultGameSettings.initialGameSpeed,
+  snakeSpeed: defaultGameSettings.initialSnakeSpeed,
   score: defaultGameSettings.initialScore,
   scoreOnMap: defaultGameSettings.initialMapScore,
   extraFruitEaten: false,
@@ -82,14 +82,14 @@ function isOppositeDirection(newDirection, currentDirection) {
 
 // Function to increase the game speed
 export function increaseSpeed(points = 5) {
-  if (gameState.gameSpeed > 50) {
+  if (gameState.snakeSpeed > 50) {
     // Set a minimum speed limit
-    gameState.gameSpeed -= points; // Decrease the interval by X ms
+    gameState.snakeSpeed -= points; // Decrease the interval by X ms
   }
 }
 
-export function resetGameSpeed() {
-  gameState.gameSpeed = defaultGameSettings.initialGameSpeed;
+export function resetSnakeSpeed() {
+  gameState.snakeSpeed = defaultGameSettings.initialSnakeSpeed;
 }
 
 export function restartGame() {
@@ -104,11 +104,11 @@ export function restartGame() {
   map.walls.length = 0;
 
   snake.snakeSegments = [...defaultGameSettings.initialSnakePosition];
-  resetGameSpeed();
+  resetSnakeSpeed();
   gameState.score = defaultGameSettings.initialScore;
-  snake.lives = defaultGameSettings.initialLives;
-  snake.direction = { ...defaultGameSettings.initialDirection };
-  map.food = { ...defaultGameSettings.initialFood };
+  snake.lives = defaultGameSettings.initialSnakeLives;
+  snake.direction = { ...defaultGameSettings.initialSnakeDirection };
+  map.food = { ...defaultGameSettings.initialFoodPosition };
   gameState.scoreOnMap = defaultGameSettings.initialMapScore;
 
   // Restart the game
@@ -131,7 +131,7 @@ function gameLoop() {
     draw();
   }
 
-  setTimeout(gameLoop, gameState.gameSpeed); // Control the snake speed (100ms per frame by default)
+  setTimeout(gameLoop, gameState.snakeSpeed); // Control the snake speed (100ms per frame by default)
 }
 
 // Modify the game loop to draw walls
