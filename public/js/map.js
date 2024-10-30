@@ -23,6 +23,11 @@ export const extraFruit = {
 };
 extraFruit.image.src = "images/rf.png"; // Path to your extra fruit image
 
+export const background = {
+  image: new Image(),
+};
+background.image.src = "images/bg.png"; // Path to your background image
+
 // Function to load the map from a text file
 export async function loadMap() {
   try {
@@ -228,5 +233,22 @@ export function removeExtraFruit() {
   if (extraFruit.blinkTimer) {
     clearTimeout(extraFruit.blinkTimer); // Clear the blink timer if it's still running
     extraFruit.blinkTimer = null;
+  }
+}
+
+// Function to draw the background
+export function drawBackground() {
+  if (background.image.complete) {
+    ctx.drawImage(background.image, 0, 0, canvas.width, canvas.height);
+    // Draw a semi-transparent rectangle over the background to dim it
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)"; // Adjust the alpha value to control the dimming effect
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  } else {
+    background.image.onload = () => {
+      ctx.drawImage(background.image, 0, 0, canvas.width, canvas.height);
+      // Draw a semi-transparent rectangle over the background to dim it
+      ctx.fillStyle = "rgba(0, 0, 0, 0.5)"; // Adjust the alpha value to control the dimming effect
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    };
   }
 }

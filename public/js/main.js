@@ -1,7 +1,6 @@
 // main.js
 // TODO: Validate map files
 // TODO: Add bigger maps
-// TODO: Add RoboCon themed background
 // TODO: Customize the snake for robocon
 // TODO: Save highest score of the player
 
@@ -14,6 +13,7 @@ import {
   drawFood,
   drawExtraFruit,
   extraFruit,
+  drawBackground,
 } from "./map.js";
 import { updateSnakePosition, snake } from "./snake.js";
 import { ctx, canvas, displayCountdown, updateLivesDisplay } from "./ui.js";
@@ -139,6 +139,7 @@ export function draw() {
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  drawBackground(); // Draw the background
   drawFood();
   if (extraFruit.position && extraFruit.visible) {
     drawExtraFruit();
