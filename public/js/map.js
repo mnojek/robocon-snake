@@ -241,13 +241,13 @@ export function drawBackground() {
   if (background.image.complete) {
     ctx.drawImage(background.image, 0, 0, canvas.width, canvas.height);
     // Draw a semi-transparent rectangle over the background to dim it
-    ctx.fillStyle = "rgba(0, 0, 0, 0.5)"; // Adjust the alpha value to control the dimming effect
+    ctx.fillStyle = "rgba(0, 0, 0, 0.8)"; // Adjust the alpha value to control the dimming effect
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   } else {
     background.image.onload = () => {
       ctx.drawImage(background.image, 0, 0, canvas.width, canvas.height);
       // Draw a semi-transparent rectangle over the background to dim it
-      ctx.fillStyle = "rgba(0, 0, 0, 0.5)"; // Adjust the alpha value to control the dimming effect
+      ctx.fillStyle = "rgba(0, 0, 0, 0.8)"; // Adjust the alpha value to control the dimming effect
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     };
   }
