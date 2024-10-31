@@ -64,7 +64,7 @@ export function displayHighscoreBoard() {
   ctx.fillStyle = "white";
   ctx.font = "32px 'RBCN'";
   ctx.textAlign = "center"; // Center align text
-  ctx.fillText("Highscore Board:", canvas.width / 2, 100);
+  ctx.fillText("Highscore Board:", canvas.width / 2, 80); // Adjusted Y position for more space
 
   ctx.font = "24px 'RBCN'";
   topScores.forEach((scoreEntry, index) => {
@@ -72,13 +72,13 @@ export function displayHighscoreBoard() {
     ctx.fillText(
       `${index + 1}. ${scoreEntry.name}`,
       canvas.width / 2 - 100,
-      140 + index * 30
+      260 + index * 30 // Adjusted Y position to move list of players below
     );
     ctx.textAlign = "right"; // Align text to the right for scores
     ctx.fillText(
       `${scoreEntry.score}`,
       canvas.width / 2 + 100,
-      140 + index * 30
+      260 + index * 30 // Adjusted Y position to move list of players below
     );
   });
 
@@ -88,7 +88,7 @@ export function displayHighscoreBoard() {
   ctx.fillText(
     "Press enter to start again",
     canvas.width / 2,
-    140 + highscores.length * 30 + 40
+    160 + highscores.length * 30 + 40 // Adjusted Y position to move below the list of players
   );
 
   // Add event listener for Enter key to restart the game
