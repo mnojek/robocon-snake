@@ -25,7 +25,12 @@ document
   .addEventListener("submit", function (event) {
     event.preventDefault();
     const playerName = document.getElementById("player-name").value;
-    if (playerName) {
+    const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
+    const nameExists = highscores.some(scoreEntry => scoreEntry.name === playerName);
+
+    if (nameExists) {
+      document.getElementById("error-message").textContent = "Player's name is taken. Choose a different one.";
+    } else if (playerName) {
       saveHighscore(playerName, gameState.score);
       displayHighscoreBoard(); // Display highscores after saving
       document.getElementById("game-over-screen").style.display = "none";
