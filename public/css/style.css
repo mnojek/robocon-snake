@@ -23,16 +23,14 @@
     align-items: center;
 }
 
-#highscore-form input {
-    margin: 10px 0;
-    padding: 5px;
-    font-size: 16px;
-}
-
 #highscore-form button {
     padding: 5px 10px;
     font-size: 16px;
     cursor: pointer;
+}
+
+#highscore-form label {
+    margin-top: 3em;
 }
 
 body {
@@ -89,19 +87,23 @@ h1 {
 .custom-input {
     margin: 10px 0;
     padding: 10px;
-    font-size: 18px;
-    border: 2px solid white;
-    background-color: #333;
+    font-size: 24px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.8);
     color: white;
-    border-radius: 5px;
     font-family: 'RBCN22', 'Arial', sans-serif;
     text-align: center;
     text-transform: uppercase;
 }
 
+.custom-input:focus {
+    outline: none;
+}
+
 .custom-button {
     padding: 10px 20px;
     font-size: 18px;
+    font-family: 'RBCN22', 'Arial', sans-serif;
     cursor: pointer;
     border: 2px solid white;
     background-color: #444;
