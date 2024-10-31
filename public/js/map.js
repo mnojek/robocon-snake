@@ -115,8 +115,8 @@ export function drawSnake() {
   ctx.lineWidth = gridSize * 0.8;
   ctx.beginPath();
   ctx.moveTo(
-    snake.snakeSegments[0].x + gridSize / 2,
-    snake.snakeSegments[0].y + gridSize / 2
+    snake.getHead().x + gridSize / 2,
+    snake.getHead().y + gridSize / 2
   );
   for (let i = 1; i < snake.snakeSegments.length; i++) {
     ctx.lineTo(
@@ -133,6 +133,7 @@ export function drawFood() {
   ctx.arc(map.food.x + gridSize / 2, map.food.y + gridSize / 2, gridSize / 2.5, 0, Math.PI * 2);
   ctx.fill();
 }
+
 export function drawExtraFruit() {
   if (extraFruit.position) {
     const fruitSize = gridSize * 0.8;
@@ -155,6 +156,11 @@ export function generateFood(canvas, gridSize) {
     map.food.y =
       Math.floor((Math.random() * canvas.height) / gridSize) * gridSize;
 
+    const distanceFromSnakeHead = Math.sqrt(
+      Math.pow(map.food.x - snake.getHead().x, 2) +
+        Math.pow(map.food.y - snake.getHead().y, 2)
+    );
+
     // Check if the generated position is not on a wall or on the snake
     validPosition =
       !map.walls.some(
@@ -162,7 +168,8 @@ export function generateFood(canvas, gridSize) {
       ) &&
       !snake.snakeSegments.some(
         (segment) => segment.x === map.food.x && segment.y === map.food.y
-      );
+      ) &&
+      distanceFromSnakeHead >= 4 * gridSize; // Ensure the food is at least 4 squares away from the snake's head
   }
 }
 
@@ -176,7 +183,12 @@ export function spawnExtraFruit() {
       y: Math.floor((Math.random() * canvas.height) / gridSize) * gridSize,
     };
 
-    // Check if the generated position is not on a wall or on the snake
+    const distanceFromSnakeHead = Math.sqrt(
+      Math.pow(extraFruit.position.x - snake.getHead().x, 2) +
+      Math.pow(extraFruit.position.y - snake.getHead().y, 2)
+    );
+
+    // Check if the generated position is not on a wall, on the snake, or too close to the snake's head
     validPosition =
       !map.walls.some(
         (wall) =>
@@ -190,7 +202,8 @@ export function spawnExtraFruit() {
       !(
         map.food.x === extraFruit.position.x &&
         map.food.y === extraFruit.position.y
-      );
+      ) &&
+      distanceFromSnakeHead >= 4 * gridSize; // Ensure the extra fruit is at least 4 squares away from the snake's head
   }
   // Set a timer to remove the extra fruit after a certain time
   extraFruit.timer = setTimeout(() => {

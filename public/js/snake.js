@@ -41,8 +41,8 @@ export const snake = {
   // Move the snake
   move() {
     const head = {
-      x: this.snakeSegments[0].x + this.direction.x * gridSize,
-      y: this.snakeSegments[0].y + this.direction.y * gridSize,
+      x: this.getHead().x + this.direction.x * gridSize,
+      y: this.getHead().y + this.direction.y * gridSize,
     };
     this.snakeSegments.unshift(head);
 
