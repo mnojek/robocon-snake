@@ -96,6 +96,7 @@ h1 {
     border-radius: 5px;
     font-family: 'RBCN22', 'Arial', sans-serif;
     text-align: center;
+    text-transform: uppercase;
 }
 
 .custom-button {

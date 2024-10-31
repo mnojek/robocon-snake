@@ -28,8 +28,8 @@
           name="player-name"
           class="custom-input"
           required
-          pattern="[A-Za-z0-9]+"
-          title="Only letters, numbers and dashes are allowed"
+          pattern="[A-Za-z0-9_-]+"
+          title="Only letters, numbers, dashes, and underscores are allowed"
         />
         <button type="submit" class="custom-button">Submit</button>
         <p><span id="error-message"></span></p>
@@ -40,11 +40,11 @@
     <script>
       function validateInput() {
         const playerNameInput = document.getElementById("player-name");
-        const pattern = /^[A-Za-z0-9]+$/; // Regular expression for letters and numbers
+        const pattern = /^[A-Za-z0-9_-]+$/; // Regular expression for letters, numbers, dashes, and underscores
 
         if (!pattern.test(playerNameInput.value)) {
           alert(
-            "Please enter a valid name with lowercase letters and numbers only."
+            "Please enter a valid name using letters, numbers, dashes, or underscores only."
           );
           return false; // Prevent form submission
         }
