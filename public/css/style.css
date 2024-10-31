@@ -24,6 +24,10 @@
     color: white;
 }
 
+#game-over-screen p {
+    font-size: 24px;
+}
+
 #highscore-form {
     display: flex;
     flex-direction: column;
@@ -38,6 +42,7 @@
 
 #highscore-form label {
     margin-top: 3em;
+    font-size: 24px;
 }
 
 body {
@@ -91,12 +96,16 @@ h1 {
     color: lime;
 }
 
+h2 {
+    font-size: 36px;
+}
+
 .custom-input {
     margin: 10px 0;
     padding: 10px;
     font-size: 24px;
     border: none;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: transparent;
     color: white;
     font-family: 'RBCN', 'Arial', sans-serif;
     text-align: center;
