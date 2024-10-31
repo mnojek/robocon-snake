@@ -9,7 +9,7 @@ export const gridSize = defaultGameSettings.gridSize;
 
 export function displayGameOver() {
   ctx.fillStyle = "white";
-  ctx.font = "30px 'RBCN22'";
+  ctx.font = "30px 'RBCN'";
   ctx.fillText("Game Over", canvas.width / 2 - 80, canvas.height / 2 - 20);
   document.getElementById("final-score").textContent = gameState.score;
 
@@ -62,11 +62,11 @@ export function displayHighscoreBoard() {
   ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the game area
 
   ctx.fillStyle = "white";
-  ctx.font = "32px 'RBCN22'";
+  ctx.font = "32px 'RBCN'";
   ctx.textAlign = "center"; // Center align text
   ctx.fillText("Highscore Board:", canvas.width / 2, 100);
 
-  ctx.font = "24px 'RBCN22'";
+  ctx.font = "24px 'RBCN'";
   topScores.forEach((scoreEntry, index) => {
     ctx.textAlign = "left"; // Align text to the left for player names
     ctx.fillText(
@@ -84,7 +84,7 @@ export function displayHighscoreBoard() {
 
   // Display "Press enter to start again" below the player scores
   ctx.textAlign = "center"; // Center align text
-  ctx.font = "32px 'RBCN22'";
+  ctx.font = "32px 'RBCN'";
   ctx.fillText(
     "Press enter to start again",
     canvas.width / 2,
@@ -113,7 +113,7 @@ export function displayCountdown(count, message, callback) {
   function drawCountdown() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // Set the custom font
-    ctx.font = "48px 'RBCN22'";
+    ctx.font = "48px 'RBCN'";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";

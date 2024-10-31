@@ -1,6 +1,13 @@
 @font-face {
-    font-family: 'RBCN22';
-    src: url('../fonts/RBCN22.ttf') format('truetype');
+    font-family: 'RBCN';
+    src: url('../fonts/RBCN.ttf') format('truetype'); /* Used for all the text */
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'RBTFNT';
+    src: url('../fonts/RBTFNT.ttf') format('truetype'); /* Used for background text */
+    font-display: block;
 }
 
 #game-over-screen {
@@ -34,7 +41,7 @@
 }
 
 body {
-    font-family: 'RBCN22', 'Arial', sans-serif;
+    font-family: 'RBCN', 'Arial', sans-serif;
     text-align: center;
     margin: 0;
     padding: 0;
@@ -70,7 +77,7 @@ body {
     text-align: center;
     background-color: #222;
     color: white;
-    font-family: 'RBCN22', 'Arial', sans-serif;
+    font-family: 'RBCN', 'Arial', sans-serif;
 }
 
 canvas {
@@ -91,7 +98,7 @@ h1 {
     border: none;
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
-    font-family: 'RBCN22', 'Arial', sans-serif;
+    font-family: 'RBCN', 'Arial', sans-serif;
     text-align: center;
     text-transform: uppercase;
 }
@@ -103,7 +110,7 @@ h1 {
 .custom-button {
     padding: 10px 20px;
     font-size: 18px;
-    font-family: 'RBCN22', 'Arial', sans-serif;
+    font-family: 'RBCN', 'Arial', sans-serif;
     cursor: pointer;
     border: 2px solid white;
     background-color: #444;

@@ -22,11 +22,8 @@ export const extraFruit = {
   visible: true,
 };
 extraFruit.image.src = "images/rf.png"; // Path to your extra fruit image
-
-export const background = {
-  image: new Image(),
-};
-background.image.src = "images/bg.png"; // Path to your background image
+const rfLogoImage = new Image();
+rfLogoImage.src = "images/rf.png"; // Path to the RF logo image
 
 // Function to load the map from a text file
 export async function loadMap() {
@@ -249,19 +246,59 @@ export function removeExtraFruit() {
   }
 }
 
-// Function to draw the background
+// Function to draw the custom background with text and image
 export function drawBackground() {
-  if (background.image.complete) {
-    ctx.drawImage(background.image, 0, 0, canvas.width, canvas.height);
-    // Draw a semi-transparent rectangle over the background to dim it
-    ctx.fillStyle = "rgba(0, 0, 0, 0.8)"; // Adjust the alpha value to control the dimming effect
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // Clear the canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw a semi-transparent rectangle over the background to dim it
+  ctx.fillStyle = "rgba(0, 0, 0, 1)"; // Adjust the alpha value to control the dimming effect
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Set the font size and style
+  const fontSize = 150; // Adjust the font size as needed
+  ctx.font = `${fontSize}px 'RBTFNT'`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  const dimLevel = 0.5; // Dim level for the text and image
+
+  // Calculate the position for the text and image
+  const textX = canvas.width / 2;
+  const textY = canvas.height / 2;
+  const textWidth = ctx.measureText("RBCN25").width;
+  const imageHeight = 100;
+  const imageWidth = (rfLogoImage.width / rfLogoImage.height) * imageHeight;
+  const imageX = textX + textWidth / 2 + imageWidth / 2 - 120; // Adjust the spacing as needed
+  const imageY = textY - imageHeight / 2 - 8;
+
+  // Draw the "RBCN" part of the text
+  ctx.fillStyle = `rgba(255, 255, 255, ${dimLevel})`; // Dimmed white color
+  drawTextWithLetterSpacing(ctx, "RBCN", textX - ctx.measureText("25").width / 2, textY, -10);
+
+  // Draw the "25" part of the text
+  ctx.fillStyle = `rgba(0, 255, 255, ${dimLevel})`; // Dimmed cyan color
+  drawTextWithLetterSpacing(ctx, "25", textX + ctx.measureText("RBCN").width / 2 - 30, textY, -10);
+
+  // Draw the image next to the text with dimming effect
+  ctx.globalAlpha = dimLevel; // Set global alpha to dim the image
+  if (rfLogoImage.complete) {
+    ctx.drawImage(rfLogoImage, imageX, imageY, imageWidth, imageHeight);
   } else {
-    background.image.onload = () => {
-      ctx.drawImage(background.image, 0, 0, canvas.width, canvas.height);
-      // Draw a semi-transparent rectangle over the background to dim it
-      ctx.fillStyle = "rgba(0, 0, 0, 0.8)"; // Adjust the alpha value to control the dimming effect
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    rfLogoImage.onload = () => {
+      ctx.drawImage(rfLogoImage, imageX, imageY, imageWidth, imageHeight);
     };
   }
+  ctx.globalAlpha = 1.0; // Reset global alpha to default
+}
+
+// Helper function to draw text with letter spacing
+function drawTextWithLetterSpacing(ctx, text, x, y, letterSpacing) {
+  const characters = text.split('');
+  const totalWidth = ctx.measureText(text).width;
+  const offsetX = x - totalWidth / 2;
+
+  characters.forEach((char, index) => {
+    const charWidth = ctx.measureText(char).width;
+    ctx.fillText(char, offsetX + index * (charWidth + letterSpacing), y);
+  });
 }

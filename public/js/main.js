@@ -3,6 +3,7 @@
 // TODO: Add bigger maps
 // TODO: Customize the snake for robocon
 // TODO: Save highest score of the player
+// TODO: Create prettier hearts
 // TODO: Maybe with each point show the RF script next to the game that gets completed?
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
