@@ -34,9 +34,8 @@ export function saveHighscore(name, score) {
   let highscores = JSON.parse(localStorage.getItem("highscores")) || [];
   highscores.push({ name, score });
 
-  // Sort the highscores by score, highest first, and keep only the top 5
+  // Sort the highscores by score, highest first
   highscores.sort((a, b) => b.score - a.score);
-  highscores = highscores.slice(0, defaultGameSettings.bestScoresToDisplay); // Keep top 5 scores
 
   localStorage.setItem("highscores", JSON.stringify(highscores));
 }

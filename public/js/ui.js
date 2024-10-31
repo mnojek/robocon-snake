@@ -17,6 +17,14 @@ export function displayGameOver() {
     document.getElementById("game-over-screen").style.display = "flex";
     document.getElementById("player-name").focus(); // Focus on the player name input
   }, 1000);
+
+  // Display player's ranking
+  const playerRanking = calculatePlayerRanking(gameState.score);
+  const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
+  const playersCount = highscores.length;
+  document.getElementById(
+    "player-ranking"
+  ).textContent = `${playerRanking} / ${playersCount + 1}`;
 }
 
 // Handle form submission
@@ -37,9 +45,20 @@ document
     }
   });
 
+// Calculate player's ranking based on score
+function calculatePlayerRanking(score) {
+  const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
+  highscores.push({ name: "currentPlayer", score: score }); // Temporarily add current player's score
+  highscores.sort((a, b) => b.score - a.score); // Sort highscores in descending order
+
+  const ranking = highscores.findIndex(scoreEntry => scoreEntry.score === score) + 1;
+  return ranking;
+}
+
 // Display the highscore board
 export function displayHighscoreBoard() {
   const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
+  const topScores = highscores.slice(0, defaultGameSettings.bestScoresToDisplay);
   ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the game area
 
   ctx.fillStyle = "white";
@@ -48,7 +67,7 @@ export function displayHighscoreBoard() {
   ctx.fillText("Highscore Board:", canvas.width / 2, 100);
 
   ctx.font = "24px 'RBCN22'";
-  highscores.forEach((scoreEntry, index) => {
+  topScores.forEach((scoreEntry, index) => {
     ctx.textAlign = "left"; // Align text to the left for player names
     ctx.fillText(
       `${index + 1}. ${scoreEntry.name}`,
