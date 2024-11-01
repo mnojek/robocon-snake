@@ -136,10 +136,6 @@ export function updateLivesDisplay(lives) {
   }
 }
 
-export function clearTestReport() {
-  testReport = ""; // Clear the test report
-}
-
 export function initiateTestReport() {
   testReport = "> robot tests/snake.robot\n"; // Add Robot Framework command
 }
@@ -205,6 +201,9 @@ export function drawTestReport() {
 
   // Create a preformatted text element to display the lines
   const pre = document.createElement("pre");
-  pre.textContent = testReport;
-  testReportContainer.appendChild(pre);
+  pre.innerHTML = testReport
+    .replace(/PASS/g, '<span style="color: green;">PASS</span>')
+    .replace(/FAIL/g, '<span style="color: red;">FAIL</span>')
+    .replace(/SKIP/g, '<span style="color: yellow;">SKIP</span>');
+    testReportContainer.appendChild(pre);
 }

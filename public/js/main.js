@@ -6,6 +6,7 @@
 // TODO: Maybe with each point show the RF script next to the game that gets completed?
 // TODO: The player with the same score should be added below the other players with the same score
 // TODO: Maybe display game over screen on canvas? Or maybe the highscore board on the whole page?
+// TODO: Extract testReport to separate file
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import {
