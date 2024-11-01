@@ -10,4 +10,5 @@ package-lock.json
 # macOS files
 .DS_Store
 
-public/js/gameServer.js
+# Highscores JSON file
+public/highscores.json
