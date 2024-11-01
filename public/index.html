@@ -28,19 +28,22 @@
 
     <!-- Game Over View -->
     <div id="game-over-screen" style="display: none">
-      <h2>Game Over</h2>
+      <h2>Test Report</h2>
       <form id="highscore-form" onsubmit="return validateInput();">
         <!-- Display the final score -->
-        <p>Assertions made: <span id="final-score">0</span></p>
-        <p>Position: <span id="player-ranking">0</span></p>
-        <label for="player-name">Enter your name:</label>
+        <ol id="current-player-score">
+          <li>Assertions made: <span id="final-score">0</span></li>
+          <li>Passed test cases: <span id="finished-maps">0</span></li>
+          <li>Position: <span id="player-ranking">0</span></li>
+        </ol>
+        <label for="current-player-name">Enter your name:</label>
         <input
           type="text"
-          id="player-name"
-          name="player-name"
+          id="current-player-name"
+          name="current-player-name"
           class="custom-input"
           required
-          pattern="[A-Za-z0-9_-]+"
+          pattern="[A-Za-z0-9_\-]+"
           title="Only letters, numbers, dashes, and underscores are allowed"
         />
         <p><span id="error-message"></span></p>
@@ -57,7 +60,7 @@
     <script type="module" src="js/main.js"></script>
     <script>
       function validateInput() {
-        const playerNameInput = document.getElementById("player-name");
+        const playerNameInput = document.getElementById("current-player-name");
         const pattern = /^[A-Za-z0-9_-]+$/; // Regular expression for letters, numbers, dashes, and underscores
 
         if (!pattern.test(playerNameInput.value)) {

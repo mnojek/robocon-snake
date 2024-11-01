@@ -16,7 +16,7 @@ export function displayGameOver() {
 
   setTimeout(() => {
     document.getElementById("game-over-screen").style.display = "flex";
-    document.getElementById("player-name").focus(); // Focus on the player name input
+    document.getElementById("current-player-name").focus(); // Focus on the player name input
   }, 1000);
 
   // Display player's ranking
@@ -33,7 +33,9 @@ document
   .getElementById("highscore-form")
   .addEventListener("submit", function (event) {
     event.preventDefault();
-    const playerName = document.getElementById("player-name").value.toUpperCase(); // Capitalize player name
+    const playerName = document
+      .getElementById("current-player-name")
+      .value.toUpperCase(); // Capitalize player name
     const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
     const nameExists = highscores.some(scoreEntry => scoreEntry.name === playerName);
 

@@ -42,7 +42,7 @@
 
 #highscore-form label {
     margin-top: 3em;
-    font-size: 24px;
+    font-size: 30px;
 }
 
 body {
@@ -95,6 +95,7 @@ body {
 #lives {
     width: 100px;
     text-align: left;
+    font-weight: bold;
     display: inline-block;
     color: #FE0D3F;
 }
@@ -117,10 +118,6 @@ canvas {
     margin: 0;      /* Remove auto margins to align with test report */
 }
 
-h1 {
-    color: lime;
-}
-
 h2 {
     font-size: 36px;
 }
@@ -128,10 +125,10 @@ h2 {
 .custom-input {
     margin: 10px 0;
     padding: 10px;
-    font-size: 24px;
+    font-size: 30px;
     border: none;
     background-color: transparent;
-    color: white;
+    color: #00c0b5;
     font-family: 'RBCN', 'Arial', sans-serif;
     text-align: center;
     text-transform: uppercase;
@@ -139,23 +136,6 @@ h2 {
 
 .custom-input:focus {
     outline: none;
-}
-
-.custom-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    font-family: 'RBCN', 'Arial', sans-serif;
-    cursor: pointer;
-    border: 2px solid white;
-    background-color: #444;
-    color: white;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.custom-button:hover {
-    background-color: white;
-    color: black;
 }
 
 #test-report {
@@ -215,10 +195,31 @@ h2 {
     padding: 0;
 }
 
+#highscore-list li:nth-child(-n+3) {
+    font-size: 30px;
+    font-weight: bold;
+}
+
 .player-name {
     text-align: left;
 }
 
 .player-score {
     text-align: right;
+}
+
+#current-player-score li {
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+    font-size: 24px;
+    margin: 15px 0;
+}
+
+#current-player-score p {
+    text-align: left; /* Align text to the left */
+}
+
+#current-player-score span {
+    text-align: right; /* Align values to the right */
 }
