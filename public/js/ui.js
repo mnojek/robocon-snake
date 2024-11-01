@@ -50,9 +50,14 @@ document
 function calculatePlayerRanking(score) {
   const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
   highscores.push({ name: "currentPlayer", score: score }); // Temporarily add current player's score
-  highscores.sort((a, b) => b.score - a.score); // Sort highscores in descending order
+  highscores.sort((a, b) => {
+    if (b.score === a.score) {
+      return a.name === "currentPlayer" ? 1 : -1; // Place current player last if scores are the same
+    }
+    return b.score - a.score; // Sort highscores in descending order
+  });
 
-  const ranking = highscores.findIndex(scoreEntry => scoreEntry.score === score) + 1;
+  const ranking = highscores.findIndex(scoreEntry => scoreEntry.name === "currentPlayer") + 1;
   return ranking;
 }
 

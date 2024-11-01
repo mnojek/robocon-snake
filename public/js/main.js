@@ -2,7 +2,6 @@
 // TODO: Validate map files
 // TODO: Add bigger maps
 // TODO: Save highest score of the player
-// TODO: The player with the same score should be added below the other players with the same score
 // TODO: Extract testReport to separate file
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
@@ -44,6 +43,7 @@ export function saveHighscore(name, score) {
 export function handleEnterKey(event) {
   if (event.key === "Enter") {
     document.removeEventListener("keydown", handleEnterKey); // Remove the event listener
+    document.getElementById("highscore-board").style.display = "none"; // Hide the highscore board
     restartGame();
   }
 }

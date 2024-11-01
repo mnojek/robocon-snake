@@ -103,11 +103,6 @@ body {
     color: #00c0b5;
 }
 
-#lives img {
-    display: inline-block;
-    vertical-align: middle;
-}
-
 body {
     text-align: center;
     background-color: #222;
@@ -199,7 +194,15 @@ h2 {
     font-size: 36px;
 }
 
-#highscore-board li {
+#highscore-board p {
+    font-size: 30px;
+}
+
+#highscore-board p span {
+    color: #00c0b5;
+}
+
+#highscore-list li {
     font-size: 24px;
     margin: 5px 0;
     display: flex;
@@ -210,10 +213,6 @@ h2 {
 #highscore-list {
     list-style: none;
     padding: 0;
-}
-
-#highscore-list p {
-    font-size: 30px;
 }
 
 .player-name {
