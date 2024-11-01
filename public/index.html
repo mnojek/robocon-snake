@@ -13,8 +13,8 @@
     <div id="game-container">
       <div id="left-half">
         <div id="game-info">
-          <p>Score: <span id="score">0</span></p>
-          <p>Lives: <span id="lives"></span></p>
+          <p>Assertions: <span id="score">0</span></p>
+          <p>Retries: <span id="lives"></span></p>
         </div>
         <canvas id="game-canvas" width="400" height="400"></canvas>
       </div>
@@ -28,7 +28,7 @@
       <h2>Game Over</h2>
       <form id="highscore-form" onsubmit="return validateInput();">
         <!-- Display the final score -->
-        <p>Your final score: <span id="final-score">0</span></p>
+        <p>Assertions made: <span id="final-score">0</span></p>
         <p>Position: <span id="player-ranking">0</span></p>
         <label for="player-name">Enter your name:</label>
         <input
