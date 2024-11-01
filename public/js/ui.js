@@ -33,7 +33,7 @@ document
   .getElementById("highscore-form")
   .addEventListener("submit", function (event) {
     event.preventDefault();
-    const playerName = document.getElementById("player-name").value;
+    const playerName = document.getElementById("player-name").value.toUpperCase(); // Capitalize player name
     const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
     const nameExists = highscores.some(scoreEntry => scoreEntry.name === playerName);
 
@@ -72,13 +72,13 @@ export function displayHighscoreBoard() {
     ctx.textAlign = "left"; // Align text to the left for player names
     ctx.fillText(
       `${index + 1}. ${scoreEntry.name}`,
-      canvas.width / 2 - 100,
+      canvas.width / 2 - 200,
       260 + index * 30 // Adjusted Y position to move list of players below
     );
     ctx.textAlign = "right"; // Align text to the right for scores
     ctx.fillText(
       `${scoreEntry.score}`,
-      canvas.width / 2 + 100,
+      canvas.width / 2 + 200,
       260 + index * 30 // Adjusted Y position to move list of players below
     );
   });
@@ -89,7 +89,7 @@ export function displayHighscoreBoard() {
   ctx.fillText(
     "Press enter to start again",
     canvas.width / 2,
-    160 + highscores.length * 30 + 40 // Adjusted Y position to move below the list of players
+    highscores.length * 30 // Adjusted Y position to move below the list of players
   );
 
   // Add event listener for Enter key to restart the game
@@ -127,14 +127,12 @@ export function updateLivesDisplay(lives) {
   livesContainer.innerHTML = ""; // Clear any previous content
 
   for (let i = 0; i < lives; i++) {
-    const heartImg = document.createElement("img");
-    heartImg.src = "images/heart.png"; // Path to the heart image
-    heartImg.alt = "Life"; // Alt text for accessibility
-    heartImg.style.width = "16px"; // Set size of the heart image (adjust as needed)
-    heartImg.style.height = "16px";
-    heartImg.style.marginRight = "5px"; // Add some spacing between hearts
+    const lifeSpan = document.createElement("span");
+    lifeSpan.textContent = "*"; // Use asterisk character instead of an image
+    lifeSpan.style.fontSize = "30px"; // Set size of the asterisk (adjust as needed)
+    lifeSpan.style.marginRight = "5px"; // Add some spacing between asterisks
 
-    livesContainer.appendChild(heartImg);
+    livesContainer.appendChild(lifeSpan);
   }
 }
 

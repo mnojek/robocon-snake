@@ -18,6 +18,6 @@ export const defaultGameSettings = {
   // Score defaults
   initialScore: 0, // Initial score
   initialMapScore: 0, // Score for the current map
-  bestScoresToDisplay: 5, // Number of best scores to display
+  bestScoresToDisplay: 10, // Number of best scores to display
   extraScoreForRemainingLife: 10, // Extra score for each remaining life
 };

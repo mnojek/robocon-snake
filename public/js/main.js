@@ -1,11 +1,11 @@
 // main.js
 // TODO: Validate map files
 // TODO: Add bigger maps
-// TODO: Customize the snake for robocon
 // TODO: Save highest score of the player
 // TODO: Create prettier hearts
 // TODO: Maybe with each point show the RF script next to the game that gets completed?
 // TODO: The player with the same score should be added below the other players with the same score
+// TODO: Maybe display game over screen on canvas? Or maybe the highscore board on the whole page?
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import {

@@ -96,6 +96,11 @@ body {
     width: 100px;
     text-align: left;
     display: inline-block;
+    color: #FE0D3F;
+}
+
+#score {
+    color: #00c0b5;
 }
 
 #lives img {
