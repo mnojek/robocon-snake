@@ -3,6 +3,7 @@
 // TODO: Add bigger maps
 // TODO: Save highest score of the player
 // TODO: Add game pausing feature
+// TODO: Save highscores to a file
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import {

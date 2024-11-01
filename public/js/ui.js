@@ -20,6 +20,7 @@ export function displayGameOver() {
 
   setTimeout(() => {
     document.getElementById("game-over-screen").style.display = "flex";
+    document.getElementById("current-player-name").value = ""; // Ensure the input is empty
     document.getElementById("current-player-name").focus(); // Focus on the player name input
   }, 1000);
 

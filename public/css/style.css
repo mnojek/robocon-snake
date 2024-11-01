@@ -59,7 +59,6 @@ body {
     justify-content: center; /* Center the content */
     align-items: flex-start; /* Align items to the top */
     position: relative;
-    margin-left: 10px;
 }
 
 #game-container > * {
@@ -75,13 +74,13 @@ body {
 
 /* Add styles for the empty div to match game-info height */
 #empty-div {
-    height: 80px; /* Adjust the height as needed to match game-info */
+    height: 60px; /* Adjust the height as needed to match game-info */
 }
 
 #game-info {
     position: relative;
     left: 20px;
-    height: 80px;
+    height: 60px;
     display: flex;
     justify-content: space-between;
     width: -webkit-fill-available;       /* Set width to match the canvas */
