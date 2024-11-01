@@ -60,37 +60,30 @@ function calculatePlayerRanking(score) {
 export function displayHighscoreBoard() {
   const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
   const topScores = highscores.slice(0, defaultGameSettings.bestScoresToDisplay);
-  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the game area
 
-  ctx.fillStyle = "white";
-  ctx.font = "32px 'RBCN'";
-  ctx.textAlign = "center"; // Center align text
-  ctx.fillText("Highscore Board:", canvas.width / 2, 80); // Adjusted Y position for more space
+  const highscoreList = document.getElementById("highscore-list");
+  highscoreList.innerHTML = ""; // Clear previous content
 
-  ctx.font = "24px 'RBCN'";
   topScores.forEach((scoreEntry, index) => {
-    ctx.textAlign = "left"; // Align text to the left for player names
-    ctx.fillText(
-      `${index + 1}. ${scoreEntry.name}`,
-      canvas.width / 2 - 200,
-      260 + index * 30 // Adjusted Y position to move list of players below
-    );
-    ctx.textAlign = "right"; // Align text to the right for scores
-    ctx.fillText(
-      `${scoreEntry.score}`,
-      canvas.width / 2 + 200,
-      260 + index * 30 // Adjusted Y position to move list of players below
-    );
+    const listItem = document.createElement("li");
+    const nameSpan = document.createElement("span");
+    const scoreSpan = document.createElement("span");
+
+    nameSpan.textContent = `${index + 1}. ${scoreEntry.name}`;
+    scoreSpan.textContent = `${scoreEntry.score}`;
+
+    nameSpan.classList.add("player-name");
+    scoreSpan.classList.add("player-score");
+
+    listItem.appendChild(nameSpan);
+    listItem.appendChild(scoreSpan);
+    highscoreList.appendChild(listItem);
   });
 
-  // Display "Press enter to start again" below the player scores
-  ctx.textAlign = "center"; // Center align text
-  ctx.font = "32px 'RBCN'";
-  ctx.fillText(
-    "Press enter to start again",
-    canvas.width / 2,
-    highscores.length * 30 // Adjusted Y position to move below the list of players
-  );
+  // Hide the game over screen
+  document.getElementById("game-over-screen").style.display = "none";
+  // Show the highscore board
+  document.getElementById("highscore-board").style.display = "flex";
 
   // Add event listener for Enter key to restart the game
   document.addEventListener("keydown", handleEnterKey);
@@ -191,7 +184,7 @@ export function summarizeTestReport(suiteName) {
   testReport += "Output:  /Users/robocon2025/game/output.xml\n";
   testReport += "Log:     /Users/robocon2025/game/log.html\n";
   testReport += "Report:  /Users/robocon2025/game/report.html\n";
-  testReport += ">";
+  testReport += "\n>";
 }
 
 // Add this function to display the test execution simulation

@@ -10,6 +10,8 @@
     <link rel="preload" href="fonts/RBCN.ttf" as="font" type="font/ttf" crossorigin>
   </head>
   <body style="font-family: 'RBCN', 'RBTFNT', 'Arial', sans-serif;">
+
+    <!-- Game View -->
     <div id="game-container">
       <div id="left-half">
         <div id="game-info">
@@ -24,6 +26,7 @@
       </div>
     </div>
 
+    <!-- Game Over View -->
     <div id="game-over-screen" style="display: none">
       <h2>Game Over</h2>
       <form id="highscore-form" onsubmit="return validateInput();">
@@ -42,6 +45,13 @@
         />
         <p><span id="error-message"></span></p>
       </form>
+    </div>
+
+    <!-- Highscore Board View -->
+    <div id="highscore-board" style="display: none;">
+      <h2>Highscore Board</h2>
+      <ol id="highscore-list"></ol>
+      <p>Press Enter to start again</p>
     </div>
 
     <script type="module" src="js/main.js"></script>
