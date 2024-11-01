@@ -13,6 +13,10 @@ export function displayGameOver() {
   ctx.font = "30px 'RBCN'";
   ctx.fillText("Game Over", canvas.width / 2 - 80, canvas.height / 2 - 20);
   document.getElementById("final-score").textContent = gameState.score;
+  // Calculate passed test cases and show in the "finished-maps" span
+  const passedTests = testCases.filter((t) => t.status === "PASS").length;
+  const totalTests = testCases.length;
+  document.getElementById("finished-maps").textContent = `${passedTests} / ${totalTests}`;
 
   setTimeout(() => {
     document.getElementById("game-over-screen").style.display = "flex";
