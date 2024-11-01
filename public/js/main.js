@@ -3,8 +3,6 @@
 // TODO: Add bigger maps
 // TODO: Save highest score of the player
 // TODO: Extract testReport to separate file
-// TODO: Bigger margins for the game canvas
-// TODO: The canvas moves a bit when the game is over
 // TODO: Preload canvas size to avoid strange behavior when game starts
 // TODO: Add game pausing feature
 
