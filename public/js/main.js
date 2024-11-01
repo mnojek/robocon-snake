@@ -165,7 +165,7 @@ async function startGame() {
   drawTestReport();
   addTestSuiteTitle("Snake");
   await loadMap();
-  displayCountdown(3, `Test case ${map.currentMap} in`, () => {
+  displayCountdown(3, `Test case ${map.currentMap}`, () => {
     document.getElementById("game-info").style.display = "flex";
     gameLoop();
   });

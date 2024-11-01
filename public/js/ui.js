@@ -105,6 +105,9 @@ export function displayCountdown(count, message, callback) {
   gameState.isPaused = true; // Pause the game loop
   let countdown = count;
   const interval = setInterval(() => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "rgba(34,34,34,1)"; // Fill the canvas with grey color
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     drawCountdown();
     countdown--;
 
@@ -116,13 +119,16 @@ export function displayCountdown(count, message, callback) {
   }, 1000); // Update every second
 
   function drawCountdown() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Set the custom font
-    ctx.font = "48px 'RBCN'";
+    // Set the custom font for the countdown
+    ctx.font = "72px 'RBCN'";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(message + " " + countdown, canvas.width / 2, canvas.height / 2);
+    ctx.fillText(countdown, canvas.width / 2, canvas.height / 2 - 40);
+
+    // Set the custom font for the message
+    ctx.font = "48px 'RBCN'";
+    ctx.fillText(message, canvas.width / 2, canvas.height / 2 + 40);
   }
 }
 

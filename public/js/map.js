@@ -86,7 +86,7 @@ export function loadNextMap() {
   } else {
     addSingleLineToTestReport(); // Add a single line to the test report
     map.currentMap++;
-    displayCountdown(3, `Test case ${map.currentMap} in`, () => {
+    displayCountdown(3, `Test case ${map.currentMap}`, () => {
       snake.foodEaten = 0; // Reset the food eaten counter
       gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
       gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
