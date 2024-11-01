@@ -2,7 +2,8 @@
   "name": "robocon-snake",
   "version": "1.0.0",
   "description": "RoboCon 2025 Snake Game",
-  "main": "server.js",
+  "main": "public/js/main.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js"
   },
