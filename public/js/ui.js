@@ -48,7 +48,7 @@ document
       document.getElementById("error-message").textContent = "Player's name is taken. Choose a different one.";
     } else if (playerName) {
       saveHighscore(playerName, gameState.score);
-      displayHighscoreBoard(); // Display highscores after saving
+      setTimeout(displayHighscoreBoard, 500); // Display highscores after saving with a slight delay
       document.getElementById("game-over-screen").style.display = "none";
     }
   });
@@ -70,35 +70,42 @@ function calculatePlayerRanking(score) {
 
 // Display the highscore board
 export function displayHighscoreBoard() {
-  const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-  const topScores = highscores.slice(0, defaultGameSettings.bestScoresToDisplay);
+  // Get highscores from local storage
+  // const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
 
-  const highscoreList = document.getElementById("highscore-list");
-  highscoreList.innerHTML = ""; // Clear previous content
+  fetch("/highscores")
+    .then(response => response.json())
+    .then(highscores => {
+      const topScores = highscores.slice(0, defaultGameSettings.bestScoresToDisplay);
 
-  topScores.forEach((scoreEntry, index) => {
-    const listItem = document.createElement("li");
-    const nameSpan = document.createElement("span");
-    const scoreSpan = document.createElement("span");
+      const highscoreList = document.getElementById("highscore-list");
+      highscoreList.innerHTML = ""; // Clear previous content
 
-    nameSpan.textContent = `${index + 1}. ${scoreEntry.name}`;
-    scoreSpan.textContent = `${scoreEntry.score}`;
+      topScores.forEach((scoreEntry, index) => {
+        const listItem = document.createElement("li");
+        const nameSpan = document.createElement("span");
+        const scoreSpan = document.createElement("span");
 
-    nameSpan.classList.add("player-name");
-    scoreSpan.classList.add("player-score");
+        nameSpan.textContent = `${index + 1}. ${scoreEntry.name}`;
+        scoreSpan.textContent = `${scoreEntry.score}`;
 
-    listItem.appendChild(nameSpan);
-    listItem.appendChild(scoreSpan);
-    highscoreList.appendChild(listItem);
-  });
+        nameSpan.classList.add("player-name");
+        scoreSpan.classList.add("player-score");
 
-  // Hide the game over screen
-  document.getElementById("game-over-screen").style.display = "none";
-  // Show the highscore board
-  document.getElementById("highscore-board").style.display = "flex";
+        listItem.appendChild(nameSpan);
+        listItem.appendChild(scoreSpan);
+        highscoreList.appendChild(listItem);
+      });
 
-  // Add event listener for Enter key to restart the game
-  document.addEventListener("keydown", handleEnterKey);
+      // Hide the game over screen
+      document.getElementById("game-over-screen").style.display = "none";
+      // Show the highscore board
+      document.getElementById("highscore-board").style.display = "flex";
+
+      // Add event listener for Enter key to restart the game
+      document.addEventListener("keydown", handleEnterKey);
+    })
+    .catch(error => console.error("Error fetching highscores:", error));
 }
 
 // Function to display the countdown
