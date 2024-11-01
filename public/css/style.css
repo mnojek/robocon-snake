@@ -53,14 +53,39 @@ body {
 }
 
 #game-container {
-    display: inline-block;
+    display: flex;
+    width: 100%;
+    height: 100vh; /* Ensure full viewport height */
+    justify-content: center; /* Center the content */
+    align-items: flex-start; /* Align items to the top */
     position: relative;
 }
 
+#game-container > * {
+    margin: 0 10px; /* Add horizontal spacing between elements */
+}
+
+#left-half, #right-half {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Add styles for the empty div to match game-info height */
+#empty-div {
+    height: 80px; /* Adjust the height as needed to match game-info */
+    /* ...existing code... */
+}
+
 #game-info {
+    position: relative;
+    left: 20px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start
+    width: -webkit-fill-available;       /* Set width to match the canvas */
+    margin: auto;  /* Center horizontally and add top and bottom margins */
+    font-size: 24px;
 }
 
 #game-info p {
@@ -89,7 +114,7 @@ canvas {
     background-color: black;
     border: 1px solid white;
     display: block;
-    margin: 0 auto;
+    margin: 0;      /* Remove auto margins to align with test report */
 }
 
 h1 {
@@ -131,4 +156,22 @@ h2 {
 .custom-button:hover {
     background-color: white;
     color: black;
+}
+
+#test-report {
+    margin: 0;       /* Remove margins to align with canvas */
+    color: white;
+    font-family: monospace;
+    text-align: left;
+    white-space: pre;
+    font-size: 14px;
+    max-height: 400px; /* Limit height to match the canvas */
+    overflow-y: auto;   /* Add scrollbar if content overflows */
+    margin-left: 10px; /* Add spacing to the left of test-report */
+    align-self: flex-start; /* Align the div to the left */
+}
+
+#game-window {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
 }

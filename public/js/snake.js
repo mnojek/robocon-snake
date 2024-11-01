@@ -19,6 +19,7 @@ import {
   keyQueue,
   resetSnakeSpeed,
   increaseSpeed,
+  testCases,
 } from "./main.js";
 import {
   ctx,
@@ -26,6 +27,8 @@ import {
   gridSize,
   displayGameOver,
   updateLivesDisplay,
+  summarizeTestReport,
+  updateTestResult,
 } from "./ui.js";
 
 export const snake = {
@@ -159,9 +162,16 @@ export function loseLife() {
   if (extraFruit.position) {
     removeExtraFruit(); // Remove the extra fruit if it exists
   }
-  if (snake.lives <= 0) {
+  if (snake.lives <= 0 || map.currentMap > map.numberOfMaps) { // Check if all maps are finished
     gameState.isGameOver = true;
     snake.snakeSegments = []; // Clear the snake
+    testCases.push({ name: `Test ${map.currentMap}`, status: "FAIL" }); // Mark current map as FAIL
+    updateTestResult("FAIL"); // Update the test result
+    // Mark remaining maps as SKIP
+    for (let i = map.currentMap + 1; i <= map.numberOfMaps; i++) {
+      testCases.push({ name: `Test ${i}`, status: "SKIP" });
+    }
+    summarizeTestReport("Snake"); // Summarize the test report
     displayGameOver();
   } else {
     gameState.isPaused = true;

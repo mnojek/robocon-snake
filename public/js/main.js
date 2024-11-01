@@ -5,6 +5,7 @@
 // TODO: Save highest score of the player
 // TODO: Create prettier hearts
 // TODO: Maybe with each point show the RF script next to the game that gets completed?
+// TODO: The player with the same score should be added below the other players with the same score
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import {
@@ -18,7 +19,7 @@ import {
   drawBackground,
 } from "./map.js";
 import { updateSnakePosition, snake } from "./snake.js";
-import { ctx, canvas, displayCountdown, updateLivesDisplay } from "./ui.js";
+import { ctx, canvas, displayCountdown, drawTestReport, updateLivesDisplay, initiateTestReport, addTestSuiteTitle } from "./ui.js";
 
 export const gameState = {
   isPaused: false,
@@ -29,6 +30,7 @@ export const gameState = {
   extraFruitEaten: false,
 };
 export let keyQueue = [];
+export const testCases = [];
 
 // Save highscore to localStorage
 export function saveHighscore(name, score) {
@@ -111,6 +113,7 @@ export function restartGame() {
   snake.direction = { ...defaultGameSettings.initialSnakeDirection };
   map.food = { ...defaultGameSettings.initialFoodPosition };
   gameState.scoreOnMap = defaultGameSettings.initialMapScore;
+  testCases.length = 0; // Reset testCases
 
   // Restart the game
   startGame();
@@ -147,6 +150,7 @@ export function draw() {
   }
   drawWalls();
   drawSnake();
+  drawTestReport();
 
   // Update score and lives
   document.getElementById("score").textContent = gameState.score;
@@ -155,8 +159,11 @@ export function draw() {
 
 // Start the game
 async function startGame() {
+  initiateTestReport();
+  drawTestReport();
+  addTestSuiteTitle("Snake");
   await loadMap();
-  displayCountdown(3, "Start in", () => {
+  displayCountdown(3, `Test case ${map.currentMap} in`, () => {
     document.getElementById("game-info").style.display = "flex";
     gameLoop();
   });

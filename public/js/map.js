@@ -1,9 +1,9 @@
 // map.js
 import { defaultGameSettings } from "./defaultGameSettings.js";
-import { displayCountdown, displayGameOver } from "./ui.js";
+import { addCurrentTest, addSingleLineToTestReport, displayCountdown, displayGameOver, summarizeTestReport, updateTestResult } from "./ui.js";
 import { canvas, ctx, gridSize } from "./ui.js";
 import { snake, resetSnake } from "./snake.js";
-import { gameState, resetSnakeSpeed } from "./main.js";
+import { gameState, resetSnakeSpeed, testCases } from "./main.js"; // Import isGameOver function
 
 export const scoreToNextMap = defaultGameSettings.scoreToNextMap;
 export const map = {
@@ -33,6 +33,7 @@ export async function loadMap() {
       console.warn(`Map file maps/map-${map.currentMap}.txt not found.`);
       return;
     }
+    addCurrentTest(`Test ${map.currentMap}`); // Add the current map to the test report
     const mapText = await response.text();
     let mapLines = mapText
       .split("\n")
@@ -73,13 +74,19 @@ export async function loadMap() {
 }
 
 export function loadNextMap() {
+  testCases.push({ name: `Test ${map.currentMap}`, status: "PASS" }); // Mark current map as PASS
+  updateTestResult("PASS"); // Update the test result
   if (map.currentMap >= map.numberOfMaps) {
     console.log("Game over");
-    gameState.score += snake.lives * defaultGameSettings.extraScoreForRemainingLife; // Add 10 points for each remaining life
+    gameState.score +=
+      snake.lives * defaultGameSettings.extraScoreForRemainingLife; // Add 10 points for each remaining life
+    summarizeTestReport("Snake"); // Summarize the test report
     displayGameOver();
+    gameState.isGameOver = true; // Stop the snake
   } else {
-    displayCountdown(3, "Next map in", () => {
-      map.currentMap++;
+    addSingleLineToTestReport(); // Add a single line to the test report
+    map.currentMap++;
+    displayCountdown(3, `Test case ${map.currentMap} in`, () => {
       snake.foodEaten = 0; // Reset the food eaten counter
       gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
       gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
@@ -103,7 +110,7 @@ export function drawWalls() {
 
 export function drawSnake() {
   // Make sure there are snake segments before drawing
-  if (snake.snakeSegments.length === 0) return;
+  if (snake.snakeSegments.length === 0) return; // Check if the game is over
 
   // Draw snake with smooth, rounded edges
   ctx.lineJoin = "round";

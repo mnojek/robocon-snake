@@ -11,11 +11,17 @@
   </head>
   <body style="font-family: 'RBCN', 'RBTFNT', 'Arial', sans-serif;">
     <div id="game-container">
-      <div id="game-info">
-        <p>Score: <span id="score">0</span></p>
-        <p>Lives: <span id="lives"></span></p>
+      <div id="left-half">
+        <div id="game-info">
+          <p>Score: <span id="score">0</span></p>
+          <p>Lives: <span id="lives"></span></p>
+        </div>
+        <canvas id="game-canvas" width="400" height="400"></canvas>
       </div>
-      <canvas id="gameCanvas" width="400" height="400"></canvas>
+      <div id="right-half">
+        <div id="empty-div"></div>
+        <div id="test-report"></div>
+      </div>
     </div>
 
     <div id="game-over-screen" style="display: none">
