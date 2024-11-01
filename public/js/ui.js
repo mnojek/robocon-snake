@@ -143,7 +143,7 @@ export function clearTestReport() {
 }
 
 export function initiateTestReport() {
-  testReport = "> robot tests/Snake\n"; // Add Robot Framework command
+  testReport = "> robot tests/snake.robot\n"; // Add Robot Framework command
 }
 
 export function addTestSuiteTitle(title) {
@@ -193,7 +193,11 @@ export function summarizeTestReport(suiteName) {
   testReport += doubleLine + "\n";
   testReport += `${suiteName.padEnd(52, " ")}| ${suiteStatus} |\n`;
   testReport += `${totalTests} tests, ${passedTests} passed, ${failedTests} failed, ${skippedTests} skipped\n`;
-  testReport += doubleLine + "\n>";
+  testReport += doubleLine + "\n";
+  testReport += "Output:  /Users/robocon2025/game/output.xml\n";
+  testReport += "Log:     /Users/robocon2025/game/log.html\n";
+  testReport += "Report:  /Users/robocon2025/game/report.html\n";
+  testReport += ">";
 }
 
 // Add this function to display the test execution simulation

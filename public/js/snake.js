@@ -164,7 +164,6 @@ export function loseLife() {
   }
   if (snake.lives <= 0 || map.currentMap > map.numberOfMaps) { // Check if all maps are finished
     gameState.isGameOver = true;
-    snake.snakeSegments = []; // Clear the snake
     testCases.push({ name: `Test ${map.currentMap}`, status: "FAIL" }); // Mark current map as FAIL
     updateTestResult("FAIL"); // Update the test result
     // Mark remaining maps as SKIP

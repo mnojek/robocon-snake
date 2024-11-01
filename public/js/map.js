@@ -112,10 +112,10 @@ export function drawSnake() {
   // Make sure there are snake segments before drawing
   if (snake.snakeSegments.length === 0) return; // Check if the game is over
 
-  // Draw snake with smooth, rounded edges
-  ctx.lineJoin = "round";
+  // Draw snake with rounded edges but sharp corners
+  ctx.lineJoin = "miter";
   ctx.lineCap = "round";
-  ctx.strokeStyle = "green";
+  ctx.strokeStyle = "rgba(0,192,181,1)";
   ctx.lineWidth = gridSize * 0.8;
   ctx.beginPath();
   ctx.moveTo(
@@ -132,9 +132,24 @@ export function drawSnake() {
 }
 
 export function drawFood() {
-  ctx.fillStyle = "red";
+  ctx.fillStyle = "rgba(245,245,245,1)";
+  const radius = gridSize / 5;
+  const x = map.food.x + radius;
+  const y = map.food.y + radius;
+  const width = gridSize - 2 * radius;
+  const height = gridSize - 2 * radius;
+
   ctx.beginPath();
-  ctx.arc(map.food.x + gridSize / 2, map.food.y + gridSize / 2, gridSize / 2.5, 0, Math.PI * 2);
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
   ctx.fill();
 }
 
@@ -259,7 +274,7 @@ export function drawBackground() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Draw a semi-transparent rectangle over the background to dim it
-  ctx.fillStyle = "rgba(0, 0, 0, 1)"; // Adjust the alpha value to control the dimming effect
+  ctx.fillStyle = "rgba(34,34,34,1)"; // Adjust the alpha value to control the dimming effect
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Set the font size and style
@@ -267,7 +282,7 @@ export function drawBackground() {
   ctx.font = `${fontSize}px 'RBTFNT'`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  const dimLevel = 0.5; // Dim level for the text and image
+  const dimLevel = 0.2; // Dim level for the text and image
 
   // Calculate the position for the text and image
   const textX = canvas.width / 2;
