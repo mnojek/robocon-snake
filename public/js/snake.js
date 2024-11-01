@@ -19,7 +19,6 @@ import {
   keyQueue,
   resetSnakeSpeed,
   increaseSpeed,
-  testCases,
 } from "./main.js";
 import {
   ctx,
@@ -27,9 +26,9 @@ import {
   gridSize,
   displayGameOver,
   updateLivesDisplay,
-  summarizeTestReport,
-  updateTestResult,
 } from "./ui.js";
+
+import { updateTestResult, summarizeTestReport, testCases } from "./testReport.js";
 
 export const snake = {
   snakeSegments: [...defaultGameSettings.initialSnakePosition],

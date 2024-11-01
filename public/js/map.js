@@ -1,9 +1,10 @@
 // map.js
 import { defaultGameSettings } from "./defaultGameSettings.js";
-import { addCurrentTest, addSingleLineToTestReport, displayCountdown, displayGameOver, summarizeTestReport, updateTestResult } from "./ui.js";
+import { displayCountdown, displayGameOver } from "./ui.js";
 import { canvas, ctx, gridSize } from "./ui.js";
 import { snake, resetSnake } from "./snake.js";
-import { gameState, resetSnakeSpeed, testCases } from "./main.js"; // Import isGameOver function
+import { gameState, resetSnakeSpeed } from "./main.js"; // Import isGameOver function
+import { testCases, updateTestResult, addCurrentTest, addSingleLineToTestReport, summarizeTestReport } from "./testReport.js";
 
 export const scoreToNextMap = defaultGameSettings.scoreToNextMap;
 export const map = {

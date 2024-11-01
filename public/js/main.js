@@ -2,8 +2,6 @@
 // TODO: Validate map files
 // TODO: Add bigger maps
 // TODO: Save highest score of the player
-// TODO: Extract testReport to separate file
-// TODO: Preload canvas size to avoid strange behavior when game starts
 // TODO: Add game pausing feature
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
@@ -18,7 +16,8 @@ import {
   drawBackground,
 } from "./map.js";
 import { updateSnakePosition, snake } from "./snake.js";
-import { ctx, canvas, displayCountdown, drawTestReport, updateLivesDisplay, initiateTestReport, addTestSuiteTitle } from "./ui.js";
+import { ctx, canvas, displayCountdown, drawTestReport, updateLivesDisplay } from "./ui.js";
+import { testCases, addTestSuiteTitle, initiateTestReport } from "./testReport.js";
 
 export const gameState = {
   isPaused: false,
@@ -29,7 +28,6 @@ export const gameState = {
   extraFruitEaten: false,
 };
 export let keyQueue = [];
-export const testCases = [];
 
 // Save highscore to localStorage
 export function saveHighscore(name, score) {
