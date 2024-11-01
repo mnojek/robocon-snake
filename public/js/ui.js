@@ -106,7 +106,7 @@ export function displayCountdown(count, message, callback) {
   let countdown = count;
   const interval = setInterval(() => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "rgba(34,34,34,1)"; // Fill the canvas with grey color
+    ctx.fillStyle = defaultGameSettings.darkGreyColor; // Fill the canvas with grey color
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     drawCountdown();
     countdown--;
@@ -121,13 +121,14 @@ export function displayCountdown(count, message, callback) {
   function drawCountdown() {
     // Set the custom font for the countdown
     ctx.font = "72px 'RBCN'";
-    ctx.fillStyle = "white";
+    ctx.fillStyle = defaultGameSettings.cyanColor;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(countdown, canvas.width / 2, canvas.height / 2 - 40);
 
     // Set the custom font for the message
     ctx.font = "48px 'RBCN'";
+    ctx.fillStyle = "white";
     ctx.fillText(message, canvas.width / 2, canvas.height / 2 + 40);
   }
 }

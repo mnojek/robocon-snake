@@ -20,4 +20,9 @@ export const defaultGameSettings = {
   initialMapScore: 0, // Score for the current map
   bestScoresToDisplay: 10, // Number of best scores to display
   extraScoreForRemainingLife: 10, // Extra score for each remaining life
+
+  // Colors
+  cyanColor: "rgba(0,192,181,1)",
+  offWhiteColor: "rgba(245,245,245,1)",
+  darkGreyColor: "rgba(34,34,34,1)",
 };

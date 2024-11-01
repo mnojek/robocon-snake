@@ -115,7 +115,7 @@ export function drawSnake() {
   // Draw snake with rounded edges but sharp corners
   ctx.lineJoin = "miter";
   ctx.lineCap = "round";
-  ctx.strokeStyle = "rgba(0,192,181,1)";
+  ctx.strokeStyle = defaultGameSettings.cyanColor;
   ctx.lineWidth = gridSize * 0.8;
   ctx.beginPath();
   ctx.moveTo(
@@ -132,7 +132,7 @@ export function drawSnake() {
 }
 
 export function drawFood() {
-  ctx.fillStyle = "rgba(245,245,245,1)";
+  ctx.fillStyle = defaultGameSettings.offWhiteColor;
   const radius = gridSize / 5;
   const x = map.food.x + radius;
   const y = map.food.y + radius;
@@ -274,7 +274,7 @@ export function drawBackground() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Draw a semi-transparent rectangle over the background to dim it
-  ctx.fillStyle = "rgba(34,34,34,1)"; // Adjust the alpha value to control the dimming effect
+  ctx.fillStyle = defaultGameSettings.darkGreyColor; // Adjust the alpha value to control the dimming effect
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Set the font size and style
