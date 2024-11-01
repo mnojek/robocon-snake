@@ -10,7 +10,7 @@ export const defaultGameSettings = {
 
   // Snake defaults
   initialSnakeSpeed: 150, // Initial snake speed
-  snakeSpeedIncrement: 5, // Speed increment per food item eaten
+  snakeSpeedIncrement: 10, // Speed increment per food item eaten
   initialSnakeDirection: { x: 1, y: 0 }, // Snake starts moving right
   initialSnakeLives: 3, // Initial number of snake lives
   initialSnakePosition: [], // Initial snake position
