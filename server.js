@@ -18,13 +18,22 @@ app.use(express.json()); // Parse incoming JSON requests
 
 // Ensure highscores.json exists
 const highscoresFilePath = path.join(__dirname, "public", "highscores.json");
-if (!fs.existsSync(highscoresFilePath)) {
-  fs.writeFileSync(highscoresFilePath, JSON.stringify([]), "utf8");
+
+// Create highscores file if it doesn't exist
+const createHighscoresFile = () => {
+  if (!fs.existsSync(highscoresFilePath)) {
+    fs.writeFileSync(highscoresFilePath, JSON.stringify([]), "utf8");
+    console.log("Created 'highscores.json' file");
+  }
 }
 
 // Get highscores
 app.get("/highscores", (req, res) => {
   const filePath = highscoresFilePath;
+  
+  // Ensure the file exists before reading
+  createHighscoresFile();
+
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) return res.status(500).send("Error reading highscores file");
     try {
@@ -40,6 +49,9 @@ app.get("/highscores", (req, res) => {
 app.post("/highscores", (req, res) => {
   const newHighscore = req.body;
   const filePath = highscoresFilePath;
+
+  // Ensure the file exists before reading
+  createHighscoresFile();
 
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
