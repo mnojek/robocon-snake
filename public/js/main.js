@@ -5,13 +5,9 @@
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import {
   map,
-  loadMap,
-  drawWalls,
-  drawSnake,
   drawFood,
   drawExtraFruit,
   extraFruit,
-  drawBackground,
 } from "./map.js";
 import { snake } from "./snake.js";
 import { ctx, canvas, displayCountdown, drawTestReport, updateLivesDisplay } from "./ui.js";
@@ -68,6 +64,7 @@ export function handleEnterKey(event) {
     document.removeEventListener("keydown", handleEnterKey); // Remove the event listener
     document.getElementById("highscore-board").style.display = "none"; // Hide the highscore board
     document.getElementById("score").textContent = 0; // Reset the score
+    document.getElementById("lives").textContent = ""; // Reset the lives
     restartGame();
   }
 }
@@ -164,13 +161,13 @@ export function draw() {
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  drawBackground(); // Draw the background
+  map.drawBackground(); // Draw the background
   drawFood();
   if (extraFruit.position && extraFruit.visible) {
     drawExtraFruit();
   }
-  drawWalls();
-  drawSnake();
+  map.drawWalls();
+  snake.draw();
   drawTestReport();
 
   // Update score and lives
@@ -187,7 +184,7 @@ async function startGame() {
   initiateTestReport();
   drawTestReport();
   addTestSuiteTitle("Snake");
-  await loadMap();
+  await map.loadMap();
   displayCountdown(3, `Test case ${map.currentMap}`, () => {
     document.getElementById("game-info").style.display = "flex";
     gameLoop();

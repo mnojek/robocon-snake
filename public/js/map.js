@@ -13,7 +13,145 @@ export const map = {
   tiles: [],
   walls: [], // Array to store wall coordinates
   food: { ...defaultGameSettings.initialFoodPosition },
+
+  finishMap() {
+    testCases.push({ name: `Test ${map.currentMap}`, status: "PASS" }); // Mark current map as PASS
+    updateTestResult("PASS"); // Update the test result
+    if (map.currentMap >= map.numberOfMaps) {
+      console.log("Game over");
+      gameState.hiScore +=
+        snake.lives * defaultGameSettings.extraScoreForRemainingLife; // Add 10 points for each remaining life
+      summarizeTestReport("Snake"); // Summarize the test report
+      displayGameOver();
+      gameState.isGameOver = true; // Stop the snake
+    } else {
+      addSingleLineToTestReport(); // Add a single line to the test report
+      map.currentMap++;
+      displayCountdown(3, `Test case ${map.currentMap}`, () => {
+        snake.foodEaten = 0; // Reset the food eaten counter
+        gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
+        gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
+        map.walls = []; // Reset walls array
+        map.tiles = []; // Reset map array
+        snake.snakeSegments = [...defaultGameSettings.initialSnakePosition]; // Reset snake position
+        snake.direction = { ...defaultGameSettings.initialSnakeDirection }; // Reset snake direction
+        snake.speed = defaultGameSettings.initialSnakeSpeed; // Reset snake speed
+        map.loadMap();
+      });
+    }
+  },
+
+  async loadMap() {
+    try {
+      const response = await fetch(`maps/map-${map.currentMap}.txt`);
+      if (!response.ok) {
+        console.warn(`Map file maps/map-${map.currentMap}.txt not found.`);
+        return;
+      }
+      addCurrentTest(`Test ${map.currentMap}`); // Add the current map to the test report
+      const mapText = await response.text();
+      let mapLines = mapText
+        .split("\n")
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0);
+      snake.snakeSegments.length = 0; // Clear the snake array
+      map.walls = []; // Clear the walls array
+      map.tiles = []; // Clear the map array
+
+      const mapHeight = mapLines.length;
+      const mapWidth = mapLines[0].length;
+
+      // Set the canvas size based on the map dimensions
+      canvas.width = mapWidth * gridSize;
+      canvas.height = mapHeight * gridSize;
+
+      for (let y = 0; y < mapLines.length; y++) {
+        const row = [];
+        for (let x = 0; x < mapLines[y].length; x++) {
+          if (mapLines[y][x] === "#") {
+            map.walls.push({ x: x * gridSize, y: y * gridSize });
+            row.push("#");
+          } else if (mapLines[y][x] === "S") {
+            row.push("S");
+          } else if (mapLines[y][x] === "F") {
+            map.food = { x: x * gridSize, y: y * gridSize };
+            row.push("F");
+          } else {
+            row.push(" ");
+          }
+        }
+        map.tiles.push(row);
+      }
+      snake.reset(); // Reset the snake position
+    } catch (error) {
+      console.error("Error loading the map:", error);
+    }
+  },
+
+  drawWalls() {
+    ctx.fillStyle = "grey";
+    map.walls.forEach((wall) => {
+      ctx.fillRect(wall.x, wall.y, gridSize, gridSize);
+    });
+  },
+
+  drawBackground() {
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw a semi-transparent rectangle over the background to dim it
+    ctx.fillStyle = defaultGameSettings.darkGreyColor; // Adjust the alpha value to control the dimming effect
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Set the font size and style
+    const fontSize = 150; // Adjust the font size as needed
+    ctx.font = `${fontSize}px 'RBTFNT'`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    const dimLevel = 0.2; // Dim level for the text and image
+
+    // Calculate the position for the text and image
+    const textX = canvas.width / 2;
+    const textY = canvas.height / 2;
+    const textWidth = ctx.measureText("RBCN25").width;
+    const imageHeight = 100;
+    const imageWidth = (rfLogoImage.width / rfLogoImage.height) * imageHeight;
+    const imageX = textX + textWidth / 2 + imageWidth / 2 - 120; // Adjust the spacing as needed
+    const imageY = textY - imageHeight / 2 - 8;
+
+    // Draw the "RBCN" part of the text
+    ctx.fillStyle = `rgba(255, 255, 255, ${dimLevel})`; // Dimmed white color
+    drawTextWithLetterSpacing(
+      ctx,
+      "RBCN",
+      textX - ctx.measureText("25").width / 2,
+      textY,
+      -10
+    );
+
+    // Draw the "25" part of the text
+    ctx.fillStyle = `rgba(0, 255, 255, ${dimLevel})`; // Dimmed cyan color
+    drawTextWithLetterSpacing(
+      ctx,
+      "25",
+      textX + ctx.measureText("RBCN").width / 2 - 30,
+      textY,
+      -10
+    );
+
+    // Draw the image next to the text with dimming effect
+    ctx.globalAlpha = dimLevel; // Set global alpha to dim the image
+    if (rfLogoImage.complete) {
+      ctx.drawImage(rfLogoImage, imageX, imageY, imageWidth, imageHeight);
+    } else {
+      rfLogoImage.onload = () => {
+        ctx.drawImage(rfLogoImage, imageX, imageY, imageWidth, imageHeight);
+      };
+    }
+    ctx.globalAlpha = 1.0; // Reset global alpha to default
+  },
 };
+
 export const extraFruit = {
   position: null,
   timer: null,
@@ -27,110 +165,8 @@ const rfLogoImage = new Image();
 rfLogoImage.src = "images/rf.png"; // Path to the RF logo image
 
 // Function to load the map from a text file
-export async function loadMap() {
-  try {
-    const response = await fetch(`maps/map-${map.currentMap}.txt`);
-    if (!response.ok) {
-      console.warn(`Map file maps/map-${map.currentMap}.txt not found.`);
-      return;
-    }
-    addCurrentTest(`Test ${map.currentMap}`); // Add the current map to the test report
-    const mapText = await response.text();
-    let mapLines = mapText
-      .split("\n")
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0);
-    snake.snakeSegments.length = 0; // Clear the snake array
-    map.walls = []; // Clear the walls array
-    map.tiles = []; // Clear the map array
-
-    const mapHeight = mapLines.length;
-    const mapWidth = mapLines[0].length;
-
-    // Set the canvas size based on the map dimensions
-    canvas.width = mapWidth * gridSize;
-    canvas.height = mapHeight * gridSize;
-
-    for (let y = 0; y < mapLines.length; y++) {
-      const row = [];
-      for (let x = 0; x < mapLines[y].length; x++) {
-        if (mapLines[y][x] === "#") {
-          map.walls.push({ x: x * gridSize, y: y * gridSize });
-          row.push("#");
-        } else if (mapLines[y][x] === "S") {
-          row.push("S");
-        } else if (mapLines[y][x] === "F") {
-          map.food = { x: x * gridSize, y: y * gridSize };
-          row.push("F");
-        } else {
-          row.push(" ");
-        }
-      }
-      map.tiles.push(row);
-    }
-    snake.reset(); // Reset the snake position
-  } catch (error) {
-    console.error("Error loading the map:", error);
-  }
-}
-
-export function loadNextMap() {
-  testCases.push({ name: `Test ${map.currentMap}`, status: "PASS" }); // Mark current map as PASS
-  updateTestResult("PASS"); // Update the test result
-  if (map.currentMap >= map.numberOfMaps) {
-    console.log("Game over");
-    gameState.hiScore +=
-      snake.lives * defaultGameSettings.extraScoreForRemainingLife; // Add 10 points for each remaining life
-    summarizeTestReport("Snake"); // Summarize the test report
-    displayGameOver();
-    gameState.isGameOver = true; // Stop the snake
-  } else {
-    addSingleLineToTestReport(); // Add a single line to the test report
-    map.currentMap++;
-    displayCountdown(3, `Test case ${map.currentMap}`, () => {
-      snake.foodEaten = 0; // Reset the food eaten counter
-      gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
-      gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
-      map.walls = []; // Reset walls array
-      map.tiles = []; // Reset map array
-      snake.snakeSegments = [...defaultGameSettings.initialSnakePosition]; // Reset snake position
-      snake.direction = { ...defaultGameSettings.initialSnakeDirection }; // Reset snake direction
-      snake.speed = defaultGameSettings.initialSnakeSpeed; // Reset snake speed
-      loadMap();
-    });
-  }
-}
 
 // Draw walls on the canvas
-export function drawWalls() {
-  ctx.fillStyle = "grey";
-  map.walls.forEach((wall) => {
-    ctx.fillRect(wall.x, wall.y, gridSize, gridSize);
-  });
-}
-
-export function drawSnake() {
-  // Make sure there are snake segments before drawing
-  if (snake.snakeSegments.length === 0) return; // Check if the game is over
-
-  // Draw snake with rounded edges but sharp corners
-  ctx.lineJoin = "miter";
-  ctx.lineCap = "round";
-  ctx.strokeStyle = defaultGameSettings.cyanColor;
-  ctx.lineWidth = gridSize * 0.8;
-  ctx.beginPath();
-  ctx.moveTo(
-    snake.getHead().x + gridSize / 2,
-    snake.getHead().y + gridSize / 2
-  );
-  for (let i = 1; i < snake.snakeSegments.length; i++) {
-    ctx.lineTo(
-      snake.snakeSegments[i].x + gridSize / 2,
-      snake.snakeSegments[i].y + gridSize / 2
-    );
-  }
-  ctx.stroke();
-}
 
 export function drawFood() {
   ctx.fillStyle = defaultGameSettings.offWhiteColor;
@@ -270,49 +306,6 @@ export function removeExtraFruit() {
 }
 
 // Function to draw the custom background with text and image
-export function drawBackground() {
-  // Clear the canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Draw a semi-transparent rectangle over the background to dim it
-  ctx.fillStyle = defaultGameSettings.darkGreyColor; // Adjust the alpha value to control the dimming effect
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Set the font size and style
-  const fontSize = 150; // Adjust the font size as needed
-  ctx.font = `${fontSize}px 'RBTFNT'`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  const dimLevel = 0.2; // Dim level for the text and image
-
-  // Calculate the position for the text and image
-  const textX = canvas.width / 2;
-  const textY = canvas.height / 2;
-  const textWidth = ctx.measureText("RBCN25").width;
-  const imageHeight = 100;
-  const imageWidth = (rfLogoImage.width / rfLogoImage.height) * imageHeight;
-  const imageX = textX + textWidth / 2 + imageWidth / 2 - 120; // Adjust the spacing as needed
-  const imageY = textY - imageHeight / 2 - 8;
-
-  // Draw the "RBCN" part of the text
-  ctx.fillStyle = `rgba(255, 255, 255, ${dimLevel})`; // Dimmed white color
-  drawTextWithLetterSpacing(ctx, "RBCN", textX - ctx.measureText("25").width / 2, textY, -10);
-
-  // Draw the "25" part of the text
-  ctx.fillStyle = `rgba(0, 255, 255, ${dimLevel})`; // Dimmed cyan color
-  drawTextWithLetterSpacing(ctx, "25", textX + ctx.measureText("RBCN").width / 2 - 30, textY, -10);
-
-  // Draw the image next to the text with dimming effect
-  ctx.globalAlpha = dimLevel; // Set global alpha to dim the image
-  if (rfLogoImage.complete) {
-    ctx.drawImage(rfLogoImage, imageX, imageY, imageWidth, imageHeight);
-  } else {
-    rfLogoImage.onload = () => {
-      ctx.drawImage(rfLogoImage, imageX, imageY, imageWidth, imageHeight);
-    };
-  }
-  ctx.globalAlpha = 1.0; // Reset global alpha to default
-}
 
 // Helper function to draw text with letter spacing
 function drawTextWithLetterSpacing(ctx, text, x, y, letterSpacing) {

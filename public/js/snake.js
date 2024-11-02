@@ -3,15 +3,12 @@ import { defaultGameSettings } from "./defaultGameSettings.js";
 import {
   scoreToNextMap,
   map,
-  loadNextMap,
-  drawWalls,
   drawFood,
   generateFood,
   spawnExtraFruit,
   removeExtraFruit,
   drawExtraFruit,
   extraFruit,
-  drawBackground,
 } from "./map.js";
 import {
   gameState,
@@ -65,7 +62,7 @@ export const snake = {
     }
     snake.foodEaten++; // Increment the food eaten counter
     if (gameState.scoreOnMap >= scoreToNextMap) {
-      loadNextMap(); // Load the next map if score reaches the limit per map
+      map.finishMap(); // Load the next map if score reaches the limit per map
     } else {
       // Logic for spawning new food
       generateFood(canvas, gridSize);
@@ -141,14 +138,37 @@ export const snake = {
     snake.direction = { ...defaultGameSettings.initialSnakeDirection };
   },
 
+  draw() {
+    // Make sure there are snake segments before drawing
+    if (snake.snakeSegments.length === 0) return; // Check if the game is over
+
+    // Draw snake with rounded edges but sharp corners
+    ctx.lineJoin = "miter";
+    ctx.lineCap = "round";
+    ctx.strokeStyle = defaultGameSettings.cyanColor;
+    ctx.lineWidth = gridSize * 0.8;
+    ctx.beginPath();
+    ctx.moveTo(
+      snake.getHead().x + gridSize / 2,
+      snake.getHead().y + gridSize / 2
+    );
+    for (let i = 1; i < snake.snakeSegments.length; i++) {
+      ctx.lineTo(
+        snake.snakeSegments[i].x + gridSize / 2,
+        snake.snakeSegments[i].y + gridSize / 2
+      );
+    }
+    ctx.stroke();
+  },
+
   blink(times, callback) {
     let count = 0;
     const interval = setInterval(() => {
       if (count % 2 === 0) {
         // Hide the snake
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawBackground();
-        drawWalls();
+        map.drawBackground();
+        map.drawWalls();
         drawFood();
         drawExtraFruit();
       } else {
