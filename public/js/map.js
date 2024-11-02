@@ -2,8 +2,8 @@
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { displayCountdown, displayGameOver } from "./ui.js";
 import { canvas, ctx, gridSize } from "./ui.js";
-import { snake, resetSnake } from "./snake.js";
-import { gameState, resetSnakeSpeed } from "./main.js"; // Import isGameOver function
+import { snake } from "./snake.js";
+import { gameState } from "./main.js"; // Import isGameOver function
 import { testCases, updateTestResult, addCurrentTest, addSingleLineToTestReport, summarizeTestReport } from "./testReport.js";
 
 export const scoreToNextMap = defaultGameSettings.scoreToNextMap;
@@ -68,7 +68,7 @@ export async function loadMap() {
       }
       map.tiles.push(row);
     }
-    resetSnake(); // Reset the snake position
+    snake.reset(); // Reset the snake position
   } catch (error) {
     console.error("Error loading the map:", error);
   }
@@ -91,11 +91,11 @@ export function loadNextMap() {
       snake.foodEaten = 0; // Reset the food eaten counter
       gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
       gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
-      resetSnakeSpeed(); // Reset the game speed
       map.walls = []; // Reset walls array
       map.tiles = []; // Reset map array
       snake.snakeSegments = [...defaultGameSettings.initialSnakePosition]; // Reset snake position
       snake.direction = { ...defaultGameSettings.initialSnakeDirection }; // Reset snake direction
+      snake.speed = defaultGameSettings.initialSnakeSpeed; // Reset snake speed
       loadMap();
     });
   }

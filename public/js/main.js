@@ -13,14 +13,13 @@ import {
   extraFruit,
   drawBackground,
 } from "./map.js";
-import { updateSnakePosition, snake } from "./snake.js";
+import { snake } from "./snake.js";
 import { ctx, canvas, displayCountdown, drawTestReport, updateLivesDisplay } from "./ui.js";
 import { testCases, addTestSuiteTitle, initiateTestReport } from "./testReport.js";
 
 export const gameState = {
   isPaused: false,
   isGameOver: false,
-  snakeSpeed: defaultGameSettings.initialSnakeSpeed,
   score: defaultGameSettings.initialScore,
   hiScore: defaultGameSettings.initialScore,
   scoreOnMap: defaultGameSettings.initialMapScore,
@@ -114,18 +113,6 @@ function isOppositeDirection(newDirection, currentDirection) {
   );
 }
 
-// Function to increase the game speed
-export function increaseSpeed(points = defaultGameSettings.snakeSpeedIncrement) {
-  if (gameState.snakeSpeed > 50) {
-    // Set a minimum speed limit
-    gameState.snakeSpeed -= points; // Decrease the interval by X ms
-  }
-}
-
-export function resetSnakeSpeed() {
-  gameState.snakeSpeed = defaultGameSettings.initialSnakeSpeed;
-}
-
 export function restartGame() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   // Reset game state
@@ -142,7 +129,7 @@ export function restartGame() {
   map.walls.length = 0;
   map.food = { ...defaultGameSettings.initialFoodPosition };
 
-  resetSnakeSpeed();
+  snake.speed = defaultGameSettings.initialSnakeSpeed;
   snake.snakeSegments = [...defaultGameSettings.initialSnakePosition];
   snake.lives = defaultGameSettings.initialSnakeLives;
   snake.direction = { ...defaultGameSettings.initialSnakeDirection };
@@ -165,11 +152,11 @@ function gameLoop() {
         break; // Process only the first valid direction
       }
     }
-    updateSnakePosition();
+    snake.move();
     draw();
   }
 
-  setTimeout(gameLoop, gameState.snakeSpeed); // Control the snake speed (100ms per frame by default)
+  setTimeout(gameLoop, snake.speed); // Control the snake speed (100ms per frame by default)
 }
 
 // Modify the game loop to draw walls
