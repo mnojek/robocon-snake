@@ -4,9 +4,6 @@ import {
   scoreToNextMap,
   map,
   food,
-  spawnExtraFruit,
-  removeExtraFruit,
-  drawExtraFruit,
   extraFruit,
 } from "./map.js";
 import {
@@ -66,7 +63,7 @@ export const snake = {
       // Logic for spawning new food
       food.spawn(canvas, gridSize);
       if (snake.foodEaten === defaultGameSettings.foodToExtraFruit) {
-        spawnExtraFruit(canvas, gridSize);
+        extraFruit.spawn(canvas, gridSize);
       }
     }
     snake.increaseSpeed(); // Increase the game speed
@@ -78,7 +75,7 @@ export const snake = {
       gameState.hiScore = gameState.score; // Update the high score
     }
     gameState.extraFruitEaten = true; // Set the extra fruit eaten flag
-    removeExtraFruit(); // Remove the extra fruit
+    extraFruit.remove(); // Remove the extra fruit
   },
 
   loseLife() {
@@ -87,7 +84,7 @@ export const snake = {
     updateLivesDisplay(snake.lives); // Update the lives display
     snake.speed = defaultGameSettings.initialSnakeSpeed; // Reset the snake speed
     if (extraFruit.position) {
-      removeExtraFruit(); // Remove the extra fruit if it exists
+      extraFruit.remove(); // Remove the extra fruit if it exists
     }
     if (snake.lives <= 0 || map.currentMap > map.numberOfMaps) {
       // Check if all maps are finished
@@ -169,7 +166,7 @@ export const snake = {
         map.drawBackground();
         map.drawWalls();
         food.draw();
-        drawExtraFruit();
+        extraFruit.draw();
       } else {
         // Show the snake
         draw();

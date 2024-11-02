@@ -211,7 +211,95 @@ export const extraFruit = {
   image: new Image(),
   blinking: false,
   visible: true,
+
+  draw() {
+    if (extraFruit.position) {
+      const fruitSize = gridSize * 0.8;
+      ctx.drawImage(
+        extraFruit.image,
+        extraFruit.position.x + (gridSize - fruitSize) / 2,
+        extraFruit.position.y + (gridSize - fruitSize) / 2,
+        fruitSize,
+        fruitSize
+      );
+    }
+  },
+
+  spawn() {
+    let validPosition = false;
+
+    while (!validPosition) {
+      extraFruit.position = {
+        x: Math.floor((Math.random() * canvas.width) / gridSize) * gridSize,
+        y: Math.floor((Math.random() * canvas.height) / gridSize) * gridSize,
+      };
+
+      const distanceFromSnakeHead = Math.sqrt(
+        Math.pow(extraFruit.position.x - snake.getHead().x, 2) +
+          Math.pow(extraFruit.position.y - snake.getHead().y, 2)
+      );
+
+      // Check if the generated position is not on a wall, on the snake, or too close to the snake's head
+      validPosition =
+        !map.walls.some(
+          (wall) =>
+            wall.x === extraFruit.position.x && wall.y === extraFruit.position.y
+        ) &&
+        !snake.snakeSegments.some(
+          (segment) =>
+            segment.x === extraFruit.position.x &&
+            segment.y === extraFruit.position.y
+        ) &&
+        !(
+          food.position.x === extraFruit.position.x &&
+          food.position.y === extraFruit.position.y
+        ) &&
+        distanceFromSnakeHead >= 4 * gridSize; // Ensure the extra fruit is at least 4 squares away from the snake's head
+    }
+    // Set a timer to remove the extra fruit after a certain time
+    extraFruit.timer = setTimeout(() => {
+      extraFruit.position = null; // Remove extra fruit after the timer
+      extraFruit.timer = null; // Clear the timer
+    }, 10000); // 10 seconds
+
+    extraFruit.blinkTimer = setTimeout(() => {
+      extraFruit.blink(5, () => {
+        // Do nothing after blinking
+        extraFruit.blinking = false;
+      });
+    }, 7000);
+  },
+
+  blink(times, callback) {
+    extraFruit.blinking = true;
+    let count = 0;
+    extraFruit.visible = true;
+    const interval = setInterval(() => {
+      extraFruit.visible = !extraFruit.visible; // Toggle visibility
+      count++;
+      if (count >= times * 2) {
+        clearInterval(interval);
+        extraFruit.blinking = false;
+        extraFruit.visible = true; // Ensure it ends up visible
+        callback();
+      }
+    }, 300); // Blink every 300ms
+  },
+
+  remove() {
+    extraFruit.position = null;
+    extraFruit.blinking = false;
+    if (extraFruit.timer) {
+      clearTimeout(extraFruit.timer); // Clear the timer if it's still running
+      extraFruit.timer = null;
+    }
+    if (extraFruit.blinkTimer) {
+      clearTimeout(extraFruit.blinkTimer); // Clear the blink timer if it's still running
+      extraFruit.blinkTimer = null;
+    }
+  },
 };
+
 extraFruit.image.src = "images/rf.png"; // Path to your extra fruit image
 const rfLogoImage = new Image();
 rfLogoImage.src = "images/rf.png"; // Path to the RF logo image
@@ -220,94 +308,9 @@ rfLogoImage.src = "images/rf.png"; // Path to the RF logo image
 
 // Draw walls on the canvas
 
-export function drawExtraFruit() {
-  if (extraFruit.position) {
-    const fruitSize = gridSize * 0.8;
-    ctx.drawImage(
-      extraFruit.image,
-      extraFruit.position.x + (gridSize - fruitSize) / 2,
-      extraFruit.position.y + (gridSize - fruitSize) / 2,
-      fruitSize,
-      fruitSize
-    );
-  }
-}
-
 // Function to spawn extra fruit at a random position
-export function spawnExtraFruit() {
-  let validPosition = false;
-
-  while (!validPosition) {
-    extraFruit.position = {
-      x: Math.floor((Math.random() * canvas.width) / gridSize) * gridSize,
-      y: Math.floor((Math.random() * canvas.height) / gridSize) * gridSize,
-    };
-
-    const distanceFromSnakeHead = Math.sqrt(
-      Math.pow(extraFruit.position.x - snake.getHead().x, 2) +
-      Math.pow(extraFruit.position.y - snake.getHead().y, 2)
-    );
-
-    // Check if the generated position is not on a wall, on the snake, or too close to the snake's head
-    validPosition =
-      !map.walls.some(
-        (wall) =>
-          wall.x === extraFruit.position.x && wall.y === extraFruit.position.y
-      ) &&
-      !snake.snakeSegments.some(
-        (segment) =>
-          segment.x === extraFruit.position.x &&
-          segment.y === extraFruit.position.y
-      ) &&
-      !(
-        food.position.x === extraFruit.position.x &&
-        food.position.y === extraFruit.position.y
-      ) &&
-      distanceFromSnakeHead >= 4 * gridSize; // Ensure the extra fruit is at least 4 squares away from the snake's head
-  }
-  // Set a timer to remove the extra fruit after a certain time
-  extraFruit.timer = setTimeout(() => {
-    extraFruit.position = null; // Remove extra fruit after the timer
-    extraFruit.timer = null; // Clear the timer
-  }, 10000); // 10 seconds
-
-  extraFruit.blinkTimer = setTimeout(() => {
-    blinkExtraFruit(5, () => {
-      // Do nothing after blinking
-      extraFruit.blinking = false;
-    });
-  }, 7000);
-}
-
-export function blinkExtraFruit(times, callback) {
-  extraFruit.blinking = true;
-  let count = 0;
-  extraFruit.visible = true;
-  const interval = setInterval(() => {
-    extraFruit.visible = !extraFruit.visible; // Toggle visibility
-    count++;
-    if (count >= times * 2) {
-      clearInterval(interval);
-      extraFruit.blinking = false;
-      extraFruit.visible = true; // Ensure it ends up visible
-      callback();
-    }
-  }, 300); // Blink every 300ms
-}
 
 // Function to remove the extra fruit
-export function removeExtraFruit() {
-  extraFruit.position = null;
-  extraFruit.blinking = false;
-  if (extraFruit.timer) {
-    clearTimeout(extraFruit.timer); // Clear the timer if it's still running
-    extraFruit.timer = null;
-  }
-  if (extraFruit.blinkTimer) {
-    clearTimeout(extraFruit.blinkTimer); // Clear the blink timer if it's still running
-    extraFruit.blinkTimer = null;
-  }
-}
 
 // Function to draw the custom background with text and image
 

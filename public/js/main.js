@@ -6,7 +6,6 @@ import { defaultGameSettings } from "./defaultGameSettings.js";
 import {
   map,
   food,
-  drawExtraFruit,
   extraFruit,
 } from "./map.js";
 import { snake } from "./snake.js";
@@ -164,7 +163,7 @@ export function draw() {
   map.drawBackground(); // Draw the background
   food.draw();
   if (extraFruit.position && extraFruit.visible) {
-    drawExtraFruit();
+    extraFruit.draw();
   }
   map.drawWalls();
   snake.draw();
