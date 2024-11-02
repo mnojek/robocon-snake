@@ -41,7 +41,7 @@ export const snake = {
 
     // Remove the last segment unless the snake eats food
     if (head.x === food.position.x && head.y === food.position.y) {
-      snake.eatFood();
+      this.eatFood();
     } else {
       this.snakeSegments.pop();
     }
@@ -56,17 +56,17 @@ export const snake = {
     if (gameState.score > gameState.hiScore) {
       gameState.hiScore = gameState.score; // Update the high score
     }
-    snake.foodEaten++; // Increment the food eaten counter
+    this.foodEaten++; // Increment the food eaten counter
     if (gameState.scoreOnMap >= scoreToNextMap) {
       map.finishMap(); // Load the next map if score reaches the limit per map
     } else {
       // Logic for spawning new food
       food.spawn(canvas, gridSize);
-      if (snake.foodEaten === defaultGameSettings.foodToExtraFruit) {
+      if (this.foodEaten === defaultGameSettings.foodToExtraFruit) {
         extraFruit.spawn(canvas, gridSize);
       }
     }
-    snake.increaseSpeed(); // Increase the game speed
+    this.increaseSpeed(); // Increase the game speed
   },
 
   eatExtraFruit() {
@@ -79,14 +79,14 @@ export const snake = {
   },
 
   loseLife() {
-    snake.lives--;
-    snake.foodEaten = 0; // Reset the food eaten counter
-    updateLivesDisplay(snake.lives); // Update the lives display
-    snake.speed = defaultGameSettings.initialSnakeSpeed; // Reset the snake speed
+    this.lives--;
+    this.foodEaten = 0; // Reset the food eaten counter
+    updateLivesDisplay(this.lives); // Update the lives display
+    this.speed = defaultGameSettings.initialSnakeSpeed; // Reset the snake speed
     if (extraFruit.position) {
       extraFruit.remove(); // Remove the extra fruit if it exists
     }
-    if (snake.lives <= 0 || map.currentMap > map.numberOfMaps) {
+    if (this.lives <= 0 || map.currentMap > map.numberOfMaps) {
       // Check if all maps are finished
       gameState.isGameOver = true;
       testCases.push({ name: `Test ${map.currentMap}`, status: "FAIL" }); // Mark current map as FAIL
@@ -99,8 +99,8 @@ export const snake = {
       displayGameOver();
     } else {
       gameState.isPaused = true;
-      snake.blink(3, () => {
-        snake.reset();
+      this.blink(3, () => {
+        this.reset();
         if (gameState.extraFruitEaten) {
           gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
           gameState.score -= defaultGameSettings.extraFruitScore; // Deduct 5 points if the extra fruit was eaten
@@ -114,29 +114,29 @@ export const snake = {
 
   // Function to increase the game speed
   increaseSpeed(points = defaultGameSettings.snakeSpeedIncrement) {
-    if (snake.speed > 50) {
+    if (this.speed > 50) {
       // Set a minimum speed limit
-      snake.speed -= points; // Decrease the interval by X ms
+      this.speed -= points; // Decrease the interval by X ms
     }
   },
 
   reset() {
     keyQueue.length = 0;
-    snake.snakeSegments = [];
+    this.snakeSegments = [];
     for (let y = 0; y < map.tiles.length; y++) {
       for (let x = 0; x < map.tiles[y].length; x++) {
         if (map.tiles[y][x] === "S") {
-          snake.snakeSegments.push({ x: x * gridSize, y: y * gridSize });
+          this.snakeSegments.push({ x: x * gridSize, y: y * gridSize });
         }
       }
     }
-    snake.snakeSegments.reverse(); // Reverse the snake array
-    snake.direction = { ...defaultGameSettings.initialSnakeDirection };
+    this.snakeSegments.reverse(); // Reverse the snake array
+    this.direction = { ...defaultGameSettings.initialSnakeDirection };
   },
 
   draw() {
     // Make sure there are snake segments before drawing
-    if (snake.snakeSegments.length === 0) return; // Check if the game is over
+    if (this.snakeSegments.length === 0) return; // Check if the game is over
 
     // Draw snake with rounded edges but sharp corners
     ctx.lineJoin = "miter";
@@ -145,13 +145,13 @@ export const snake = {
     ctx.lineWidth = gridSize * 0.8;
     ctx.beginPath();
     ctx.moveTo(
-      snake.getHead().x + gridSize / 2,
-      snake.getHead().y + gridSize / 2
+      this.getHead().x + gridSize / 2,
+      this.getHead().y + gridSize / 2
     );
-    for (let i = 1; i < snake.snakeSegments.length; i++) {
+    for (let i = 1; i < this.snakeSegments.length; i++) {
       ctx.lineTo(
-        snake.snakeSegments[i].x + gridSize / 2,
-        snake.snakeSegments[i].y + gridSize / 2
+        this.snakeSegments[i].x + gridSize / 2,
+        this.snakeSegments[i].y + gridSize / 2
       );
     }
     ctx.stroke();
