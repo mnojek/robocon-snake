@@ -3,8 +3,7 @@ import { defaultGameSettings } from "./defaultGameSettings.js";
 import {
   scoreToNextMap,
   map,
-  drawFood,
-  generateFood,
+  food,
   spawnExtraFruit,
   removeExtraFruit,
   drawExtraFruit,
@@ -44,7 +43,7 @@ export const snake = {
     this.snakeSegments.unshift(head);
 
     // Remove the last segment unless the snake eats food
-    if (head.x === map.food.x && head.y === map.food.y) {
+    if (head.x === food.position.x && head.y === food.position.y) {
       snake.eatFood();
     } else {
       this.snakeSegments.pop();
@@ -65,7 +64,7 @@ export const snake = {
       map.finishMap(); // Load the next map if score reaches the limit per map
     } else {
       // Logic for spawning new food
-      generateFood(canvas, gridSize);
+      food.spawn(canvas, gridSize);
       if (snake.foodEaten === defaultGameSettings.foodToExtraFruit) {
         spawnExtraFruit(canvas, gridSize);
       }
@@ -169,7 +168,7 @@ export const snake = {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         map.drawBackground();
         map.drawWalls();
-        drawFood();
+        food.draw();
         drawExtraFruit();
       } else {
         // Show the snake

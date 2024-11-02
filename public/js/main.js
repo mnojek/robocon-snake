@@ -5,7 +5,7 @@
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import {
   map,
-  drawFood,
+  food,
   drawExtraFruit,
   extraFruit,
 } from "./map.js";
@@ -124,7 +124,7 @@ export function restartGame() {
   map.currentMap = defaultGameSettings.initialMap;
   map.tiles.length = 0;
   map.walls.length = 0;
-  map.food = { ...defaultGameSettings.initialFoodPosition };
+  food.position = { ...defaultGameSettings.initialFoodPosition };
 
   snake.speed = defaultGameSettings.initialSnakeSpeed;
   snake.snakeSegments = [...defaultGameSettings.initialSnakePosition];
@@ -162,7 +162,7 @@ export function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   map.drawBackground(); // Draw the background
-  drawFood();
+  food.draw();
   if (extraFruit.position && extraFruit.visible) {
     drawExtraFruit();
   }
