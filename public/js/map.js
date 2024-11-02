@@ -14,9 +14,9 @@ export const map = {
   walls: [], // Array to store wall coordinates
 
   finishMap() {
-    testCases.push({ name: `Test ${map.currentMap}`, status: "PASS" }); // Mark current map as PASS
+    testCases.push({ name: `Test ${this.currentMap}`, status: "PASS" }); // Mark current map as PASS
     updateTestResult("PASS"); // Update the test result
-    if (map.currentMap >= map.numberOfMaps) {
+    if (this.currentMap >= this.numberOfMaps) {
       console.log("Game over");
       gameState.hiScore +=
         snake.lives * defaultGameSettings.extraScoreForRemainingLife; // Add 10 points for each remaining life
@@ -25,37 +25,37 @@ export const map = {
       gameState.isGameOver = true; // Stop the snake
     } else {
       addSingleLineToTestReport(); // Add a single line to the test report
-      map.currentMap++;
-      displayCountdown(3, `Test case ${map.currentMap}`, () => {
+      this.currentMap++;
+      displayCountdown(3, `Test case ${this.currentMap}`, () => {
         snake.foodEaten = 0; // Reset the food eaten counter
         gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
         gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
-        map.walls = []; // Reset walls array
-        map.tiles = []; // Reset map array
+        this.walls = []; // Reset walls array
+        this.tiles = []; // Reset map array
         snake.snakeSegments = [...defaultGameSettings.initialSnakePosition]; // Reset snake position
         snake.direction = { ...defaultGameSettings.initialSnakeDirection }; // Reset snake direction
         snake.speed = defaultGameSettings.initialSnakeSpeed; // Reset snake speed
-        map.loadMap();
+        this.loadMap();
       });
     }
   },
 
   async loadMap() {
     try {
-      const response = await fetch(`maps/map-${map.currentMap}.txt`);
+      const response = await fetch(`maps/map-${this.currentMap}.txt`);
       if (!response.ok) {
-        console.warn(`Map file maps/map-${map.currentMap}.txt not found.`);
+        console.warn(`Map file maps/map-${this.currentMap}.txt not found.`);
         return;
       }
-      addCurrentTest(`Test ${map.currentMap}`); // Add the current map to the test report
+      addCurrentTest(`Test ${this.currentMap}`); // Add the current map to the test report
       const mapText = await response.text();
       let mapLines = mapText
         .split("\n")
         .map((line) => line.trim())
         .filter((line) => line.length > 0);
       snake.snakeSegments.length = 0; // Clear the snake array
-      map.walls = []; // Clear the walls array
-      map.tiles = []; // Clear the map array
+      this.walls = []; // Clear the walls array
+      this.tiles = []; // Clear the map array
 
       const mapHeight = mapLines.length;
       const mapWidth = mapLines[0].length;
@@ -68,7 +68,7 @@ export const map = {
         const row = [];
         for (let x = 0; x < mapLines[y].length; x++) {
           if (mapLines[y][x] === "#") {
-            map.walls.push({ x: x * gridSize, y: y * gridSize });
+            this.walls.push({ x: x * gridSize, y: y * gridSize });
             row.push("#");
           } else if (mapLines[y][x] === "S") {
             row.push("S");
@@ -79,7 +79,7 @@ export const map = {
             row.push(" ");
           }
         }
-        map.tiles.push(row);
+        this.tiles.push(row);
       }
       snake.reset(); // Reset the snake position
     } catch (error) {
@@ -89,7 +89,7 @@ export const map = {
 
   drawWalls() {
     ctx.fillStyle = "grey";
-    map.walls.forEach((wall) => {
+    this.walls.forEach((wall) => {
       ctx.fillRect(wall.x, wall.y, gridSize, gridSize);
     });
   },
