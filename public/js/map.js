@@ -79,7 +79,7 @@ export function loadNextMap() {
   updateTestResult("PASS"); // Update the test result
   if (map.currentMap >= map.numberOfMaps) {
     console.log("Game over");
-    gameState.score +=
+    gameState.hiScore +=
       snake.lives * defaultGameSettings.extraScoreForRemainingLife; // Add 10 points for each remaining life
     summarizeTestReport("Snake"); // Summarize the test report
     displayGameOver();

@@ -98,6 +98,9 @@ export function checkCollisions() {
     head.y === extraFruit.position.y
   ) {
     gameState.score += defaultGameSettings.extraFruitScore; // Give 5 extra points
+    if (gameState.score > gameState.hiScore) {
+      gameState.hiScore = gameState.score; // Update the high score
+    }
     gameState.extraFruitEaten = true; // Set the extra fruit eaten flag
     removeExtraFruit(); // Remove the extra fruit
   }
@@ -106,6 +109,9 @@ export function checkCollisions() {
 export function eatFood() {
   gameState.score++; // Increment the score
   gameState.scoreOnMap++; // Increment the score for the current map
+  if (gameState.score > gameState.hiScore) {
+    gameState.hiScore = gameState.score; // Update the high score
+  }
   snake.foodEaten++; // Increment the food eaten counter
   if (gameState.scoreOnMap >= scoreToNextMap) {
     loadNextMap(); // Load the next map if score reaches the limit per map

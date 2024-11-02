@@ -12,7 +12,7 @@ export function displayGameOver() {
   ctx.fillStyle = "white";
   ctx.font = "30px 'RBCN'";
   ctx.fillText("Game Over", canvas.width / 2 - 80, canvas.height / 2 - 20);
-  document.getElementById("final-score").textContent = gameState.score;
+  document.getElementById("final-score").textContent = gameState.hiScore;
   // Calculate passed test cases and show in the "finished-maps" span
   const passedTests = testCases.filter((t) => t.status === "PASS").length;
   const totalTests = testCases.length;
@@ -25,7 +25,7 @@ export function displayGameOver() {
   }, 1000);
 
   // Display player's ranking
-  const playerRanking = calculatePlayerRanking(gameState.score);
+  const playerRanking = calculatePlayerRanking(gameState.hiScore);
   const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
   const playersCount = highscores.length;
   document.getElementById(
@@ -47,7 +47,7 @@ document
     if (nameExists) {
       document.getElementById("error-message").textContent = "Player's name is taken. Choose a different one.";
     } else if (playerName) {
-      saveHighscore(playerName, gameState.score);
+      saveHighscore(playerName, gameState.hiScore);
       setTimeout(displayHighscoreBoard, 500); // Display highscores after saving with a slight delay
       document.getElementById("game-over-screen").style.display = "none";
     }

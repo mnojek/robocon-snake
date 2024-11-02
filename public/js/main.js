@@ -1,7 +1,5 @@
 // main.js
 // TODO: Validate map files
-// TODO: Add bigger maps
-// TODO: Save highest score of the player
 // TODO: Add game pausing feature
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
@@ -24,6 +22,7 @@ export const gameState = {
   isGameOver: false,
   snakeSpeed: defaultGameSettings.initialSnakeSpeed,
   score: defaultGameSettings.initialScore,
+  hiScore: defaultGameSettings.initialScore,
   scoreOnMap: defaultGameSettings.initialMapScore,
   extraFruitEaten: false,
 };
@@ -69,6 +68,7 @@ export function handleEnterKey(event) {
   if (event.key === "Enter") {
     document.removeEventListener("keydown", handleEnterKey); // Remove the event listener
     document.getElementById("highscore-board").style.display = "none"; // Hide the highscore board
+    document.getElementById("score").textContent = 0; // Reset the score
     restartGame();
   }
 }
@@ -133,17 +133,20 @@ export function restartGame() {
   gameState.isGameOver = false;
   gameState.isPaused = false;
 
+  gameState.hiScore = defaultGameSettings.initialScore;
+  gameState.score = defaultGameSettings.initialScore;
+  gameState.scoreOnMap = defaultGameSettings.initialMapScore;
+
   map.currentMap = defaultGameSettings.initialMap;
   map.tiles.length = 0;
   map.walls.length = 0;
+  map.food = { ...defaultGameSettings.initialFoodPosition };
 
-  snake.snakeSegments = [...defaultGameSettings.initialSnakePosition];
   resetSnakeSpeed();
-  gameState.score = defaultGameSettings.initialScore;
+  snake.snakeSegments = [...defaultGameSettings.initialSnakePosition];
   snake.lives = defaultGameSettings.initialSnakeLives;
   snake.direction = { ...defaultGameSettings.initialSnakeDirection };
-  map.food = { ...defaultGameSettings.initialFoodPosition };
-  gameState.scoreOnMap = defaultGameSettings.initialMapScore;
+
   testCases.length = 0; // Reset testCases
 
   // Restart the game
@@ -184,7 +187,11 @@ export function draw() {
   drawTestReport();
 
   // Update score and lives
-  document.getElementById("score").textContent = gameState.score;
+  if (gameState.hiScore !== gameState.score) {
+    document.getElementById("score").textContent = `${gameState.score} (Hi: ${gameState.hiScore})`;
+  } else {
+    document.getElementById("score").textContent = gameState.score;
+  }
   updateLivesDisplay(snake.lives);
 }
 
