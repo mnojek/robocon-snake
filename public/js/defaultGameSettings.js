@@ -3,7 +3,7 @@ export const defaultGameSettings = {
   gridSize: 40, // Size of each square on the grid
   scoreToNextMap: 10, // Score required to move to the next map
   initialMap: 1, // Start with the first map
-  numberOfMaps: 3, // Number of maps available
+  numberOfMaps: 4, // Number of maps available
   initialFoodPosition: {}, // Initial food position
   foodToExtraFruit: 5, // Number of food items to eat before extra fruit appears
   extraFruitScore: 5, // Score for eating extra fruit

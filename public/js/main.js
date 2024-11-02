@@ -1,5 +1,11 @@
 // main.js
 // TODO: Add game pausing feature
+// TODO: Add fruit that slows down snake
+// TODO: Add fruit that gives extra life
+// TODO: Update README
+// TODO: Clean code and comments
+// TODO: Add documentation
+// FIXME: When calculating player's rank, read the highscores from JSON file
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { map } from "./map.js";
