@@ -13,6 +13,7 @@ export const map = {
   scoreToNextMap: defaultGameSettings.scoreToNextMap,
   tiles: [],
   walls: [], // Array to store wall coordinates
+  noFoodSpots: [], // Array to store coordinates where food can't be spawned
 
   finishMap() {
     testReport.testCases.push({ name: `Test ${this.currentMap}`, status: "PASS" }); // Mark current map as PASS
@@ -33,6 +34,7 @@ export const map = {
         gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
         this.walls = []; // Reset walls array
         this.tiles = []; // Reset map array
+        this.noFoodSpots = []; // Reset no food spots array
         snake.snakeSegments = [...defaultGameSettings.initialSnakePosition]; // Reset snake position
         snake.direction = { ...defaultGameSettings.initialSnakeDirection }; // Reset snake direction
         snake.speed = defaultGameSettings.initialSnakeSpeed; // Reset snake speed
@@ -63,6 +65,7 @@ export const map = {
       snake.snakeSegments.length = 0; // Clear the snake array
       this.walls = []; // Clear the walls array
       this.tiles = []; // Clear the map array
+      this.noFoodSpots = []; // Clear the no food spots array
 
       const mapHeight = mapLines.length;
       const mapWidth = mapLines[0].length;
@@ -82,6 +85,9 @@ export const map = {
           } else if (mapLines[y][x] === "F") {
             food.position = { x: x * gridSize, y: y * gridSize };
             row.push("F");
+          } else if (mapLines[y][x] === "x") {
+            this.noFoodSpots.push({ x: x * gridSize, y: y * gridSize });
+            row.push("x");
           } else {
             row.push(" ");
           }
@@ -124,7 +130,7 @@ export const map = {
       }
       for (let x = 0; x < mapWidth; x++) {
         const char = lines[y][x];
-        if (char !== " " && char !== "#" && char !== "S" && char !== "F") {
+        if (char !== " " && char !== "#" && char !== "S" && char !== "F" && char !== "x") {
           console.error(`Invalid map: Invalid character in map: ${char}`);
           return false;
         }

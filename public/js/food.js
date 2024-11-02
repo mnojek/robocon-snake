@@ -42,7 +42,7 @@ export const food = {
           Math.pow(food.position.y - snake.getHead().y, 2)
       );
 
-      // Check if the generated position is not on a wall or on the snake
+      // Check if the generated position is not on a wall, on the snake, or on a no food spot
       validPosition =
         !map.walls.some(
           (wall) => wall.x === food.position.x && wall.y === food.position.y
@@ -50,6 +50,9 @@ export const food = {
         !snake.snakeSegments.some(
           (segment) =>
             segment.x === food.position.x && segment.y === food.position.y
+        ) &&
+        !map.noFoodSpots.some(
+          (spot) => spot.x === food.position.x && spot.y === food.position.y
         ) &&
         distanceFromSnakeHead >= 4 * gridSize; // Ensure the food is at least 4 squares away from the snake's head
     }
