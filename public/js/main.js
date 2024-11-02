@@ -7,8 +7,8 @@ import { map } from "./map.js";
 import { food } from "./food.js";
 import { extraFruit } from "./extraFruit.js";
 import { snake } from "./snake.js";
-import { ctx, canvas, displayCountdown, drawTestReport, updateLivesDisplay } from "./ui.js";
-import { testCases, addTestSuiteTitle, initiateTestReport } from "./testReport.js";
+import { ctx, canvas, displayCountdown, updateLivesDisplay } from "./ui.js";
+import { testReport } from "./testReport.js";
 
 export const gameState = {
   isPaused: false,
@@ -128,7 +128,7 @@ export function restartGame() {
   snake.lives = defaultGameSettings.initialSnakeLives;
   snake.direction = { ...defaultGameSettings.initialSnakeDirection };
 
-  testCases.length = 0; // Reset testCases
+  testReport.testCases.length = 0; // Reset testCases
 
   // Restart the game
   startGame();
@@ -165,7 +165,7 @@ export function draw() {
   }
   map.drawWalls();
   snake.draw();
-  drawTestReport();
+  testReport.draw();
 
   // Update score and lives
   if (gameState.hiScore !== gameState.score) {
@@ -178,9 +178,9 @@ export function draw() {
 
 // Start the game
 async function startGame() {
-  initiateTestReport();
-  drawTestReport();
-  addTestSuiteTitle("Snake");
+  testReport.initiate();
+  testReport.draw();
+  testReport.addTestSuiteTitle("Snake");
   await map.loadMap();
   displayCountdown(3, `Test case ${map.currentMap}`, () => {
     document.getElementById("game-info").style.display = "flex";

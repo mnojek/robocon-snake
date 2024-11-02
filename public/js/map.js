@@ -5,7 +5,7 @@ import { canvas, ctx, gridSize } from "./ui.js";
 import { snake } from "./snake.js";
 import { food } from "./food.js";
 import { gameState } from "./main.js"; // Import isGameOver function
-import { testCases, updateTestResult, addCurrentTest, addSingleLineToTestReport, summarizeTestReport } from "./testReport.js";
+import { testReport } from "./testReport.js";
 
 export const map = {
   currentMap: defaultGameSettings.initialMap,
@@ -15,17 +15,17 @@ export const map = {
   walls: [], // Array to store wall coordinates
 
   finishMap() {
-    testCases.push({ name: `Test ${this.currentMap}`, status: "PASS" }); // Mark current map as PASS
-    updateTestResult("PASS"); // Update the test result
+    testReport.testCases.push({ name: `Test ${this.currentMap}`, status: "PASS" }); // Mark current map as PASS
+    testReport.updateTestResult("PASS"); // Update the test result
     if (this.currentMap >= this.numberOfMaps) {
       console.log("Game over");
       gameState.hiScore +=
         snake.lives * defaultGameSettings.extraScoreForRemainingLife; // Add 10 points for each remaining life
-      summarizeTestReport("Snake"); // Summarize the test report
+      testReport.summarizeTestReport("Snake"); // Summarize the test report
       displayGameOver();
       gameState.isGameOver = true; // Stop the snake
     } else {
-      addSingleLineToTestReport(); // Add a single line to the test report
+      testReport.addSingleLineToTestReport(); // Add a single line to the test report
       this.currentMap++;
       displayCountdown(3, `Test case ${this.currentMap}`, () => {
         snake.foodEaten = 0; // Reset the food eaten counter
@@ -48,7 +48,7 @@ export const map = {
         console.warn(`Map file maps/map-${this.currentMap}.txt not found.`);
         return;
       }
-      addCurrentTest(`Test ${this.currentMap}`); // Add the current map to the test report
+      testReport.addCurrentTest(`Test ${this.currentMap}`); // Add the current map to the test report
       const mapText = await response.text();
       let mapLines = mapText
         .split("\n")
@@ -154,16 +154,6 @@ export const map = {
 
 const rfLogoImage = new Image();
 rfLogoImage.src = "images/rf.png"; // Path to the RF logo image
-
-// Function to load the map from a text file
-
-// Draw walls on the canvas
-
-// Function to spawn extra fruit at a random position
-
-// Function to remove the extra fruit
-
-// Function to draw the custom background with text and image
 
 // Helper function to draw text with letter spacing
 function drawTextWithLetterSpacing(ctx, text, x, y, letterSpacing) {

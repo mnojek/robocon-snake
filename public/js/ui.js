@@ -2,7 +2,7 @@
 import { handleEnterKey } from "./main.js";
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { gameState, saveHighscore } from "./main.js";
-import { testReport, testCases } from "./testReport.js";
+import { testReport } from "./testReport.js";
 
 export const canvas = document.getElementById("game-canvas");
 export const ctx = canvas.getContext("2d");
@@ -14,8 +14,10 @@ export function displayGameOver() {
   ctx.fillText("Game Over", canvas.width / 2 - 80, canvas.height / 2 - 20);
   document.getElementById("final-score").textContent = gameState.hiScore;
   // Calculate passed test cases and show in the "finished-maps" span
-  const passedTests = testCases.filter((t) => t.status === "PASS").length;
-  const totalTests = testCases.length;
+  const passedTests = testReport.testCases.filter(
+    (t) => t.status === "PASS"
+  ).length;
+  const totalTests = testReport.testCases.length;
   document.getElementById("finished-maps").textContent = `${passedTests} / ${totalTests}`;
 
   setTimeout(() => {
@@ -153,18 +155,4 @@ export function updateLivesDisplay(lives) {
 
     livesContainer.appendChild(lifeSpan);
   }
-}
-
-// Add this function to display the test execution simulation
-export function drawTestReport() {
-  const testReportContainer = document.getElementById("test-report");
-  testReportContainer.innerHTML = ""; // Clear previous content
-
-  // Create a preformatted text element to display the lines
-  const pre = document.createElement("pre");
-  pre.innerHTML = testReport
-    .replace(/PASS/g, '<span style="color: green;">PASS</span>')
-    .replace(/FAIL/g, '<span style="color: red;">FAIL</span>')
-    .replace(/SKIP/g, '<span style="color: yellow;">SKIP</span>');
-    testReportContainer.appendChild(pre);
 }

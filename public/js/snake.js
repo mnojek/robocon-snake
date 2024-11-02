@@ -17,7 +17,7 @@ import {
   displayGameOver,
   updateLivesDisplay,
 } from "./ui.js";
-import { updateTestResult, summarizeTestReport, testCases } from "./testReport.js";
+import { testReport } from "./testReport.js";
 
 export const snake = {
   snakeSegments: [...defaultGameSettings.initialSnakePosition],
@@ -88,13 +88,13 @@ export const snake = {
     if (this.lives <= 0 || map.currentMap > map.numberOfMaps) {
       // Check if all maps are finished
       gameState.isGameOver = true;
-      testCases.push({ name: `Test ${map.currentMap}`, status: "FAIL" }); // Mark current map as FAIL
-      updateTestResult("FAIL"); // Update the test result
+      testReport.testCases.push({ name: `Test ${map.currentMap}`, status: "FAIL" }); // Mark current map as FAIL
+      testReport.updateTestResult("FAIL"); // Update the test result
       // Mark remaining maps as SKIP
       for (let i = map.currentMap + 1; i <= map.numberOfMaps; i++) {
-        testCases.push({ name: `Test ${i}`, status: "SKIP" });
+        testReport.testCases.push({ name: `Test ${i}`, status: "SKIP" });
       }
-      summarizeTestReport("Snake"); // Summarize the test report
+      testReport.summarizeTestReport("Snake"); // Summarize the test report
       displayGameOver();
     } else {
       gameState.isPaused = true;
