@@ -48,8 +48,14 @@ export const map = {
         console.warn(`Map file maps/map-${this.currentMap}.txt not found.`);
         return;
       }
-      testReport.addCurrentTest(`Test ${this.currentMap}`); // Add the current map to the test report
       const mapText = await response.text();
+      if (!this.validateMap(mapText)) {
+        console.warn(`Invalid map: maps/map-${this.currentMap}.txt. Loading next map.`);
+        this.currentMap++;
+        this.loadMap();
+        return;
+      }
+      testReport.addCurrentTest(`Test ${this.currentMap}`); // Add the current map to the test report
       let mapLines = mapText
         .split("\n")
         .map((line) => line.trim())
@@ -86,6 +92,68 @@ export const map = {
     } catch (error) {
       console.error("Error loading the map:", error);
     }
+  },
+
+  // Function to validate map before loading
+  validateMap(mapText) {
+    const lines = mapText.trim().split("\n");
+    const mapHeight = lines.length;
+    const mapWidth = lines[0].length;
+
+    // Check if the map has a valid size
+    if (mapHeight < 10 || mapWidth < 10) {
+      console.error(
+        "Invalid map: Map size is too small. Minimum size is 10x10."
+      );
+      return false;
+    }
+
+    let foodCount = 0;
+
+    // Check if the map has a valid format
+    for (let y = 0; y < mapHeight; y++) {
+      if (lines[y].length !== mapWidth) {
+        console.error("Invalid map: Map is not rectangular.");
+        return false;
+      }
+      if (lines[y][0] !== "#" || lines[y][mapWidth - 1] !== "#") {
+        console.error(
+          "Invalid map: Walls must be at the left and right edges of the map."
+        );
+        return false;
+      }
+      for (let x = 0; x < mapWidth; x++) {
+        const char = lines[y][x];
+        if (char !== " " && char !== "#" && char !== "S" && char !== "F") {
+          console.error(`Invalid map: Invalid character in map: ${char}`);
+          return false;
+        }
+        if (char === "F") {
+          foodCount++;
+        }
+        if (lines[0][x] !== "#" || lines[mapHeight - 1][x] !== "#") {
+          console.error(
+            "Invalid map: Walls must be at the top and bottom edges of the map."
+          );
+          return false;
+        }
+      }
+      // Check if snake is at least 3 segments long
+      if (lines[y].includes("S") && lines[y].split("S").length - 1 < 3) {
+        console.error("Invalid map: Snake is too short.");
+        return false;
+      }
+    }
+
+    // Check if there is exactly one food item
+    if (foodCount !== 1) {
+      console.error(
+        `Invalid map: Invalid number of food items: ${foodCount}. There must be exactly one "F" on the map.`
+      );
+      return false;
+    }
+
+    return true;
   },
 
   drawWalls() {

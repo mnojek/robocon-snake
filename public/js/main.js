@@ -1,5 +1,4 @@
 // main.js
-// TODO: Validate map files
 // TODO: Add game pausing feature
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
