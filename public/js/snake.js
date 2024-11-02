@@ -1,10 +1,9 @@
 // snake.js
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import {
-  scoreToNextMap,
   map,
-  food,
 } from "./map.js";
+import { food } from "./food.js";
 import { extraFruit } from "./extraFruit.js";
 import {
   gameState,
@@ -57,7 +56,7 @@ export const snake = {
       gameState.hiScore = gameState.score; // Update the high score
     }
     this.foodEaten++; // Increment the food eaten counter
-    if (gameState.scoreOnMap >= scoreToNextMap) {
+    if (gameState.scoreOnMap >= map.scoreToNextMap) {
       map.finishMap(); // Load the next map if score reaches the limit per map
     } else {
       // Logic for spawning new food

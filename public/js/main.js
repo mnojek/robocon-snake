@@ -3,10 +3,8 @@
 // TODO: Add game pausing feature
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
-import {
-  map,
-  food,
-} from "./map.js";
+import { map } from "./map.js";
+import { food } from "./food.js";
 import { extraFruit } from "./extraFruit.js";
 import { snake } from "./snake.js";
 import { ctx, canvas, displayCountdown, drawTestReport, updateLivesDisplay } from "./ui.js";
