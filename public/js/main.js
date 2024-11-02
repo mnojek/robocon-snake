@@ -6,8 +6,8 @@ import { defaultGameSettings } from "./defaultGameSettings.js";
 import {
   map,
   food,
-  extraFruit,
 } from "./map.js";
+import { extraFruit } from "./extraFruit.js";
 import { snake } from "./snake.js";
 import { ctx, canvas, displayCountdown, drawTestReport, updateLivesDisplay } from "./ui.js";
 import { testCases, addTestSuiteTitle, initiateTestReport } from "./testReport.js";

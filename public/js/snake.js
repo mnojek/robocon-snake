@@ -4,8 +4,8 @@ import {
   scoreToNextMap,
   map,
   food,
-  extraFruit,
 } from "./map.js";
+import { extraFruit } from "./extraFruit.js";
 import {
   gameState,
   draw,
