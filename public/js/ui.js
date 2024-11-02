@@ -1,7 +1,7 @@
 // ui.js
-import { handleEnterKey } from "./main.js";
 import { defaultGameSettings } from "./defaultGameSettings.js";
-import { gameState, saveHighscore } from "./main.js";
+import { gameState } from "./main.js";
+import { highscoreBoard } from "./highscoreBoard.js";
 import { testReport } from "./testReport.js";
 
 export const canvas = document.getElementById("game-canvas");
@@ -49,8 +49,8 @@ document
     if (nameExists) {
       document.getElementById("error-message").textContent = "Player's name is taken. Choose a different one.";
     } else if (playerName) {
-      saveHighscore(playerName, gameState.hiScore);
-      setTimeout(displayHighscoreBoard, 500); // Display highscores after saving with a slight delay
+      highscoreBoard.saveHighscore(playerName, gameState.hiScore);
+      setTimeout(highscoreBoard.display(), 500); // Display highscores after saving with a slight delay
       document.getElementById("game-over-screen").style.display = "none";
     }
   });
@@ -71,44 +71,6 @@ function calculatePlayerRanking(score) {
 }
 
 // Display the highscore board
-export function displayHighscoreBoard() {
-  // Get highscores from local storage
-  // const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-
-  fetch("/highscores")
-    .then(response => response.json())
-    .then(highscores => {
-      const topScores = highscores.slice(0, defaultGameSettings.bestScoresToDisplay);
-
-      const highscoreList = document.getElementById("highscore-list");
-      highscoreList.innerHTML = ""; // Clear previous content
-
-      topScores.forEach((scoreEntry, index) => {
-        const listItem = document.createElement("li");
-        const nameSpan = document.createElement("span");
-        const scoreSpan = document.createElement("span");
-
-        nameSpan.textContent = `${index + 1}. ${scoreEntry.name}`;
-        scoreSpan.textContent = `${scoreEntry.score}`;
-
-        nameSpan.classList.add("player-name");
-        scoreSpan.classList.add("player-score");
-
-        listItem.appendChild(nameSpan);
-        listItem.appendChild(scoreSpan);
-        highscoreList.appendChild(listItem);
-      });
-
-      // Hide the game over screen
-      document.getElementById("game-over-screen").style.display = "none";
-      // Show the highscore board
-      document.getElementById("highscore-board").style.display = "flex";
-
-      // Add event listener for Enter key to restart the game
-      document.addEventListener("keydown", handleEnterKey);
-    })
-    .catch(error => console.error("Error fetching highscores:", error));
-}
 
 // Function to display the countdown
 export function displayCountdown(count, message, callback) {

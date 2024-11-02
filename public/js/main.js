@@ -20,52 +20,6 @@ export const gameState = {
 };
 export let keyQueue = [];
 
-// Save highscore to the server
-export function saveHighscore(name, score) {
-  const newHighscore = { name, score };
-
-  fetch("/highscores", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(newHighscore)
-  })
-  .then(response => {
-    console.log("Response status:", response.status);
-    if (!response.ok) {
-      return response.text().then(text => { throw new Error(text); });
-    }
-    return response.text();
-  })
-  .then(message => {
-    console.log("Server message:", message);
-    localStorage.setItem("highscores", JSON.stringify([{ name, score }])); // Update local storage
-  })
-  .catch(error => console.error("Error:", error));
-}
-
-// Save highscore to localStorage
-export function saveHighscoreToLocalStorage(name, score) {
-  let highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-  highscores.push({ name, score });
-
-  // Sort the highscores by score, highest first
-  highscores.sort((a, b) => b.score - a.score);
-
-  localStorage.setItem("highscores", JSON.stringify(highscores));
-}
-
-export function handleEnterKey(event) {
-  if (event.key === "Enter") {
-    document.removeEventListener("keydown", handleEnterKey); // Remove the event listener
-    document.getElementById("highscore-board").style.display = "none"; // Hide the highscore board
-    document.getElementById("score").textContent = 0; // Reset the score
-    document.getElementById("lives").textContent = ""; // Reset the lives
-    restartGame();
-  }
-}
-
 document.addEventListener("keydown", (e) => {
   let newDirection;
   switch (e.key) {
