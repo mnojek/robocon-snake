@@ -10,6 +10,108 @@
     font-display: block;
 }
 
+body {
+    font-family: 'RBCN', 'Arial', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #222;
+    color: white;
+}
+
+canvas {
+    background-color: black;
+    border: 1px solid white;
+    display: block;
+    margin: 0;
+    /* Remove auto margins to align with test report */
+}
+
+h2 {
+    font-size: 36px;
+}
+
+/* Add styles for the game-container and its children */
+#game-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    /* Ensure full viewport height */
+    justify-content: center;
+    /* Center the content */
+    align-items: flex-start;
+    /* Align items to the top */
+    position: relative;
+}
+
+#game-container > * {
+    margin: 0 10px;
+    /* Add horizontal spacing between elements */
+}
+
+#left-half,
+#right-half {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#game-info {
+    position: relative;
+    left: 20px;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    width: -webkit-fill-available;
+    /* Set width to match the canvas */
+    margin: auto;
+    /* Center horizontally and add top and bottom margins */
+    font-size: 24px;
+}
+
+#game-info p {
+    font-size: 24px;
+}
+
+#lives {
+    width: 100px;
+    text-align: left;
+    font-weight: bold;
+    display: inline-block;
+    color: #FE0D3F;
+    min-height: 24px;
+    /* Ensure minimum height to prevent shifting */
+}
+
+#score {
+    color: #00c0b5;
+}
+
+/* Add styles for the empty div to match game-info height */
+#empty-div {
+    height: 60px;
+}
+
+#test-report {
+    margin: 0;
+    /* Remove margins to align with canvas */
+    color: white;
+    font-family: monospace;
+    text-align: left;
+    white-space: pre;
+    font-size: 14px;
+    max-height: 400px;
+    /* Limit height to match the canvas */
+    overflow-y: auto;
+    /* Add scrollbar if content overflows */
+    margin-left: 10px;
+    /* Add spacing to the left of test-report */
+    align-self: flex-start;
+    /* Align the div to the left */
+}
+
+/* Add styles for the game-over-screen and its children */
 #game-over-screen {
     display: flex;
     flex-direction: column;
@@ -45,82 +147,22 @@
     font-size: 30px;
 }
 
-body {
-    font-family: 'RBCN', 'Arial', sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
-
-#game-container {
-    display: flex;
-    width: 100%;
-    height: 100vh; /* Ensure full viewport height */
-    justify-content: center; /* Center the content */
-    align-items: flex-start; /* Align items to the top */
-    position: relative;
-}
-
-#game-container > * {
-    margin: 0 10px; /* Add horizontal spacing between elements */
-}
-
-#left-half, #right-half {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Add styles for the empty div to match game-info height */
-#empty-div {
-    height: 60px; /* Adjust the height as needed to match game-info */
-}
-
-#game-info {
-    position: relative;
-    left: 20px;
-    height: 60px;
+#current-player-score li {
     display: flex;
     justify-content: space-between;
-    width: -webkit-fill-available;       /* Set width to match the canvas */
-    margin: auto;  /* Center horizontally and add top and bottom margins */
+    width: 500px;
     font-size: 24px;
+    margin: 15px 0;
 }
 
-#game-info p {
-    font-size: 24px;
-}
-
-#lives {
-    width: 100px;
+#current-player-score p {
     text-align: left;
-    font-weight: bold;
-    display: inline-block;
-    color: #FE0D3F;
-    min-height: 24px; /* Ensure minimum height to prevent shifting */
+    /* Align text to the left */
 }
 
-#score {
-    color: #00c0b5;
-}
-
-body {
-    text-align: center;
-    background-color: #222;
-    color: white;
-    font-family: 'RBCN', 'Arial', sans-serif;
-}
-
-canvas {
-    background-color: black;
-    border: 1px solid white;
-    display: block;
-    margin: 0;      /* Remove auto margins to align with test report */
-}
-
-h2 {
-    font-size: 36px;
+#current-player-score span {
+    text-align: right;
+    /* Align values to the right */
 }
 
 .custom-input {
@@ -139,23 +181,7 @@ h2 {
     outline: none;
 }
 
-#test-report {
-    margin: 0;       /* Remove margins to align with canvas */
-    color: white;
-    font-family: monospace;
-    text-align: left;
-    white-space: pre;
-    font-size: 14px;
-    max-height: 400px; /* Limit height to match the canvas */
-    overflow-y: auto;   /* Add scrollbar if content overflows */
-    margin-left: 10px; /* Add spacing to the left of test-report */
-    align-self: flex-start; /* Align the div to the left */
-}
-
-#game-window {
-    display: flex;
-    align-items: flex-start; /* Align items to the top */
-}
+/* Add styles for the highscore-board and its children */
 
 #highscore-board {
     display: flex;
@@ -207,20 +233,4 @@ h2 {
 
 .player-score {
     text-align: right;
-}
-
-#current-player-score li {
-    display: flex;
-    justify-content: space-between;
-    width: 500px;
-    font-size: 24px;
-    margin: 15px 0;
-}
-
-#current-player-score p {
-    text-align: left; /* Align text to the left */
-}
-
-#current-player-score span {
-    text-align: right; /* Align values to the right */
 }

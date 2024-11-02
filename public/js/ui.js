@@ -70,8 +70,6 @@ function calculatePlayerRanking(score) {
   return ranking;
 }
 
-// Display the highscore board
-
 // Function to display the countdown
 export function displayCountdown(count, message, callback) {
   gameState.isPaused = true; // Pause the game loop
