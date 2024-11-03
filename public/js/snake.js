@@ -95,7 +95,9 @@ export const snake = {
         testReport.testCases.push({ name: `Test ${i}`, status: "SKIP" });
       }
       testReport.summarizeTestReport("Snake"); // Summarize the test report
-      displayGameOver();
+      this.blink(3, () => {
+        displayGameOver();
+      });
     } else {
       gameState.isPaused = true;
       this.blink(3, () => {

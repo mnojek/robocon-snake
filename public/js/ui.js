@@ -9,9 +9,6 @@ export const ctx = canvas.getContext("2d");
 export const gridSize = defaultGameSettings.gridSize;
 
 export function displayGameOver() {
-  ctx.fillStyle = "white";
-  ctx.font = "30px 'RBCN'";
-  ctx.fillText("Game Over", canvas.width / 2 - 80, canvas.height / 2 - 20);
   document.getElementById("final-score").textContent = gameState.hiScore;
   // Calculate passed test cases and show in the "finished-maps" span
   const passedTests = testReport.testCases.filter(
