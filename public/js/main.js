@@ -1,8 +1,7 @@
 // main.js
-// TODO: Add game pausing feature
-// TODO: Add fruit that slows down snake
-// TODO: Add fruit that gives extra life
-// TODO: Update README
+// TODO: Add game pausing feature?
+// TODO: Add fruit that slows down snake?
+// TODO: Add fruit that gives extra life?
 // TODO: Clean code and comments
 // TODO: Add documentation
 

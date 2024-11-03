@@ -56,12 +56,14 @@ This is a classic Snake game with additional features, developed for RoboCon 202
 - **Maps**:
   - The game features multiple maps.
   - Advance to the next map by reaching the required score.
-- **Game Over**: The game ends when you lose all your lives.
+- **Game Over**: 
+  - The game ends when you lose all your lives.
+  - You get extra points when you finish all maps with remaining lives.
 
 ## High Scores
 
 - After the game ends, submit your name to save your score.
-- High scores are stored locally in your browser's `localStorage`.
+- High scores are stored locally in your browser's `localStorage` and in a `highscores.json` file.
 - View the high score board after submitting your score.
 
 ## Credits
