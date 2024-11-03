@@ -5,7 +5,7 @@
 // TODO: Update README
 // TODO: Clean code and comments
 // TODO: Add documentation
-// FIXME: When calculating player's rank, read the highscores from JSON file
+// TODO: Make typewriter effect for robot command
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { map } from "./map.js";
@@ -14,6 +14,7 @@ import { extraFruit } from "./extraFruit.js";
 import { snake } from "./snake.js";
 import { ctx, canvas, displayCountdown, updateLivesDisplay } from "./ui.js";
 import { testReport } from "./testReport.js";
+import { highscoreBoard } from "./highscoreBoard.js";
 
 export const gameState = {
   isPaused: false,
@@ -137,6 +138,7 @@ export function draw() {
 
 // Start the game
 async function startGame() {
+  highscoreBoard.syncHighscores();
   testReport.initiate();
   testReport.draw();
   testReport.addTestSuiteTitle("Snake");

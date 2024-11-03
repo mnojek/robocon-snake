@@ -27,12 +27,12 @@ export function displayGameOver() {
   }, 1000);
 
   // Display player's ranking
-  const playerRanking = calculatePlayerRanking(gameState.hiScore);
   const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
+  const playerRanking = calculatePlayerRanking(gameState.hiScore, highscores);
   const playersCount = highscores.length;
   document.getElementById(
     "player-ranking"
-  ).textContent = `${playerRanking} / ${playersCount + 1}`;
+  ).textContent = `${playerRanking} / ${playersCount}`;
 }
 
 // Handle form submission
@@ -43,21 +43,25 @@ document
     const playerName = document
       .getElementById("current-player-name")
       .value.toUpperCase(); // Capitalize player name
-    const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-    const nameExists = highscores.some(scoreEntry => scoreEntry.name === playerName);
 
-    if (nameExists) {
-      document.getElementById("error-message").textContent = "Player's name is taken. Choose a different one.";
-    } else if (playerName) {
-      highscoreBoard.saveHighscore(playerName, gameState.hiScore);
-      setTimeout(highscoreBoard.display(), 500); // Display highscores after saving with a slight delay
-      document.getElementById("game-over-screen").style.display = "none";
-    }
+    fetch("/highscores")
+      .then((response) => response.json())
+      .then((highscores) => {
+        const nameExists = highscores.some(scoreEntry => scoreEntry.name === playerName);
+
+        if (nameExists) {
+          document.getElementById("error-message").textContent = "Player's name is taken. Choose a different one.";
+        } else if (playerName) {
+          highscoreBoard.saveHighscore(playerName, gameState.hiScore);
+          highscoreBoard.display();
+          document.getElementById("game-over-screen").style.display = "none";
+        }
+      })
+      .catch((error) => console.error("Error fetching highscores:", error));
   });
 
 // Calculate player's ranking based on score
-function calculatePlayerRanking(score) {
-  const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
+function calculatePlayerRanking(score, highscores) {
   highscores.push({ name: "currentPlayer", score: score }); // Temporarily add current player's score
   highscores.sort((a, b) => {
     if (b.score === a.score) {

@@ -3,7 +3,6 @@ import cors from "cors";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { defaultGameSettings } from "./public/js/defaultGameSettings.js";
 
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -73,9 +72,8 @@ app.post("/highscores", (req, res) => {
     highscores.push(newHighscore);
 
     highscores.sort((a, b) => b.score - a.score); // Sort descending
-    const topHighscores = highscores.slice(0, defaultGameSettings.bestScoresToDisplay); // Display top 10
 
-    fs.writeFile(filePath, JSON.stringify(topHighscores), "utf8", (err) => {
+    fs.writeFile(filePath, JSON.stringify(highscores, null, 2), "utf8", (err) => { // Prettify JSON
       if (err) {
         console.error("Error saving highscores:", err);
         return res.status(500).send("Error saving highscores");

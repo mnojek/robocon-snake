@@ -29,12 +29,12 @@ export const map = {
       testReport.addSingleLineToTestReport(); // Add a single line to the test report
       this.currentMap++;
       displayCountdown(3, `Test case ${this.currentMap}`, () => {
-        snake.foodEaten = 0; // Reset the food eaten counter
         gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
         gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
         this.walls = []; // Reset walls array
         this.tiles = []; // Reset map array
         this.noFoodSpots = []; // Reset no food spots array
+        snake.foodEaten = 0; // Reset the food eaten counter
         snake.snakeSegments = [...defaultGameSettings.initialSnakePosition]; // Reset snake position
         snake.direction = { ...defaultGameSettings.initialSnakeDirection }; // Reset snake direction
         snake.speed = defaultGameSettings.initialSnakeSpeed; // Reset snake speed

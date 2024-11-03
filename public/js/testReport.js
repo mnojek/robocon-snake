@@ -13,12 +13,12 @@ export const testReport = {
     this.content += `${doubleLine}\n${title}\n${doubleLine}\n`;
   },
 
-  updateTestResult(testStatus) {
-    this.content += `${testStatus} |\n`;
-  },
-
   addCurrentTest(testName) {
     this.content += `${testName.padEnd(52, " ")}| `;
+  },
+
+  updateTestResult(testStatus) {
+    this.content += `${testStatus} |\n`;
   },
 
   addSingleLineToTestReport() {
