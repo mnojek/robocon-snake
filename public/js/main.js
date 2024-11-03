@@ -5,7 +5,6 @@
 // TODO: Update README
 // TODO: Clean code and comments
 // TODO: Add documentation
-// TODO: Make typewriter effect for robot command
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { map } from "./map.js";
@@ -139,10 +138,9 @@ export function draw() {
 // Start the game
 async function startGame() {
   highscoreBoard.syncHighscores();
-  testReport.initiate();
-  testReport.draw();
-  testReport.addTestSuiteTitle("Snake");
   await map.loadMap();
+  await testReport.initiate();
+  testReport.addTestSuiteTitle("Snake");
   displayCountdown(3, `Test case ${map.currentMap}`, () => {
     document.getElementById("game-info").style.display = "flex";
     gameLoop();

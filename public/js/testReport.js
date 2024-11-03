@@ -3,7 +3,25 @@ export const testReport = {
   testCases: [],
 
   initiate() {
-    this.content = "> robot tests/snake.robot\n";
+    return new Promise((resolve) => {
+      const text = "> robot tests/snake.robot\n";
+      this.content = "";
+      let index = 0;
+      const interval = 50; // milliseconds per character
+
+      const typeWriter = () => {
+        if (index < text.length) {
+          this.content += text.charAt(index);
+          index++;
+          this.draw();
+          setTimeout(typeWriter, interval);
+        } else {
+          resolve();
+        }
+      };
+
+      typeWriter();
+    });
   },
 
   addTestSuiteTitle(title) {
