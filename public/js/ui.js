@@ -50,7 +50,7 @@ document
           document.getElementById("error-message").textContent = "Player's name is taken. Choose a different one.";
         } else if (playerName) {
           highscoreBoard.saveHighscore(playerName, gameState.hiScore);
-          highscoreBoard.display();
+          setTimeout(() => highscoreBoard.display(), 300);
           document.getElementById("game-over-screen").style.display = "none";
         }
       })

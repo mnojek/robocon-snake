@@ -68,7 +68,6 @@ function isOppositeDirection(newDirection, currentDirection) {
 export function restartGame() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   // Reset game state
-  keyQueue = [];
   gameState.isGameOver = false;
   gameState.isPaused = false;
 
@@ -81,10 +80,10 @@ export function restartGame() {
   map.walls.length = 0;
   food.position = { ...defaultGameSettings.initialFoodPosition };
 
+  snake.reset();
   snake.speed = defaultGameSettings.initialSnakeSpeed;
-  snake.snakeSegments = [...defaultGameSettings.initialSnakePosition];
+  snake.extraFruitEaten = false;
   snake.lives = defaultGameSettings.initialSnakeLives;
-  snake.direction = { ...defaultGameSettings.initialSnakeDirection };
 
   testReport.testCases.length = 0; // Reset testCases
 
@@ -137,9 +136,9 @@ export function draw() {
 // Start the game
 async function startGame() {
   highscoreBoard.syncHighscores();
-  await map.loadMap();
   await testReport.initiate();
   testReport.addTestSuiteTitle("Snake");
+  await map.loadMap();
   displayCountdown(3, `Test case ${map.currentMap}`, () => {
     document.getElementById("game-info").style.display = "flex";
     gameLoop();
