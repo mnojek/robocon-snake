@@ -117,3 +117,14 @@ export function updateLivesDisplay(lives) {
     livesContainer.appendChild(lifeSpan);
   }
 }
+
+export function displayPause() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.5)"; // Semi-transparent black overlay
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.font = "72px 'RBCN'";
+  ctx.fillStyle = "white";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("PAUSE", canvas.width / 2, canvas.height / 2);
+}

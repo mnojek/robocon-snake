@@ -1,5 +1,4 @@
 // main.js
-// TODO: Add game pausing feature?
 // TODO: Add fruit that slows down snake?
 // TODO: Add fruit that gives extra life?
 // TODO: Clean code and comments
@@ -10,13 +9,14 @@ import { map } from "./map.js";
 import { food } from "./food.js";
 import { extraFruit } from "./extraFruit.js";
 import { snake } from "./snake.js";
-import { ctx, canvas, displayCountdown, updateLivesDisplay } from "./ui.js";
+import { ctx, canvas, displayCountdown, updateLivesDisplay, displayPause } from "./ui.js";
 import { testReport } from "./testReport.js";
 import { highscoreBoard } from "./highscoreBoard.js";
 
 export const gameState = {
   isPaused: false,
   isGameOver: false,
+  isLoadingMap: true,
   score: defaultGameSettings.initialScore,
   hiScore: defaultGameSettings.initialScore,
   scoreOnMap: defaultGameSettings.initialMapScore,
@@ -25,6 +25,20 @@ export const gameState = {
 export let keyQueue = [];
 
 document.addEventListener("keydown", (e) => {
+  if (gameState.isLoadingMap || gameState.isGameOver) {
+    return; // Ignore direction changes when the game is paused or over
+  }
+  if (e.key == "P" || e.key == "p") {
+    gameState.isPaused = !gameState.isPaused;
+    if (gameState.isPaused) {
+      displayPause();
+    }
+    return;
+  }
+  if (gameState.isPaused) {
+    return; // Ignore all keys except "P" during pause
+  }
+
   let newDirection;
   switch (e.key) {
     case "ArrowUp":
@@ -93,8 +107,7 @@ export function restartGame() {
 
 // Game loop
 function gameLoop() {
-  if (gameState.isGameOver) return; // Check if the game is paused or over
-  if (!gameState.isPaused) {
+  if (!gameState.isPaused && !gameState.isGameOver) {
     // Process the key queue
     while (keyQueue.length > 0) {
       const newDirection = keyQueue.shift();
@@ -142,6 +155,7 @@ async function startGame() {
   displayCountdown(3, `Test case ${map.currentMap}`, () => {
     document.getElementById("game-info").style.display = "flex";
     gameLoop();
+    gameState.isLoadingMap = false; // Reset loading map state
   });
 }
 

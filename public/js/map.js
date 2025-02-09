@@ -16,7 +16,11 @@ export const map = {
   noFoodSpots: [], // Array to store coordinates where food can't be spawned
 
   finishMap() {
-    testReport.testCases.push({ name: `Test ${this.currentMap}`, status: "PASS" }); // Mark current map as PASS
+    gameState.isLoadingMap = true; // Set loading map state
+    testReport.testCases.push({
+      name: `Test ${this.currentMap}`,
+      status: "PASS",
+    }); // Mark current map as PASS
     testReport.updateTestResult("PASS"); // Update the test result
     if (this.currentMap >= this.numberOfMaps) {
       console.log("Game over");
@@ -39,6 +43,8 @@ export const map = {
         snake.direction = { ...defaultGameSettings.initialSnakeDirection }; // Reset snake direction
         snake.speed = defaultGameSettings.initialSnakeSpeed; // Reset snake speed
         this.loadMap();
+        gameState.isLoadingMap = false; // Reset loading map state
+
       });
     }
   },
@@ -52,9 +58,11 @@ export const map = {
       }
       const mapText = await response.text();
       if (!this.validateMap(mapText)) {
-        console.warn(`Invalid map: maps/map-${this.currentMap}.txt. Loading next map.`);
+        console.warn(
+          `Invalid map: maps/map-${this.currentMap}.txt. Loading next map.`
+        );
         this.currentMap++;
-        this.loadMap();
+        await this.loadMap();
         return;
       }
       testReport.addCurrentTest(`Test ${this.currentMap}`); // Add the current map to the test report
