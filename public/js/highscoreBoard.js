@@ -2,10 +2,9 @@ import { defaultGameSettings } from "./defaultGameSettings.js";
 import { restartGame } from "./main.js";
 
 export const highscoreBoard = {
-
   // Save highscore to the server and update localStorage
-  saveHighscore(name, score) {
-    const newHighscore = { name, score };
+  saveHighscore(name, score, tests) {
+    const newHighscore = { name, score, tests };
 
     fetch("/highscores", {
       method: "POST",
@@ -23,7 +22,7 @@ export const highscoreBoard = {
         return response.text();
       })
       .then(() => {
-        this.saveHighscoreToLocalStorage(name, score); // Update local storage
+        this.saveHighscoreToLocalStorage(name, score, tests); // Update local storage
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -32,9 +31,9 @@ export const highscoreBoard = {
   },
 
   // Save highscore to localStorage
-  saveHighscoreToLocalStorage(name, score) {
+  saveHighscoreToLocalStorage(name, score, tests) {
     let highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-    highscores.push({ name, score });
+    highscores.push({ name, score, tests });
 
     // Sort the highscores by score, highest first
     highscores.sort((a, b) => b.score - a.score);
@@ -61,21 +60,26 @@ export const highscoreBoard = {
     );
 
     const highscoreList = document.getElementById("highscore-list");
-    highscoreList.innerHTML = ""; // Clear previous content
+    highscoreList.innerHTML =
+      "<li><span class='player-name'>NAME</span><span class='player-score'>▼SCORE</span><span class='player-tests'>TESTS</span></li>";
 
     topScores.forEach((scoreEntry, index) => {
       const listItem = document.createElement("li");
       const nameSpan = document.createElement("span");
       const scoreSpan = document.createElement("span");
+      const testsSpan = document.createElement("span");
 
       nameSpan.textContent = `${index + 1}. ${scoreEntry.name}`;
       scoreSpan.textContent = `${scoreEntry.score}`;
+      testsSpan.textContent = `${scoreEntry.tests}`;
 
       nameSpan.classList.add("player-name");
       scoreSpan.classList.add("player-score");
+      testsSpan.classList.add("player-tests");
 
       listItem.appendChild(nameSpan);
       listItem.appendChild(scoreSpan);
+      listItem.appendChild(testsSpan);
       highscoreList.appendChild(listItem);
     });
 

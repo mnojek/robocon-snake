@@ -49,7 +49,7 @@ document
         if (nameExists) {
           document.getElementById("error-message").textContent = "Player's name is taken. Choose a different one.";
         } else if (playerName) {
-          highscoreBoard.saveHighscore(playerName, gameState.hiScore);
+          highscoreBoard.saveHighscore(playerName, gameState.hiScore, testReport.testCases.filter((t) => t.status === "PASS").length);
           setTimeout(() => highscoreBoard.display(), 300);
           document.getElementById("game-over-screen").style.display = "none";
         }

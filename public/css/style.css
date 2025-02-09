@@ -214,7 +214,7 @@ h2 {
     margin: 5px 0;
     display: flex;
     justify-content: space-between;
-    width: 500px; /* Adjust width as needed */
+    width: 700px; /* Adjust width as needed */
 }
 
 #highscore-list {
@@ -222,15 +222,20 @@ h2 {
     padding: 0;
 }
 
-#highscore-list li:nth-child(-n+3) {
+#highscore-list li:nth-child(n+2):nth-child(-n+4) {
     font-size: 30px;
     font-weight: bold;
 }
 
 .player-name {
     text-align: left;
+    width: 50%;
 }
 
 .player-score {
+    text-align: center;
+}
+
+.player-tests {
     text-align: right;
 }
