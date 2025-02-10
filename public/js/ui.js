@@ -129,7 +129,7 @@ export function updateLivesDisplay(lives) {
 }
 
 export function displayPause() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.5)"; // Semi-transparent black overlay
+  ctx.fillStyle = "rgba(0, 0, 0, 1)"; // Black overlay
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   ctx.font = "72px 'RBCN'";
