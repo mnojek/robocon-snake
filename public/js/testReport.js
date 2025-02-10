@@ -24,6 +24,12 @@ export const testReport = {
     });
   },
 
+  clear() {
+    this.content = "";
+    this.testCases = [];
+    this.draw();
+  },
+
   addTestSuiteTitle(title) {
     const consoleWidth = 60;
     const doubleLine = "=".repeat(consoleWidth);

@@ -204,6 +204,7 @@ h2 {
 
 #highscore-board p {
     font-size: 30px;
+    margin: 30px 0 0 0;
 }
 
 #highscore-board p span {

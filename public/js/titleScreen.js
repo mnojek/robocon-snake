@@ -1,5 +1,5 @@
 import { ctx, canvas, gridSize } from "./ui.js";
-import { startGame, isOppositeDirection, keyQueue } from "./main.js";
+import { startGame, isOppositeDirection, keyQueue, resetGame } from "./main.js";
 import { snake } from "./snake.js";
 import { defaultGameSettings } from "./defaultGameSettings.js";
 
@@ -99,17 +99,18 @@ function titleScreenLoop() {
   }
 }
 
-document.addEventListener("keydown", function handleEnterKey(event) {
+function handleEnterKey(event) {
   if (event.key === "Enter") {
     titleScreenActive = false;
     cancelAnimationFrame(titleScreenAnimationFrameId); // Stop the title screen animation frame
     clearTimeout(titleScreenTimeoutId); // Stop the title screen loop
     document.removeEventListener("keydown", handleEnterKey); // Remove the event listener
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    resetGame();
     startGame();
     console.info("Game started");
   }
-});
+}
 
 export function showTitleScreen() {
   // Initialize the snake for the title screen
@@ -121,7 +122,7 @@ export function showTitleScreen() {
     { x: canvas.width / 2 - 360, y: canvas.height / 2 - 180 },
   ];
   snake.direction = defaultGameSettings.initialSnakeDirection;
-
+  document.addEventListener("keydown", handleEnterKey);
   titleScreenActive = true;
   titleScreenLoop();
 }

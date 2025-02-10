@@ -1,4 +1,5 @@
 // main.js
+// TODO: title screen as object
 // TODO: Add fruit that slows down snake?
 // TODO: Add fruit that gives extra life?
 // TODO: Clean code and comments
@@ -84,7 +85,7 @@ export function isOppositeDirection(newDirection, currentDirection) {
   );
 }
 
-export function restartGame() {
+export function resetGame() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   // Reset game state
   gameState.isGameOver = false;
@@ -105,9 +106,10 @@ export function restartGame() {
   snake.lives = defaultGameSettings.initialSnakeLives;
 
   testReport.testCases.length = 0; // Reset testCases
-
-  // Restart the game
-  startGame();
+  testReport.clear();
+  document
+    .querySelectorAll("#game-info p")
+    .forEach((p) => (p.style.display = "none"));
 }
 
 // Game loop
@@ -152,9 +154,6 @@ export function draw() {
 
 // Start the game
 export async function startGame() {
-  document
-    .querySelectorAll("#game-info p")
-    .forEach((p) => (p.style.display = "none"));
   highscoreBoard.syncHighscores();
   await testReport.initiate();
   testReport.addTestSuiteTitle("Snake");

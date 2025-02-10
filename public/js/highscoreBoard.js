@@ -1,7 +1,11 @@
 import { defaultGameSettings } from "./defaultGameSettings.js";
-import { restartGame } from "./main.js";
+import { resetGame, startGame } from "./main.js";
+import { showTitleScreen } from "./titleScreen.js";
 
 export const highscoreBoard = {
+  allowedKeys: ["Enter", "Q", "q"],
+  boundHandleKeys: null, // Store the bound function reference
+
   // Save highscore to the server and update localStorage
   saveHighscore(name, score, tests) {
     const newHighscore = { name, score, tests };
@@ -88,17 +92,26 @@ export const highscoreBoard = {
     // Show the highscore board
     document.getElementById("highscore-board").style.display = "flex";
 
+    // Store the bound function reference
+    this.boundHandleKeys = this.handleKeys.bind(this);
+
     // Add event listener for Enter key to restart the game
-    document.addEventListener("keydown", this.handleEnterKey);
+    document.addEventListener("keydown", this.boundHandleKeys);
   },
 
-  handleEnterKey(event) {
-    if (event.key === "Enter") {
-      document.removeEventListener("keydown", highscoreBoard.handleEnterKey); // Remove the event listener
+  handleKeys(event) {
+    if (highscoreBoard.allowedKeys.includes(event.key)) {
+      document.removeEventListener("keydown", highscoreBoard.boundHandleKeys); // Remove the event listener
       document.getElementById("highscore-board").style.display = "none"; // Hide the highscore board
       document.getElementById("score").textContent = 0; // Reset the score
       document.getElementById("lives").textContent = ""; // Reset the lives
-      restartGame();
+    }
+    if (event.key === "Enter") {
+      resetGame();
+      startGame();
+    } else if (event.key == "Q" || event.key == "q") {
+      resetGame();
+      showTitleScreen();
     }
   },
 };
