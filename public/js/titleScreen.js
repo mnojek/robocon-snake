@@ -2,6 +2,7 @@ import { ctx, canvas, gridSize } from "./ui.js";
 import { startGame, isOppositeDirection, keyQueue, resetGame } from "./main.js";
 import { snake } from "./snake.js";
 import { defaultGameSettings } from "./defaultGameSettings.js";
+import { testReport } from "./testReport.js";
 
 let titleScreenActive = true;
 let titleScreenTimeoutId;
@@ -45,6 +46,11 @@ function drawTitleScreen() {
     canvas.width / 2 - ctx.measureText(instructionText).width / 2 + ctx.measureText(instructionText.substring(0, enterIndex + enterText.length + 2)).width + 60,
     canvas.height / 2 + 40
   );
+
+  // Display text "Press H for help"
+  ctx.font = "24px 'RBCN'";
+  ctx.fillStyle = "white";
+  ctx.fillText("Press H for help", canvas.width / 2, canvas.height / 2 + 80);
 
   // Draw snake
   snake.draw();
@@ -99,16 +105,18 @@ function titleScreenLoop() {
   }
 }
 
-function handleEnterKey(event) {
+function handleKeys(event) {
   if (event.key === "Enter") {
     titleScreenActive = false;
     cancelAnimationFrame(titleScreenAnimationFrameId); // Stop the title screen animation frame
     clearTimeout(titleScreenTimeoutId); // Stop the title screen loop
-    document.removeEventListener("keydown", handleEnterKey); // Remove the event listener
+    document.removeEventListener("keydown", handleKeys); // Remove the event listener
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
     resetGame();
     startGame();
     console.info("Game started");
+  } else if (event.key === "H" || event.key === "h") {
+    testReport.displayHelp();
   }
 }
 
@@ -122,7 +130,7 @@ export function showTitleScreen() {
     { x: canvas.width / 2 - 360, y: canvas.height / 2 - 180 },
   ];
   snake.direction = defaultGameSettings.initialSnakeDirection;
-  document.addEventListener("keydown", handleEnterKey);
+  document.addEventListener("keydown", handleKeys);
   titleScreenActive = true;
   titleScreenLoop();
 }

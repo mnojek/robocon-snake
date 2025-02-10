@@ -82,6 +82,31 @@ export const testReport = {
     this.content += "\n>";
   },
 
+  displayHelp(){
+    this.content = "RoboCon Snake -- tester's most beloved game\n\n";
+    this.content += "Navigate snake through the tests to assert (eat food),\n";
+    this.content += "avoid the obstacles and your own tail.\n";
+    this.content += "Your test execution (ugh, I mean snake)\n";
+    this.content += "has 3 retries (hrmph, I mean lives).\n\n";
+    this.content += "Controls\n";
+    this.content += "========\n\n";
+    this.content += "WSAD or Arrow keys: Move the snake\n\n";
+    this.content += "Points\n";
+    this.content += "======\n\n";
+    const points = [
+      { name: "Assertion (food)", points: "1 point" },
+      { name: "Roboface (timed)", points: "5 points" },
+      { name: "Bonus for remaining lives", points: "10 points" },
+    ];
+
+    points.forEach((item) => {
+      this.content += `${item.name.padEnd(30, " ")}${item.points}\n`;
+    });
+
+    this.content += "\n/Users/robocon2025/game >";
+    this.draw();
+  },
+
   draw() {
     const testReportContainer = document.getElementById("test-report");
     testReportContainer.innerHTML = ""; // Clear previous content

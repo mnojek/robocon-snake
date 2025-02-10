@@ -1,9 +1,11 @@
 // main.js
-// TODO: title screen as object
+// TODO: Title screen as object
+// TODO: Show highscore board from title screen
 // TODO: Add fruit that slows down snake?
 // TODO: Add fruit that gives extra life?
 // TODO: Clean code and comments
 // TODO: Add documentation
+// TODO: Deploy and host it
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { map } from "./map.js";
