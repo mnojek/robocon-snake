@@ -9,6 +9,7 @@ import {
   gameState,
   draw,
   keyQueue,
+  gameLoopTimeoutId,
 } from "./main.js";
 import {
   ctx,
@@ -88,6 +89,7 @@ export const snake = {
     if (this.lives <= 0 || map.currentMap > map.numberOfMaps) {
       // Check if all maps are finished
       gameState.isGameOver = true;
+      clearTimeout(gameLoopTimeoutId);
       testReport.testCases.push({ name: `Test ${map.currentMap}`, status: "FAIL" }); // Mark current map as FAIL
       testReport.updateTestResult("FAIL"); // Update the test result
       // Mark remaining maps as SKIP

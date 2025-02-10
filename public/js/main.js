@@ -12,6 +12,7 @@ import { snake } from "./snake.js";
 import { ctx, canvas, displayCountdown, updateLivesDisplay, displayPause } from "./ui.js";
 import { testReport } from "./testReport.js";
 import { highscoreBoard } from "./highscoreBoard.js";
+import { showTitleScreen } from "./titleScreen.js";
 
 export const gameState = {
   isPaused: false,
@@ -23,6 +24,7 @@ export const gameState = {
   extraFruitEaten: false,
 };
 export let keyQueue = [];
+export let gameLoopTimeoutId;
 
 document.addEventListener("keydown", (e) => {
   if (gameState.isLoadingMap || gameState.isGameOver) {
@@ -32,6 +34,9 @@ document.addEventListener("keydown", (e) => {
     gameState.isPaused = !gameState.isPaused;
     if (gameState.isPaused) {
       displayPause();
+      console.info("Game paused");
+    } else {
+      console.info("Game resumed");
     }
     return;
   }
@@ -72,7 +77,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 // Function to check if the new direction is not the opposite to the current direction
-function isOppositeDirection(newDirection, currentDirection) {
+export function isOppositeDirection(newDirection, currentDirection) {
   return (
     (newDirection.x === -currentDirection.x && newDirection.y === 0) ||
     (newDirection.y === -currentDirection.y && newDirection.x === 0)
@@ -107,7 +112,7 @@ export function restartGame() {
 
 // Game loop
 function gameLoop() {
-  if (!gameState.isPaused && !gameState.isGameOver) {
+  if (!gameState.isPaused && !gameState.isGameOver && !gameState.isLoadingMap) {
     // Process the key queue
     while (keyQueue.length > 0) {
       const newDirection = keyQueue.shift();
@@ -119,8 +124,7 @@ function gameLoop() {
     snake.move();
     draw();
   }
-
-  setTimeout(gameLoop, snake.speed); // Control the snake speed (100ms per frame by default)
+  gameLoopTimeoutId = setTimeout(gameLoop, snake.speed); // Control the snake speed (100ms per frame by default)
 }
 
 // Modify the game loop to draw walls
@@ -147,16 +151,22 @@ export function draw() {
 }
 
 // Start the game
-async function startGame() {
+export async function startGame() {
+  document
+    .querySelectorAll("#game-info p")
+    .forEach((p) => (p.style.display = "none"));
   highscoreBoard.syncHighscores();
   await testReport.initiate();
   testReport.addTestSuiteTitle("Snake");
+  clearTimeout(gameLoopTimeoutId);
   await map.loadMap();
+  document
+    .querySelectorAll("#game-info p")
+    .forEach((p) => (p.style.display = "block"));
   displayCountdown(3, `Test case ${map.currentMap}`, () => {
-    document.getElementById("game-info").style.display = "flex";
     gameLoop();
     gameState.isLoadingMap = false; // Reset loading map state
   });
 }
 
-startGame();
+showTitleScreen();

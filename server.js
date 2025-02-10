@@ -22,7 +22,7 @@ const highscoresFilePath = path.join(__dirname, "public", "highscores.json");
 const createHighscoresFile = () => {
   if (!fs.existsSync(highscoresFilePath)) {
     fs.writeFileSync(highscoresFilePath, JSON.stringify([]), "utf8");
-    console.log("Created 'highscores.json' file");
+    console.info("Created 'highscores.json' file");
   }
 }
 
@@ -84,5 +84,5 @@ app.post("/highscores", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.info(`Server running on port ${PORT}`);
 });

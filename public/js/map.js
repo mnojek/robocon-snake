@@ -4,7 +4,7 @@ import { displayCountdown, displayGameOver } from "./ui.js";
 import { canvas, ctx, gridSize } from "./ui.js";
 import { snake } from "./snake.js";
 import { food } from "./food.js";
-import { gameState } from "./main.js"; // Import isGameOver function
+import { gameLoopTimeoutId, gameState } from "./main.js";
 import { testReport } from "./testReport.js";
 
 export const map = {
@@ -17,13 +17,14 @@ export const map = {
 
   finishMap() {
     gameState.isLoadingMap = true; // Set loading map state
+    clearTimeout(gameLoopTimeoutId);
     testReport.testCases.push({
       name: `Test ${this.currentMap}`,
       status: "PASS",
     }); // Mark current map as PASS
     testReport.updateTestResult("PASS"); // Update the test result
     if (this.currentMap >= this.numberOfMaps) {
-      console.log("Game over");
+      console.info("Game over");
       gameState.hiScore +=
         snake.lives * defaultGameSettings.extraScoreForRemainingLife; // Add 10 points for each remaining life
       testReport.summarizeTestReport("Snake"); // Summarize the test report
@@ -44,7 +45,6 @@ export const map = {
         snake.speed = defaultGameSettings.initialSnakeSpeed; // Reset snake speed
         this.loadMap();
         gameState.isLoadingMap = false; // Reset loading map state
-
       });
     }
   },
