@@ -32,6 +32,10 @@ export function displayGameOver() {
   ).textContent = `${playerRanking} / ${playersCount}`;
 }
 
+function hideGameOver(){
+  document.getElementById("game-over-screen").style.display = "none";
+}
+
 // Handle form submission
 document
   .getElementById("highscore-form")
@@ -50,7 +54,13 @@ document
           document.getElementById("error-message").textContent = "Player's name is taken. Choose a different one.";
         } else if (playerName) {
           highscoreBoard.saveHighscore(playerName, gameState.hiScore, testReport.testCases.filter((t) => t.status === "PASS").length);
-          setTimeout(() => highscoreBoard.display(), 300);
+          setTimeout(() => {
+            hideGameOver();
+            highscoreBoard.bindKeys();
+            highscoreBoard.display();
+            highscoreBoard.displayHelp();
+          }, 300);
+          // setTimeout(() => highscoreBoard.display(), 300);
           document.getElementById("game-over-screen").style.display = "none";
         }
       })

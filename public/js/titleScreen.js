@@ -3,10 +3,12 @@ import { startGame, isOppositeDirection, keyQueue, resetGame } from "./main.js";
 import { snake } from "./snake.js";
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { testReport } from "./testReport.js";
+import { highscoreBoard } from "./highscoreBoard.js";
 
 let titleScreenActive = true;
 let titleScreenTimeoutId;
 let titleScreenAnimationFrameId;
+let highscoreBoardActive = false;
 
 function drawTitleScreen() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -52,6 +54,11 @@ function drawTitleScreen() {
   ctx.fillStyle = "white";
   ctx.fillText("Press H for help", canvas.width / 2, canvas.height / 2 + 80);
 
+  // Display text "Press B for highscores"
+  ctx.font = "24px 'RBCN'";
+  ctx.fillStyle = "white";
+  ctx.fillText("Press B for highscores", canvas.width / 2, canvas.height / 2 + 120);
+
   // Draw snake
   snake.draw();
 }
@@ -75,7 +82,7 @@ function moveTitleSnake() {
   ) {
     newDirection = { x: 1, y: 0 };
   } else if (
-    snake.getHead().y > canvas.height - (9 * gridSize) &&
+    snake.getHead().y > canvas.height - (8 * gridSize) &&
     snake.direction.x != -1 && snake.direction.y != 0
   ) {
     newDirection = { x: -1, y: 0 };
@@ -106,7 +113,11 @@ function titleScreenLoop() {
 }
 
 function handleKeys(event) {
-  if (event.key === "Enter") {
+  if (event.key === "Enter" && !highscoreBoardActive) {
+    if (highscoreBoardActive) {
+      highscoreBoardActive = false;
+      highscoreBoard.hide();
+    }
     titleScreenActive = false;
     cancelAnimationFrame(titleScreenAnimationFrameId); // Stop the title screen animation frame
     clearTimeout(titleScreenTimeoutId); // Stop the title screen loop
@@ -115,8 +126,17 @@ function handleKeys(event) {
     resetGame();
     startGame();
     console.info("Game started");
-  } else if (event.key === "H" || event.key === "h") {
+  } else if ((event.key === "H" || event.key === "h") && !highscoreBoardActive) {
     testReport.displayHelp();
+  } else if (event.key === "B" || event.key === "b") {
+    if (highscoreBoardActive) {
+      highscoreBoardActive = false;
+      highscoreBoard.hide();
+    } else {
+      highscoreBoardActive = true;
+      highscoreBoard.display();
+      highscoreBoard.hideHelp();
+    }
   }
 }
 

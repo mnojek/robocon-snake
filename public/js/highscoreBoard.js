@@ -88,10 +88,31 @@ export const highscoreBoard = {
     });
 
     // Hide the game over screen
-    document.getElementById("game-over-screen").style.display = "none";
+    // document.getElementById("game-over-screen").style.display = "none";
     // Show the highscore board
     document.getElementById("highscore-board").style.display = "flex";
 
+    // Store the bound function reference
+    // this.boundHandleKeys = this.handleKeys.bind(this);
+
+    // Add event listener for Enter key to restart the game
+    // document.addEventListener("keydown", this.boundHandleKeys);
+  },
+
+  displayHelp() {
+    document.getElementById("highscore-help").style.display = "block";
+  },
+
+  hideHelp() {
+    document.getElementById("highscore-help").style.display = "none";
+  },
+
+  hide() {
+    document.getElementById("highscore-board").style.display = "none";
+    document.getElementById("highscore-help").style.display = "none";
+  },
+
+  bindKeys() {
     // Store the bound function reference
     this.boundHandleKeys = this.handleKeys.bind(this);
 
@@ -105,6 +126,7 @@ export const highscoreBoard = {
       document.getElementById("highscore-board").style.display = "none"; // Hide the highscore board
       document.getElementById("score").textContent = 0; // Reset the score
       document.getElementById("lives").textContent = ""; // Reset the lives
+      document.getElementById("highscore-help").style.display = "none";
     }
     if (event.key === "Enter") {
       resetGame();
