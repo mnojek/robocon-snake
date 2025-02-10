@@ -79,6 +79,9 @@ export const snake = {
   },
 
   loseLife() {
+    // Trigger screen shake effect when losing a life
+    map.shakeScreen();
+
     this.lives--;
     this.foodEaten = 0; // Reset the food eaten counter
     updateLivesDisplay(this.lives); // Update the lives display

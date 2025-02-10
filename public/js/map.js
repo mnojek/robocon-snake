@@ -232,6 +232,21 @@ export const map = {
     }
     ctx.globalAlpha = 1.0; // Reset global alpha to default
   },
+
+
+// Screen shake effect function
+  shakeScreen() {
+    const originalStyle = canvas.style.transform;
+    let count = 0;
+    const shakeInterval = setInterval(() => {
+      canvas.style.transform = `translate(${(Math.random() - 0.5) * 10}px, ${(Math.random() - 0.5) * 10}px)`;
+      count++;
+      if (count >= 10) {
+        clearInterval(shakeInterval);
+        canvas.style.transform = originalStyle;
+      }
+    }, 50);
+  }
 };
 
 const rfLogoImage = new Image();
