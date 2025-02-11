@@ -56,11 +56,10 @@ document
           highscoreBoard.saveHighscore(playerName, gameState.hiScore, testReport.testCases.filter((t) => t.status === "PASS").length);
           setTimeout(() => {
             hideGameOver();
-            highscoreBoard.bindKeys();
             highscoreBoard.display();
             highscoreBoard.displayHelp();
-          }, 300);
-          // setTimeout(() => highscoreBoard.display(), 300);
+            highscoreBoard.bindKeys();
+            }, 300);
           document.getElementById("game-over-screen").style.display = "none";
         }
       })

@@ -1,5 +1,4 @@
 // main.js
-// TODO: Title screen as object
 // TODO: Add fruit that slows down snake?
 // TODO: Add fruit that gives extra life?
 // TODO: Deploy and host it

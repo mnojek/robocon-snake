@@ -41,12 +41,15 @@
           type="text"
           id="current-player-name"
           name="current-player-name"
+          autocomplete="off"
           class="custom-input"
           required
           pattern="[A-Za-z0-9_\-]+"
           title="Only letters, numbers, dashes, and underscores are allowed"
           maxlength="20"
           minlength="3"
+          onblur="this.focus()"
+          oninput="checkPlayerNameLength(this)"
         />
         <p><span id="error-message"></span></p>
       </form>
@@ -76,6 +79,15 @@
         }
 
         return true; // Allow form submission
+      }
+
+      function checkPlayerNameLength(input) {
+        const errorMessage = document.getElementById("error-message");
+        if (input.value.length >= 20) {
+          errorMessage.textContent = "Name must not exceed 20 characters.";
+        } else {
+          errorMessage.textContent = "";
+        }
       }
     </script>
   </body>

@@ -5,6 +5,7 @@ import { showTitleScreen } from "./titleScreen.js";
 export const highscoreBoard = {
   allowedKeys: ["Enter", "Q", "q"],
   boundHandleKeys: null, // Store the bound function reference
+  visible: false,
 
   // Save highscore to the server and update localStorage
   saveHighscore(name, score, tests) {
@@ -87,16 +88,14 @@ export const highscoreBoard = {
       highscoreList.appendChild(listItem);
     });
 
-    // Hide the game over screen
-    // document.getElementById("game-over-screen").style.display = "none";
     // Show the highscore board
     document.getElementById("highscore-board").style.display = "flex";
+    this.visible = true;
+  },
 
-    // Store the bound function reference
-    // this.boundHandleKeys = this.handleKeys.bind(this);
-
-    // Add event listener for Enter key to restart the game
-    // document.addEventListener("keydown", this.boundHandleKeys);
+  hide() {
+    document.getElementById("highscore-board").style.display = "none";
+    document.getElementById("highscore-help").style.display = "none";
   },
 
   displayHelp() {
@@ -104,11 +103,6 @@ export const highscoreBoard = {
   },
 
   hideHelp() {
-    document.getElementById("highscore-help").style.display = "none";
-  },
-
-  hide() {
-    document.getElementById("highscore-board").style.display = "none";
     document.getElementById("highscore-help").style.display = "none";
   },
 
