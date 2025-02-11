@@ -16,7 +16,7 @@ import { showTitleScreen, titleScreenActive } from "./titleScreen.js";
 export const gameState = {
   isPaused: false,
   isGameOver: false,
-  isLoadingMap: true,
+  isLoading: true,
   score: defaultGameSettings.initialScore,
   hiScore: defaultGameSettings.initialScore,
   scoreOnMap: defaultGameSettings.initialMapScore,
@@ -26,7 +26,7 @@ export let keyQueue = [];
 export let gameLoopTimeoutId;
 
 document.addEventListener("keydown", (e) => {
-  if (gameState.isLoadingMap || gameState.isGameOver || titleScreenActive) {
+  if (gameState.isLoading || gameState.isGameOver || titleScreenActive) {
     return; // Ignore direction changes when the game is paused or over
   }
   if (e.key == "P" || e.key == "p") {
@@ -112,7 +112,7 @@ export function resetGame() {
 
 // Game loop
 function gameLoop() {
-  if (!gameState.isPaused && !gameState.isGameOver && !gameState.isLoadingMap) {
+  if (!gameState.isPaused && !gameState.isGameOver && !gameState.isLoading) {
     // Process the key queue
     while (keyQueue.length > 0) {
       const newDirection = keyQueue.shift();
@@ -162,7 +162,7 @@ export async function startGame() {
     .forEach((p) => (p.style.display = "block"));
   displayCountdown(3, `Test case ${map.currentMap}`, () => {
     gameLoop();
-    gameState.isLoadingMap = false; // Reset loading map state
+    gameState.isLoading = false; // Reset loading map state
   });
 }
 

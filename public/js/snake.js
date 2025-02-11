@@ -79,6 +79,7 @@ export const snake = {
   },
 
   loseLife() {
+    gameState.isLoading = true; // Set loading map state
     // Trigger screen shake effect when losing a life
     map.shakeScreen();
 
@@ -102,6 +103,7 @@ export const snake = {
       testReport.summarizeTestReport("Snake"); // Summarize the test report
       this.blink(3, () => {
         displayGameOver();
+        gameState.isLoading = false;
       });
     } else {
       gameState.isPaused = true;
@@ -114,6 +116,7 @@ export const snake = {
         gameState.score -= gameState.scoreOnMap; // Reset the score for the current map
         gameState.scoreOnMap = 0; // Reset the score for the current map
         gameState.isPaused = false; // Resume the game loop
+        gameState.isLoading = false; // Reset loading map state
       });
     }
   },

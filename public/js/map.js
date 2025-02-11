@@ -16,7 +16,7 @@ export const map = {
   noFoodSpots: [], // Array to store coordinates where food can't be spawned
 
   finishMap() {
-    gameState.isLoadingMap = true; // Set loading map state
+    gameState.isLoading = true; // Set loading map state
     clearTimeout(gameLoopTimeoutId);
     testReport.testCases.push({
       name: `Test ${this.currentMap}`,
@@ -44,7 +44,7 @@ export const map = {
         snake.direction = { ...defaultGameSettings.initialSnakeDirection }; // Reset snake direction
         snake.speed = defaultGameSettings.initialSnakeSpeed; // Reset snake speed
         this.loadMap().then(() => {
-          gameState.isLoadingMap = false; // Reset loading map state
+          gameState.isLoading = false; // Reset loading map state
         });
       });
     }
