@@ -43,8 +43,9 @@ export const map = {
         snake.snakeSegments = [...defaultGameSettings.initialSnakePosition]; // Reset snake position
         snake.direction = { ...defaultGameSettings.initialSnakeDirection }; // Reset snake direction
         snake.speed = defaultGameSettings.initialSnakeSpeed; // Reset snake speed
-        this.loadMap();
-        gameState.isLoadingMap = false; // Reset loading map state
+        this.loadMap().then(() => {
+          gameState.isLoadingMap = false; // Reset loading map state
+        });
       });
     }
   },
