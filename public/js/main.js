@@ -11,7 +11,7 @@ import { snake } from "./snake.js";
 import { ctx, canvas, displayCountdown, updateLivesDisplay, displayPause } from "./ui.js";
 import { testReport } from "./testReport.js";
 import { highscoreBoard } from "./highscoreBoard.js";
-import { showTitleScreen } from "./titleScreen.js";
+import { showTitleScreen, titleScreenActive } from "./titleScreen.js";
 
 export const gameState = {
   isPaused: false,
@@ -26,7 +26,7 @@ export let keyQueue = [];
 export let gameLoopTimeoutId;
 
 document.addEventListener("keydown", (e) => {
-  if (gameState.isLoadingMap || gameState.isGameOver) {
+  if (gameState.isLoadingMap || gameState.isGameOver || titleScreenActive) {
     return; // Ignore direction changes when the game is paused or over
   }
   if (e.key == "P" || e.key == "p") {

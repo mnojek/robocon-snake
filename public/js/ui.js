@@ -51,7 +51,7 @@ document
         const nameExists = highscores.some(scoreEntry => scoreEntry.name === playerName);
 
         if (nameExists) {
-          document.getElementById("error-message").textContent = "Player's name is taken. Choose a different one.";
+          document.getElementById("error-message").textContent = "Name is taken. Choose a different one.";
         } else if (playerName) {
           highscoreBoard.saveHighscore(playerName, gameState.hiScore, testReport.testCases.filter((t) => t.status === "PASS").length);
           setTimeout(() => {
@@ -59,7 +59,7 @@ document
             highscoreBoard.display();
             highscoreBoard.displayHelp();
             highscoreBoard.bindKeys();
-            }, 300);
+          }, 300);
           document.getElementById("game-over-screen").style.display = "none";
         }
       })

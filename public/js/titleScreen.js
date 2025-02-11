@@ -1,11 +1,11 @@
 import { ctx, canvas, gridSize } from "./ui.js";
-import { startGame, isOppositeDirection, keyQueue, resetGame } from "./main.js";
+import { startGame, isOppositeDirection, keyQueue, resetGame, gameLoopTimeoutId } from "./main.js";
 import { snake } from "./snake.js";
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { testReport } from "./testReport.js";
 import { highscoreBoard } from "./highscoreBoard.js";
 
-let titleScreenActive = true;
+export let titleScreenActive = true;
 let titleScreenTimeoutId;
 let titleScreenAnimationFrameId;
 let highscoreBoardActive = false;
@@ -125,7 +125,6 @@ function handleKeys(event) {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
     resetGame();
     startGame();
-    console.info("Game started");
   } else if ((event.key === "H" || event.key === "h") && !highscoreBoardActive) {
     testReport.displayHelp();
   } else if (event.key === "B" || event.key === "b") {
@@ -141,6 +140,7 @@ function handleKeys(event) {
 }
 
 export function showTitleScreen() {
+  clearTimeout(gameLoopTimeoutId); // Stop the game loop;
   // Initialize the snake for the title screen
   snake.snakeSegments = [
     { x: canvas.width / 2 - 200, y: canvas.height / 2 - 180 },

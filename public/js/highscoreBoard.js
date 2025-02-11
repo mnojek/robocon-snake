@@ -5,7 +5,6 @@ import { showTitleScreen } from "./titleScreen.js";
 export const highscoreBoard = {
   allowedKeys: ["Enter", "Q", "q"],
   boundHandleKeys: null, // Store the bound function reference
-  visible: false,
 
   // Save highscore to the server and update localStorage
   saveHighscore(name, score, tests) {
@@ -90,7 +89,6 @@ export const highscoreBoard = {
 
     // Show the highscore board
     document.getElementById("highscore-board").style.display = "flex";
-    this.visible = true;
   },
 
   hide() {
