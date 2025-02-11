@@ -2,6 +2,7 @@ import { defaultGameSettings } from "./defaultGameSettings.js";
 import { ctx, gridSize } from "./ui.js";
 import { snake } from "./snake.js";
 import { map } from "./map.js";
+import { extraFruit } from "./extraFruit.js";
 
 export const food = {
   position: { ...defaultGameSettings.initialFoodPosition },
@@ -54,7 +55,12 @@ export const food = {
         !map.noFoodSpots.some(
           (spot) => spot.x === food.position.x && spot.y === food.position.y
         ) &&
-        distanceFromSnakeHead >= 4 * gridSize; // Ensure the food is at least 4 squares away from the snake's head
+        distanceFromSnakeHead >= 4 * gridSize && // Ensure the food is at least 4 squares away from snake's head
+        !(
+          extraFruit.position &&
+          extraFruit.position.x === food.position.x &&
+          extraFruit.position.y === food.position.y
+        )
     }
   },
 };
