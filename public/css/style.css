@@ -24,6 +24,7 @@ canvas {
     border: 1px solid white;
     display: block;
     margin: 0;
+    cursor: none; /* Remove cursor when hovering over the canvas */
     /* Remove auto margins to align with test report */
 }
 
