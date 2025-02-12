@@ -76,18 +76,20 @@ export const testReport = {
     this.content += `${suiteName.padEnd(52, " ")}| ${suiteStatus} |\n`;
     this.content += `${totalTests} tests, ${passedTests} passed, ${failedTests} failed, ${skippedTests} skipped\n`;
     this.content += doubleLine + "\n";
-    this.content += "Output:  /Users/robocon2025/game/output.xml\n";
-    this.content += "Log:     /Users/robocon2025/game/log.html\n";
-    this.content += "Report:  /Users/robocon2025/game/report.html\n";
+    this.content += "Output:  /Users/robocon2025/snake/output.xml\n";
+    this.content += "Log:     /Users/robocon2025/snake/log.html\n";
+    this.content += "Report:  /Users/robocon2025/snake/report.html\n";
     this.content += "\n>";
   },
 
   displayHelp(){
-    this.content = "RoboCon Snake -- tester's most beloved game\n\n";
+    this.content = "~Users/robocon2025/snake > snake --help\n\n";
+    this.content += "RoboCon Snake -- tester's most beloved game\n\n";
     this.content += "Navigate snake through the tests to assert (eat food),\n";
     this.content += "avoid the obstacles and your own tail.\n";
     this.content += "Your test execution (ugh, I mean snake)\n";
-    this.content += "has 3 retries (hrmph, I mean lives).\n\n";
+    this.content += "has 3 retries (hrmph, I mean lives).\n";
+    this.content += "Make 10 assertions to pass each test.\n\n";
     this.content += "Controls\n";
     this.content += "========\n\n";
     this.content += "WSAD or Arrow keys: Move the snake\n\n";
@@ -103,7 +105,7 @@ export const testReport = {
       this.content += `${item.name.padEnd(30, " ")}${item.points}\n`;
     });
 
-    this.content += "\n/Users/robocon2025/game >";
+    this.content += "\n~Users/robocon2025/snake >";
     this.draw();
   },
 

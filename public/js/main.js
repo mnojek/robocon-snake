@@ -2,6 +2,7 @@
 // TODO: Add fruit that slows down snake?
 // TODO: Add fruit that gives extra life?
 // TODO: Deploy and host it
+// TODO: Add maps for 2nd day?
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { map } from "./map.js";
