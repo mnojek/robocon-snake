@@ -87,9 +87,6 @@ export const snake = {
     this.foodEaten = 0; // Reset the food eaten counter
     updateLivesDisplay(this.lives); // Update the lives display
     this.speed = defaultGameSettings.initialSnakeSpeed; // Reset the snake speed
-    if (extraFruit.position) {
-      extraFruit.remove(); // Remove the extra fruit if it exists
-    }
     if (this.lives <= 0 || map.currentMap > map.numberOfMaps) {
       // Check if all maps are finished
       gameState.isGameOver = true;
@@ -120,6 +117,9 @@ export const snake = {
         gameState.scoreOnMap = 0; // Reset the score for the current map
         gameState.isPaused = false; // Resume the game loop
         gameState.isLoading = false; // Reset loading map state
+        if (extraFruit.position) {
+          extraFruit.remove(); // Remove the extra fruit if it exists
+        }
       });
     }
   },

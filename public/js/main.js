@@ -98,6 +98,9 @@ export function resetGame() {
   map.tiles.length = 0;
   map.walls.length = 0;
   food.position = { ...defaultGameSettings.initialFoodPosition };
+  if (extraFruit.position) {
+    extraFruit.remove(); // Remove the extra fruit if it exists
+  }
 
   snake.reset();
   snake.speed = defaultGameSettings.initialSnakeSpeed;
