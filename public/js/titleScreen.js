@@ -131,10 +131,12 @@ function handleKeys(event) {
     if (highscoreBoardActive) {
       highscoreBoardActive = false;
       highscoreBoard.hide();
+      document.getElementById("highscore-back").style.display = "none";
     } else {
       highscoreBoardActive = true;
       highscoreBoard.display();
       highscoreBoard.hideHelp();
+      document.getElementById("highscore-back").style.display = "block";
     }
   }
 }
