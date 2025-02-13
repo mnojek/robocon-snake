@@ -23,6 +23,7 @@ export const map = {
       status: "PASS",
     }); // Mark current map as PASS
     testReport.updateTestResult("PASS"); // Update the test result
+    gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
     if (this.currentMap >= this.numberOfMaps) {
       console.info("Game over");
       gameState.hiScore +=
@@ -34,7 +35,6 @@ export const map = {
       testReport.addSingleLineToTestReport(); // Add a single line to the test report
       this.currentMap++;
       displayCountdown(3, `Test case ${this.currentMap}`, () => {
-        gameState.extraFruitEaten = false; // Reset the extra fruit eaten flag
         gameState.scoreOnMap = defaultGameSettings.initialMapScore; // Reset the score for the current map
         this.walls = []; // Reset walls array
         this.tiles = []; // Reset map array

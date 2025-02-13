@@ -114,6 +114,9 @@ export const snake = {
           gameState.score -= defaultGameSettings.extraFruitScore; // Deduct 5 points if the extra fruit was eaten
         }
         gameState.score -= gameState.scoreOnMap; // Reset the score for the current map
+        if (gameState.score < 0) {
+          gameState.score = 0; // Set the score to 0 if it's negative, just in case
+        }
         gameState.scoreOnMap = 0; // Reset the score for the current map
         gameState.isPaused = false; // Resume the game loop
         gameState.isLoading = false; // Reset loading map state
