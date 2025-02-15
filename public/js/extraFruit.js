@@ -41,13 +41,14 @@ export const extraFruit = {
       // Check if the generated position is not on a wall, on the snake, or too close to the snake's head
       validPosition =
         !map.walls.some(
-          (wall) =>
-            wall.x === this.position.x && wall.y === this.position.y
+          (wall) => wall.x === this.position.x && wall.y === this.position.y
         ) &&
         !snake.snakeSegments.some(
           (segment) =>
-            segment.x === this.position.x &&
-            segment.y === this.position.y
+            segment.x === this.position.x && segment.y === this.position.y
+        ) &&
+        !map.noFoodSpots.some(
+          (spot) => spot.x === this.position.x && spot.y === this.position.y
         ) &&
         !(
           food.position.x === this.position.x &&
