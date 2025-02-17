@@ -37,9 +37,13 @@ This is a classic Snake game with additional features, developed for RoboCon 202
 
     Now, open your browser and go to `http://localhost:3000`.
 
+> **Note:**
+>
+> Optionally, you can run game using [Vercel CLI](https://vercel.com/docs/cli). To do it, you need to have it installed, have a Vercel free (Hobby) account. Then run `vercel login` to authorize and execute `vercel dev` to run local development environment. [Here's](https://vercel.com/guides/using-express-with-vercel) the simple guide.
+
 ## Game Controls
 
-- **Arrow Keys**: Control the snake's movement.
+- **Arrow Keys** or **WSAD**: Control the snake's movement.
 
 ## Game Rules
 
@@ -49,21 +53,21 @@ This is a classic Snake game with additional features, developed for RoboCon 202
 - **Self-Collision**: Don't run into your own snake body.
 - **Extra Fruit**:
   - After eating 5 food items, an extra fruit appears.
-  - Extra fruit gives bonus points but disappears after a short time.
+  - Extra fruit gives 5 points bonus points but disappears after a short time.
 - **Lives**:
   - You start with 3 lives.
   - You lose a life when you collide with walls, borders, or yourself.
 - **Maps**:
   - The game features multiple maps.
-  - Advance to the next map by reaching the required score.
+  - Advance to the next map by eating 10 basic food.
 - **Game Over**: 
   - The game ends when you lose all your lives.
-  - You get extra points when you finish all maps with remaining lives.
+  - You get +10 extra points for each remaining life if you finish all maps.
 
 ## High Scores
 
 - After the game ends, submit your name to save your score.
-- High scores are stored locally in your browser's `localStorage` and in a `highscores.json` file.
+- High scores are stored in a `highscores.json` file.
 - View the high score board after submitting your score.
 
 ## Credits
