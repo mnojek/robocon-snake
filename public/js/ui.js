@@ -54,7 +54,7 @@ document
         if (nameExists) {
           document.getElementById("error-message").textContent = "Name is taken. Choose a different one.";
         } else if (playerName) {
-          document.getElementById("spinner").style.display = "block";
+          document.getElementById("spinner-overlay").style.display = "block";
           await highscoreBoard
             .saveHighscore(
               playerName,
@@ -70,7 +70,7 @@ document
                 "none";
             })
             .finally(() => {
-              document.getElementById("spinner").style.display = "none";
+              document.getElementById("spinner-overlay").style.display = "none";
             });
         }
       })

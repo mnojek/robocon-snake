@@ -217,7 +217,7 @@ h2 {
     margin: 5px 0;
     display: flex;
     justify-content: space-between;
-    width: 700px; /* Adjust width as needed */
+    width: 900px; /* Adjust width as needed */
 }
 
 #highscore-list {
@@ -243,11 +243,42 @@ h2 {
     text-align: right;
 }
 
+#spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Dim effect */
+    z-index: 999;
+    /* Behind spinner which is at 1000 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #spinner {
-    display: none;
-    font-size: 50px;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top: 5px solid #00c0b5;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
     z-index: 1000;
+}
+
+/* Spinner animation */
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 }

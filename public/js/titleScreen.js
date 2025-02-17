@@ -134,7 +134,7 @@ function handleKeys(event) {
       document.getElementById("highscore-back").style.display = "none";
     } else {
       highscoreBoardActive = true;
-      document.getElementById("spinner").style.display = "block";
+      document.getElementById("spinner-overlay").style.display = "block";
       highscoreBoard
         .getHighscores()
         .then((serverHighscores) => {
@@ -143,7 +143,7 @@ function handleKeys(event) {
           document.getElementById("highscore-back").style.display = "block";
         })
         .finally(() => {
-          document.getElementById("spinner").style.display = "none";
+          document.getElementById("spinner-overlay").style.display = "none";
         });
     }
   }
