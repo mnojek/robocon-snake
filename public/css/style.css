@@ -103,7 +103,7 @@ h2 {
     text-align: left;
     white-space: pre;
     font-size: 14px;
-    max-height: 400px;
+    max-height: 600px;
     /* Limit height to match the canvas */
     overflow-y: auto;
     /* Add scrollbar if content overflows */

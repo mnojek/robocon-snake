@@ -133,7 +133,7 @@ export const snake = {
   },
 
   reset() {
-    keyQueue.length = 0;
+    keyQueue.length = 0; // Clear the key queue
     this.snakeSegments = [];
     for (let y = 0; y < map.tiles.length; y++) {
       for (let x = 0; x < map.tiles[y].length; x++) {

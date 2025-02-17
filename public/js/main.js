@@ -1,11 +1,7 @@
 // main.js
 // TODO: Add fruit that slows down snake?
 // TODO: Add fruit that gives extra life?
-// TODO: Deploy and host it
-// TODO: Fix extra fruit sometimes not appearing
-// TODO: extract food position validation to function
 // TODO: Allow for no walls on the edges and then snake can transition to the other side
-// TODO: Add license
 
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { map } from "./map.js";
@@ -89,7 +85,6 @@ export function isOppositeDirection(newDirection, currentDirection) {
 export function resetGame() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   // Reset game state
-  gameState.isGameOver = false;
   gameState.isPaused = false;
 
   gameState.hiScore = defaultGameSettings.initialScore;
@@ -161,7 +156,9 @@ export async function startGame() {
   await testReport.initiate();
   testReport.addTestSuiteTitle("Snake");
   clearTimeout(gameLoopTimeoutId);
+  gameState.isGameOver = false;
   await map.loadMap();
+  gameState.isLoading = false; // Reset loading map state
   document
     .querySelectorAll("#game-info p")
     .forEach((p) => (p.style.display = "block"));
