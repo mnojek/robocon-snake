@@ -9,6 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+const PORT = process.env.PORT || 3005;
 
 app.use(cors()); // Enable CORS (for cross-origin requests if needed)
 app.use(express.static("public")); // Serve static files
@@ -86,5 +87,7 @@ app.post("/highscores", (req, res) => {
     });
   });
 });
+
+app.listen(PORT, () => console.log(`Server ready on port ${PORT}.`));
 
 export default app;
