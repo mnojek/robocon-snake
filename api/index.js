@@ -9,14 +9,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors()); // Enable CORS (for cross-origin requests if needed)
 app.use(express.static("public")); // Serve static files
 app.use(express.json()); // Parse incoming JSON requests
 
 // Ensure highscores.json exists
-const highscoresFilePath = path.join(__dirname, "public", "highscores.json");
+const highscoresFilePath = path.join(__dirname, "..", "public", "highscores.json");
 
 // Create highscores file if it doesn't exist
 const createHighscoresFile = () => {
@@ -25,6 +24,10 @@ const createHighscoresFile = () => {
     console.info("Created 'highscores.json' file");
   }
 }
+
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+});
 
 // Get highscores
 app.get("/highscores", (req, res) => {
@@ -78,11 +81,10 @@ app.post("/highscores", (req, res) => {
         console.error("Error saving highscores:", err);
         return res.status(500).send("Error saving highscores");
       }
-      res.status(200).send("Highscore saved");
+      res.setHeader("Content-Type", "application/json");
+      res.status(200).send(JSON.stringify(highscores));
     });
   });
 });
 
-app.listen(PORT, () => {
-  console.info(`Server running on port ${PORT}`);
-});
+export default app;

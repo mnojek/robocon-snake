@@ -6,59 +6,37 @@ export const highscoreBoard = {
   allowedKeys: ["Enter", "Q", "q"],
   boundHandleKeys: null, // Store the bound function reference
 
-  // Save highscore to the server and update localStorage
-  saveHighscore(name, score, tests) {
+  // Save highscore to the server
+  async saveHighscore(name, score, tests) {
     const newHighscore = { name, score, tests };
 
-    fetch("/highscores", {
+    return fetch("/highscores", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newHighscore),
     })
-      .then((response) => {
+      .then(async (response) => {
         if (!response.ok) {
-          return response.text().then((text) => {
-            throw new Error(text);
-          });
+          const text = await response.text();
+          throw new Error(text);
         }
-        return response.text();
-      })
-      .then(() => {
-        this.saveHighscoreToLocalStorage(name, score, tests); // Update local storage
+        return response.json();
       })
       .catch((error) => {
-        console.error("Error:", error);
-        alert("Failed to save highscore. Please try again.");
+        console.error("Failed to save highscore. Error:", error);
       });
   },
 
-  // Save highscore to localStorage
-  saveHighscoreToLocalStorage(name, score, tests) {
-    let highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-    highscores.push({ name, score, tests });
-
-    // Sort the highscores by score, highest first
-    highscores.sort((a, b) => b.score - a.score);
-
-    localStorage.setItem("highscores", JSON.stringify(highscores));
-  },
-
-  syncHighscores() {
-    fetch("/highscores")
+  async getHighscores() {
+    return fetch("/highscores")
       .then((response) => response.json())
-      .then((serverHighscores) => {
-        localStorage.setItem("highscores", JSON.stringify(serverHighscores));
-      })
       .catch((error) => console.error("Error fetching highscores:", error));
   },
 
-  display() {
-    // Get highscores from local storage
-    const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-
-    const topScores = highscores.slice(
+  display(serverHighscores) {
+    const topScores = serverHighscores.slice(
       0,
       defaultGameSettings.bestScoresToDisplay
     );

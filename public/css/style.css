@@ -242,3 +242,12 @@ h2 {
 .player-tests {
     text-align: right;
 }
+
+#spinner {
+    display: none;
+    font-size: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1000;
+}

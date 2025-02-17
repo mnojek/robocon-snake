@@ -134,9 +134,17 @@ function handleKeys(event) {
       document.getElementById("highscore-back").style.display = "none";
     } else {
       highscoreBoardActive = true;
-      highscoreBoard.display();
-      highscoreBoard.hideHelp();
-      document.getElementById("highscore-back").style.display = "block";
+      document.getElementById("spinner").style.display = "block";
+      highscoreBoard
+        .getHighscores()
+        .then((serverHighscores) => {
+          highscoreBoard.display(serverHighscores);
+          highscoreBoard.hideHelp();
+          document.getElementById("highscore-back").style.display = "block";
+        })
+        .finally(() => {
+          document.getElementById("spinner").style.display = "none";
+        });
     }
   }
 }

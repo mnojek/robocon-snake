@@ -24,12 +24,13 @@ export function displayGameOver() {
   }, 1000);
 
   // Display player's ranking
-  const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-  const playerRanking = calculatePlayerRanking(gameState.hiScore, highscores);
-  const playersCount = highscores.length;
-  document.getElementById(
-    "player-ranking"
-  ).textContent = `${playerRanking} / ${playersCount}`;
+  highscoreBoard.getHighscores().then((highscores) => {
+    const playerRanking = calculatePlayerRanking(gameState.hiScore, highscores);
+    const playersCount = highscores.length;
+    document.getElementById(
+      "player-ranking"
+    ).textContent = `${playerRanking} / ${playersCount}`;
+  });
 }
 
 function hideGameOver(){
@@ -47,20 +48,30 @@ document
 
     fetch("/highscores")
       .then((response) => response.json())
-      .then((highscores) => {
+      .then(async (highscores) => {
         const nameExists = highscores.some(scoreEntry => scoreEntry.name === playerName);
 
         if (nameExists) {
           document.getElementById("error-message").textContent = "Name is taken. Choose a different one.";
         } else if (playerName) {
-          highscoreBoard.saveHighscore(playerName, gameState.hiScore, testReport.testCases.filter((t) => t.status === "PASS").length);
-          setTimeout(() => {
-            hideGameOver();
-            highscoreBoard.display();
-            highscoreBoard.displayHelp();
-            highscoreBoard.bindKeys();
-          }, 300);
-          document.getElementById("game-over-screen").style.display = "none";
+          document.getElementById("spinner").style.display = "block";
+          await highscoreBoard
+            .saveHighscore(
+              playerName,
+              gameState.hiScore,
+              testReport.testCases.filter((t) => t.status === "PASS").length
+            )
+            .then((serverHighscores) => {
+              hideGameOver();
+              highscoreBoard.display(serverHighscores);
+              highscoreBoard.displayHelp();
+              highscoreBoard.bindKeys();
+              document.getElementById("game-over-screen").style.display =
+                "none";
+            })
+            .finally(() => {
+              document.getElementById("spinner").style.display = "none";
+            });
         }
       })
       .catch((error) => console.error("Error fetching highscores:", error));

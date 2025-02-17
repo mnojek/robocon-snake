@@ -14,7 +14,6 @@ import { extraFruit } from "./extraFruit.js";
 import { snake } from "./snake.js";
 import { ctx, canvas, displayCountdown, updateLivesDisplay, displayPause } from "./ui.js";
 import { testReport } from "./testReport.js";
-import { highscoreBoard } from "./highscoreBoard.js";
 import { showTitleScreen, titleScreenActive } from "./titleScreen.js";
 
 export const gameState = {
@@ -159,7 +158,6 @@ export function draw() {
 
 // Start the game
 export async function startGame() {
-  highscoreBoard.syncHighscores();
   await testReport.initiate();
   testReport.addTestSuiteTitle("Snake");
   clearTimeout(gameLoopTimeoutId);

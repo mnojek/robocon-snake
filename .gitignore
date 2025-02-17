@@ -12,3 +12,6 @@ package-lock.json
 
 # Highscores JSON file
 public/highscores.json
+
+# Vercel files
+.vercel
