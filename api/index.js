@@ -3,6 +3,7 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import supabase from "./supabaseClient.js";
+import { defaultGameSettings } from "../public/js/defaultGameSettings.js";
 
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -25,14 +26,14 @@ app.get("/highscores", async (req, res) => {
     const { data, error } = await supabase
       .from("highscores")
       .select("*")
-      .order("score", { ascending: false }); // Sort by highest score
+      .order("score", { ascending: false }) // Sort by highest score
+      .limit(defaultGameSettings.bestScoresToDisplay); // Limit to 10 highscores
 
     if (error) {
       console.error("Error fetching highscores:", error);
       return res.status(500).send("Error retrieving highscores");
     }
 
-    console.log("Fetched highscores:", data); // Debugging log
     res.json(data);
   } catch (error) {
     console.error("Unexpected error fetching highscores:", error);
@@ -44,16 +45,17 @@ app.post("/highscores", async (req, res) => {
   try {
     const { name, score, tests } = req.body;
 
-    if (!name || typeof score !== "number") {
+    if (!name || typeof score !== "number" || typeof tests !== "number") {
       return res.status(400).json({ error: "Invalid highscore data" });
     }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("highscores")
       .insert([{ name, score, tests }]);
 
     if (error) throw error;
-    res.json(data);
+
+    res.status(200).send("Highscore saved");
   } catch (err) {
     console.error("Error saving highscore:", err);
     res.status(500).send("Error saving highscore");

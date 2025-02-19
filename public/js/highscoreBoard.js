@@ -1,4 +1,3 @@
-import { defaultGameSettings } from "./defaultGameSettings.js";
 import { resetGame, startGame } from "./main.js";
 import { showTitleScreen } from "./titleScreen.js";
 
@@ -22,7 +21,7 @@ export const highscoreBoard = {
           const text = await response.text();
           throw new Error(text);
         }
-        return response.json();
+        return response.text();
       })
       .catch((error) => {
         console.error("Failed to save highscore. Error:", error);
@@ -42,16 +41,11 @@ export const highscoreBoard = {
       highscores = []; // Default to empty array
     }
 
-    const topScores = highscores.slice(
-      0,
-      defaultGameSettings.bestScoresToDisplay
-    );
-
     const highscoreList = document.getElementById("highscore-list");
     highscoreList.innerHTML =
       "<li><span class='player-name'>NAME</span><span class='player-score'>▼SCORE</span><span class='player-tests'>TESTS</span></li>";
 
-    topScores.forEach((scoreEntry, index) => {
+    highscores.forEach((scoreEntry, index) => {
       const listItem = document.createElement("li");
       const nameSpan = document.createElement("span");
       const scoreSpan = document.createElement("span");
