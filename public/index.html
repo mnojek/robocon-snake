@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,11 +6,27 @@
     <title>RoboCon 2025 Snake Game</title>
     <link rel="icon" href="images/favicon.ico" />
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="preload" href="fonts/RBTFNT.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="fonts/RBCN.ttf" as="font" type="font/ttf" crossorigin>
+    <link
+      rel="preload"
+      href="fonts/RBTFNT.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="fonts/RBCN.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
   </head>
-  <body style="font-family: 'RBCN', 'RBTFNT', 'Arial', sans-serif;">
-
+  <body
+    style="
+      font-family:
+        &quot;RBCN&quot;, &quot;RBTFNT&quot;, &quot;Arial&quot;, sans-serif;
+    "
+  >
     <!-- Game View -->
     <div id="game-container">
       <div id="left-half">
@@ -55,19 +71,19 @@
         <p><span id="error-message"></span></p>
       </form>
     </div>
-    <div id="spinner-overlay" style="display: none;">
+    <div id="spinner-overlay" style="display: none">
       <div id="spinner"></div>
     </div>
 
     <!-- Highscore Board View -->
-    <div id="highscore-board" style="display: none;">
+    <div id="highscore-board" style="display: none">
       <h2>Highscore Board</h2>
       <ol id="highscore-list"></ol>
-      <div id="highscore-help" style="display: none;">
+      <div id="highscore-help" style="display: none">
         <p>Press <span>Enter</span> to start again</p>
         <p>Press <span>Q</span> to go to title screen</p>
       </div>
-      <div id="highscore-back" style="display: none;">
+      <div id="highscore-back" style="display: none">
         <p>Press <span>B</span> to go back</p>
       </div>
     </div>
@@ -80,7 +96,7 @@
 
         if (!pattern.test(playerNameInput.value)) {
           alert(
-            "Please enter a valid name using letters, numbers, dashes, or underscores only."
+            "Please enter a valid name using letters, numbers, dashes, or underscores only.",
           );
           return false; // Prevent form submission
         }

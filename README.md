@@ -17,25 +17,27 @@ This is a classic Snake game with additional features, developed for RoboCon 202
 
 2. **Install the Game**
 
-    Navigate to the root directory:
-    ```
-    cd robocon-snake
-    ```
+   Navigate to the root directory:
 
-    Install all dependencies:
-    ```
-    npm install
-    ```
+   ```
+   cd robocon-snake
+   ```
+
+   Install all dependencies:
+
+   ```
+   npm install
+   ```
 
 3. **Running with a Local Web Server**
 
-    Run the local server:
+   Run the local server:
 
-    ```
-    npm start
-    ```
+   ```
+   npm start
+   ```
 
-    Now, open your browser and go to `http://localhost:3000`.
+   Now, open your browser and go to `http://localhost:3000`.
 
 > **Note:**
 >
@@ -60,7 +62,7 @@ This is a classic Snake game with additional features, developed for RoboCon 202
 - **Maps**:
   - The game features multiple maps.
   - Advance to the next map by eating 10 basic food.
-- **Game Over**: 
+- **Game Over**:
   - The game ends when you lose all your lives.
   - You get +10 extra points for each remaining life if you finish all maps.
 

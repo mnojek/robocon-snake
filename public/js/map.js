@@ -60,7 +60,7 @@ export const map = {
       const mapText = await response.text();
       if (!this.validateMap(mapText)) {
         console.warn(
-          `Invalid map: maps/map-${this.currentMap}.txt. Loading next map.`
+          `Invalid map: maps/map-${this.currentMap}.txt. Loading next map.`,
         );
         this.currentMap++;
         await this.loadMap();
@@ -118,7 +118,7 @@ export const map = {
     // Check if the map has a valid size
     if (mapHeight < 10 || mapWidth < 10) {
       console.error(
-        "Invalid map: Map size is too small. Minimum size is 10x10."
+        "Invalid map: Map size is too small. Minimum size is 10x10.",
       );
       return false;
     }
@@ -133,13 +133,19 @@ export const map = {
       }
       if (lines[y][0] !== "#" || lines[y][mapWidth - 1] !== "#") {
         console.error(
-          "Invalid map: Walls must be at the left and right edges of the map."
+          "Invalid map: Walls must be at the left and right edges of the map.",
         );
         return false;
       }
       for (let x = 0; x < mapWidth; x++) {
         const char = lines[y][x];
-        if (char !== " " && char !== "#" && char !== "S" && char !== "F" && char !== "x") {
+        if (
+          char !== " " &&
+          char !== "#" &&
+          char !== "S" &&
+          char !== "F" &&
+          char !== "x"
+        ) {
           console.error(`Invalid map: Invalid character in map: ${char}`);
           return false;
         }
@@ -148,7 +154,7 @@ export const map = {
         }
         if (lines[0][x] !== "#" || lines[mapHeight - 1][x] !== "#") {
           console.error(
-            "Invalid map: Walls must be at the top and bottom edges of the map."
+            "Invalid map: Walls must be at the top and bottom edges of the map.",
           );
           return false;
         }
@@ -163,7 +169,7 @@ export const map = {
     // Check if there is exactly one food item
     if (foodCount !== 1) {
       console.error(
-        `Invalid map: Invalid number of food items: ${foodCount}. There must be exactly one "F" on the map.`
+        `Invalid map: Invalid number of food items: ${foodCount}. There must be exactly one "F" on the map.`,
       );
       return false;
     }
@@ -209,7 +215,7 @@ export const map = {
       "RBCN",
       textX - ctx.measureText("25").width / 2,
       textY,
-      -10
+      -10,
     );
 
     // Draw the "25" part of the text
@@ -219,7 +225,7 @@ export const map = {
       "25",
       textX + ctx.measureText("RBCN").width / 2 - 30,
       textY,
-      -10
+      -10,
     );
 
     // Draw the image next to the text with dimming effect
@@ -234,8 +240,7 @@ export const map = {
     ctx.globalAlpha = 1.0; // Reset global alpha to default
   },
 
-
-// Screen shake effect function
+  // Screen shake effect function
   shakeScreen() {
     const originalStyle = canvas.style.transform;
     let count = 0;
@@ -247,7 +252,7 @@ export const map = {
         canvas.style.transform = originalStyle;
       }
     }, 50);
-  }
+  },
 };
 
 const rfLogoImage = new Image();
@@ -255,7 +260,7 @@ rfLogoImage.src = "images/rf.png"; // Path to the RF logo image
 
 // Helper function to draw text with letter spacing
 function drawTextWithLetterSpacing(ctx, text, x, y, letterSpacing) {
-  const characters = text.split('');
+  const characters = text.split("");
   const totalWidth = ctx.measureText(text).width;
   const offsetX = x - totalWidth / 2;
 

@@ -82,7 +82,7 @@ export const testReport = {
     this.content += "\n>";
   },
 
-  displayHelp(){
+  displayHelp() {
     this.content = "~Users/robocon2025/snake > snake --help\n\n";
     this.content += "RoboCon Snake -- tester's most beloved game\n\n";
     this.content += "Navigate snake through the tests to assert (eat food),\n";

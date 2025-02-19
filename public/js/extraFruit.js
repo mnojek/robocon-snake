@@ -1,6 +1,6 @@
 import { canvas, ctx, gridSize } from "./ui.js";
 import { snake } from "./snake.js";
-import { map } from "./map.js"
+import { map } from "./map.js";
 import { food } from "./food.js";
 
 export const extraFruit = {
@@ -19,7 +19,7 @@ export const extraFruit = {
         this.position.x + (gridSize - fruitSize) / 2,
         this.position.y + (gridSize - fruitSize) / 2,
         fruitSize,
-        fruitSize
+        fruitSize,
       );
     }
   },
@@ -35,20 +35,20 @@ export const extraFruit = {
 
       const distanceFromSnakeHead = Math.sqrt(
         Math.pow(this.position.x - snake.getHead().x, 2) +
-          Math.pow(this.position.y - snake.getHead().y, 2)
+          Math.pow(this.position.y - snake.getHead().y, 2),
       );
 
       // Check if the generated position is not on a wall, on the snake, or too close to the snake's head
       validPosition =
         !map.walls.some(
-          (wall) => wall.x === this.position.x && wall.y === this.position.y
+          (wall) => wall.x === this.position.x && wall.y === this.position.y,
         ) &&
         !snake.snakeSegments.some(
           (segment) =>
-            segment.x === this.position.x && segment.y === this.position.y
+            segment.x === this.position.x && segment.y === this.position.y,
         ) &&
         !map.noFoodSpots.some(
-          (spot) => spot.x === this.position.x && spot.y === this.position.y
+          (spot) => spot.x === this.position.x && spot.y === this.position.y,
         ) &&
         !(
           food.position.x === this.position.x &&

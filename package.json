@@ -5,22 +5,22 @@
   "main": "public/js/main.js",
   "type": "module",
   "scripts": {
-    "start": "node server-local.js"
+    "start": "node server-local.js",
+    "prettier": "prettier --write .",
+    "lint": "eslint ."
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["robocon", "snake", "game"],
+  "author": "Mateusz Nojek <matnojek@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
-    "express": "^4.21.1",
-    "fs": "^0.0.1-security"
+    "express": "^4.21.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.13.0",
     "@supabase/supabase-js": "^2.48.1",
-    "eslint": "^9.13.0",
-    "globals": "^15.11.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.5.1",
     "vercel": "^41.1.4"
   }
 }

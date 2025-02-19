@@ -1,16 +1,9 @@
 // snake.js
 import { defaultGameSettings } from "./defaultGameSettings.js";
-import {
-  map,
-} from "./map.js";
+import { map } from "./map.js";
 import { food } from "./food.js";
 import { extraFruit } from "./extraFruit.js";
-import {
-  gameState,
-  draw,
-  keyQueue,
-  gameLoopTimeoutId,
-} from "./main.js";
+import { gameState, draw, keyQueue, gameLoopTimeoutId } from "./main.js";
 import {
   ctx,
   canvas,
@@ -91,7 +84,10 @@ export const snake = {
       // Check if all maps are finished
       gameState.isGameOver = true;
       clearTimeout(gameLoopTimeoutId);
-      testReport.testCases.push({ name: `Test ${map.currentMap}`, status: "FAIL" }); // Mark current map as FAIL
+      testReport.testCases.push({
+        name: `Test ${map.currentMap}`,
+        status: "FAIL",
+      }); // Mark current map as FAIL
       testReport.updateTestResult("FAIL"); // Update the test result
       // Mark remaining maps as SKIP
       for (let i = map.currentMap + 1; i <= map.numberOfMaps; i++) {
@@ -158,12 +154,12 @@ export const snake = {
     ctx.beginPath();
     ctx.moveTo(
       this.getHead().x + gridSize / 2,
-      this.getHead().y + gridSize / 2
+      this.getHead().y + gridSize / 2,
     );
     for (let i = 1; i < this.snakeSegments.length; i++) {
       ctx.lineTo(
         this.snakeSegments[i].x + gridSize / 2,
-        this.snakeSegments[i].y + gridSize / 2
+        this.snakeSegments[i].y + gridSize / 2,
       );
     }
     ctx.stroke();

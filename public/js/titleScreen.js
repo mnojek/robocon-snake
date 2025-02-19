@@ -1,5 +1,11 @@
 import { ctx, canvas, gridSize } from "./ui.js";
-import { startGame, isOppositeDirection, keyQueue, resetGame, gameLoopTimeoutId } from "./main.js";
+import {
+  startGame,
+  isOppositeDirection,
+  keyQueue,
+  resetGame,
+  gameLoopTimeoutId,
+} from "./main.js";
 import { snake } from "./snake.js";
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { testReport } from "./testReport.js";
@@ -30,23 +36,31 @@ function drawTitleScreen() {
   ctx.fillText(
     instructionText.substring(0, enterIndex),
     canvas.width / 2 - ctx.measureText(instructionText).width / 2 + 60,
-    canvas.height / 2 + 40
+    canvas.height / 2 + 40,
   );
 
   // Change color to cyan and draw "Enter"
   ctx.fillStyle = "#00c0b5";
   ctx.fillText(
     enterText,
-    canvas.width / 2 - ctx.measureText(instructionText).width / 2 + ctx.measureText(instructionText.substring(0, enterIndex)).width + 60,
-    canvas.height / 2 + 40
+    canvas.width / 2 -
+      ctx.measureText(instructionText).width / 2 +
+      ctx.measureText(instructionText.substring(0, enterIndex)).width +
+      60,
+    canvas.height / 2 + 40,
   );
 
   // Change color back to white and draw the part after "Enter"
   ctx.fillStyle = "white";
   ctx.fillText(
     instructionText.substring(enterIndex + enterText.length),
-    canvas.width / 2 - ctx.measureText(instructionText).width / 2 + ctx.measureText(instructionText.substring(0, enterIndex + enterText.length + 2)).width + 60,
-    canvas.height / 2 + 40
+    canvas.width / 2 -
+      ctx.measureText(instructionText).width / 2 +
+      ctx.measureText(
+        instructionText.substring(0, enterIndex + enterText.length + 2),
+      ).width +
+      60,
+    canvas.height / 2 + 40,
   );
 
   // Display text "Press H for help"
@@ -57,7 +71,11 @@ function drawTitleScreen() {
   // Display text "Press B for highscores"
   ctx.font = "24px 'RBCN'";
   ctx.fillStyle = "white";
-  ctx.fillText("Press B for highscores", canvas.width / 2, canvas.height / 2 + 120);
+  ctx.fillText(
+    "Press B for highscores",
+    canvas.width / 2,
+    canvas.height / 2 + 120,
+  );
 
   // Draw snake
   snake.draw();
@@ -67,23 +85,27 @@ function drawTitleScreen() {
 function moveTitleSnake() {
   let newDirection;
   if (
-    snake.getHead().x < 0 + (5 * gridSize) &&
-    snake.direction.x != 0 && snake.direction.y != -1
+    snake.getHead().x < 0 + 5 * gridSize &&
+    snake.direction.x != 0 &&
+    snake.direction.y != -1
   ) {
     newDirection = { x: 0, y: -1 };
   } else if (
-    snake.getHead().x > canvas.width - (6 * gridSize) &&
-    snake.direction.x != 0 && snake.direction.y != 1
+    snake.getHead().x > canvas.width - 6 * gridSize &&
+    snake.direction.x != 0 &&
+    snake.direction.y != 1
   ) {
     newDirection = { x: 0, y: 1 };
   } else if (
-    snake.getHead().y < 0 + (8 * gridSize) &&
-    snake.direction.x != 1 && snake.direction.y != 0
+    snake.getHead().y < 0 + 8 * gridSize &&
+    snake.direction.x != 1 &&
+    snake.direction.y != 0
   ) {
     newDirection = { x: 1, y: 0 };
   } else if (
-    snake.getHead().y > canvas.height - (8 * gridSize) &&
-    snake.direction.x != -1 && snake.direction.y != 0
+    snake.getHead().y > canvas.height - 8 * gridSize &&
+    snake.direction.x != -1 &&
+    snake.direction.y != 0
   ) {
     newDirection = { x: -1, y: 0 };
   }
@@ -125,7 +147,10 @@ function handleKeys(event) {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
     resetGame();
     startGame();
-  } else if ((event.key === "H" || event.key === "h") && !highscoreBoardActive) {
+  } else if (
+    (event.key === "H" || event.key === "h") &&
+    !highscoreBoardActive
+  ) {
     testReport.displayHelp();
   } else if (event.key === "B" || event.key === "b") {
     if (highscoreBoardActive) {

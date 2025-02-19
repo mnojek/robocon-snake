@@ -8,7 +8,13 @@ import { map } from "./map.js";
 import { food } from "./food.js";
 import { extraFruit } from "./extraFruit.js";
 import { snake } from "./snake.js";
-import { ctx, canvas, displayCountdown, updateLivesDisplay, displayPause } from "./ui.js";
+import {
+  ctx,
+  canvas,
+  displayCountdown,
+  updateLivesDisplay,
+  displayPause,
+} from "./ui.js";
 import { testReport } from "./testReport.js";
 import { showTitleScreen, titleScreenActive } from "./titleScreen.js";
 
@@ -144,7 +150,8 @@ export function draw() {
 
   // Update score and lives
   if (gameState.hiScore !== gameState.score) {
-    document.getElementById("score").textContent = `${gameState.score} (Hi: ${gameState.hiScore})`;
+    document.getElementById("score").textContent =
+      `${gameState.score} (Hi: ${gameState.hiScore})`;
   } else {
     document.getElementById("score").textContent = gameState.score;
   }

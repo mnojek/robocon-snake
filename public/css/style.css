@@ -1,284 +1,284 @@
 @font-face {
-    font-family: 'RBCN';
-    src: url('../fonts/RBCN.ttf') format('truetype'); /* Used for all the text */
-    font-display: block;
+  font-family: "RBCN";
+  src: url("../fonts/RBCN.ttf") format("truetype"); /* Used for all the text */
+  font-display: block;
 }
 
 @font-face {
-    font-family: 'RBTFNT';
-    src: url('../fonts/RBTFNT.ttf') format('truetype'); /* Used for background text */
-    font-display: block;
+  font-family: "RBTFNT";
+  src: url("../fonts/RBTFNT.ttf") format("truetype"); /* Used for background text */
+  font-display: block;
 }
 
 body {
-    font-family: 'RBCN', 'Arial', sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    background-color: #222;
-    color: white;
+  font-family: "RBCN", "Arial", sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-color: #222;
+  color: white;
 }
 
 canvas {
-    background-color: black;
-    border: 1px solid white;
-    display: block;
-    margin: 0;
-    cursor: none; /* Remove cursor when hovering over the canvas */
-    /* Remove auto margins to align with test report */
+  background-color: black;
+  border: 1px solid white;
+  display: block;
+  margin: 0;
+  cursor: none; /* Remove cursor when hovering over the canvas */
+  /* Remove auto margins to align with test report */
 }
 
 h2 {
-    font-size: 36px;
+  font-size: 36px;
 }
 
 /* Add styles for the game-container and its children */
 #game-container {
-    display: flex;
-    height: 100vh;
-    /* Ensure full viewport height */
-    justify-content: center;
-    /* Center the content */
-    align-items: flex-start;
-    /* Align items to the top */
-    position: relative;
-    margin-left: 5%;
+  display: flex;
+  height: 100vh;
+  /* Ensure full viewport height */
+  justify-content: center;
+  /* Center the content */
+  align-items: flex-start;
+  /* Align items to the top */
+  position: relative;
+  margin-left: 5%;
 }
 
 #game-container > * {
-    margin: 0 10px;
-    /* Add horizontal spacing between elements */
+  margin: 0 10px;
+  /* Add horizontal spacing between elements */
 }
 
 #left-half,
 #right-half {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    /* align-items: center; */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
 }
 
 #game-info {
-    position: relative;
-    left: 20px;
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
-    width: -webkit-fill-available;
-    /* Set width to match the canvas */
-    margin: auto;
-    /* Center horizontally and add top and bottom margins */
-    font-size: 24px;
+  position: relative;
+  left: 20px;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  width: -webkit-fill-available;
+  /* Set width to match the canvas */
+  margin: auto;
+  /* Center horizontally and add top and bottom margins */
+  font-size: 24px;
 }
 
 #game-info p {
-    font-size: 24px;
-    display: none;
+  font-size: 24px;
+  display: none;
 }
 
 #lives {
-    width: 100px;
-    text-align: left;
-    font-weight: bold;
-    display: inline-block;
-    color: #FE0D3F;
-    min-height: 24px;
-    /* Ensure minimum height to prevent shifting */
+  width: 100px;
+  text-align: left;
+  font-weight: bold;
+  display: inline-block;
+  color: #fe0d3f;
+  min-height: 24px;
+  /* Ensure minimum height to prevent shifting */
 }
 
 #score {
-    color: #00c0b5;
+  color: #00c0b5;
 }
 
 /* Add styles for the empty div to match game-info height */
 #empty-div {
-    height: 60px;
+  height: 60px;
 }
 
 #test-report {
-    margin: 0;
-    /* Remove margins to align with canvas */
-    color: white;
-    font-family: monospace;
-    text-align: left;
-    white-space: pre;
-    font-size: 14px;
-    max-height: 600px;
-    /* Limit height to match the canvas */
-    overflow-y: auto;
-    /* Add scrollbar if content overflows */
-    margin-left: 10px;
-    /* Add spacing to the left of test-report */
-    align-self: flex-start;
-    /* Align the div to the left */
+  margin: 0;
+  /* Remove margins to align with canvas */
+  color: white;
+  font-family: monospace;
+  text-align: left;
+  white-space: pre;
+  font-size: 14px;
+  max-height: 600px;
+  /* Limit height to match the canvas */
+  overflow-y: auto;
+  /* Add scrollbar if content overflows */
+  margin-left: 10px;
+  /* Add spacing to the left of test-report */
+  align-self: flex-start;
+  /* Align the div to the left */
 }
 
 /* Add styles for the game-over-screen and its children */
 #game-over-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
 }
 
 #game-over-screen p {
-    font-size: 24px;
+  font-size: 24px;
 }
 
 #highscore-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #highscore-form button {
-    padding: 5px 10px;
-    font-size: 16px;
-    cursor: pointer;
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 #highscore-form label {
-    margin-top: 3em;
-    font-size: 30px;
+  margin-top: 3em;
+  font-size: 30px;
 }
 
 #current-player-score li {
-    display: flex;
-    justify-content: space-between;
-    width: 500px;
-    font-size: 24px;
-    margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  width: 500px;
+  font-size: 24px;
+  margin: 15px 0;
 }
 
 #current-player-score p {
-    text-align: left;
-    /* Align text to the left */
+  text-align: left;
+  /* Align text to the left */
 }
 
 #current-player-score span {
-    text-align: right;
-    /* Align values to the right */
+  text-align: right;
+  /* Align values to the right */
 }
 
 .custom-input {
-    margin: 10px 0;
-    padding: 10px;
-    font-size: 30px;
-    border: none;
-    background-color: transparent;
-    color: #00c0b5;
-    font-family: 'RBCN', 'Arial', sans-serif;
-    text-align: center;
-    text-transform: uppercase;
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 30px;
+  border: none;
+  background-color: transparent;
+  color: #00c0b5;
+  font-family: "RBCN", "Arial", sans-serif;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .custom-input:focus {
-    outline: none;
+  outline: none;
 }
 
 /* Add styles for the highscore-board and its children */
 
 #highscore-board {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
 }
 
 #highscore-board h2 {
-    font-size: 36px;
+  font-size: 36px;
 }
 
 #highscore-board p {
-    font-size: 30px;
-    margin: 30px 0 0 0;
+  font-size: 30px;
+  margin: 30px 0 0 0;
 }
 
 #highscore-board p span {
-    color: #00c0b5;
+  color: #00c0b5;
 }
 
 #highscore-list li {
-    font-size: 24px;
-    margin: 5px 0;
-    display: flex;
-    justify-content: space-between;
-    width: 900px; /* Adjust width as needed */
+  font-size: 24px;
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  width: 900px; /* Adjust width as needed */
 }
 
 #highscore-list {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
-#highscore-list li:nth-child(n+2):nth-child(-n+4) {
-    font-size: 30px;
-    font-weight: bold;
+#highscore-list li:nth-child(n + 2):nth-child(-n + 4) {
+  font-size: 30px;
+  font-weight: bold;
 }
 
 .player-name {
-    text-align: left;
-    width: 50%;
+  text-align: left;
+  width: 50%;
 }
 
 .player-score {
-    text-align: center;
+  text-align: center;
 }
 
 .player-tests {
-    text-align: right;
+  text-align: right;
 }
 
 #spinner-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    /* Dim effect */
-    z-index: 999;
-    /* Behind spinner which is at 1000 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Dim effect */
+  z-index: 999;
+  /* Behind spinner which is at 1000 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #spinner {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    border: 5px solid rgba(255, 255, 255, 0.3);
-    border-top: 5px solid #00c0b5;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    z-index: 1000;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-top: 5px solid #00c0b5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 1000;
 }
 
 /* Spinner animation */
 @keyframes spin {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
 
-    to {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }

@@ -12,10 +12,11 @@ export function displayGameOver() {
   document.getElementById("final-score").textContent = gameState.hiScore;
   // Calculate passed test cases and show in the "finished-maps" span
   const passedTests = testReport.testCases.filter(
-    (t) => t.status === "PASS"
+    (t) => t.status === "PASS",
   ).length;
   const totalTests = testReport.testCases.length;
-  document.getElementById("finished-maps").textContent = `${passedTests} / ${totalTests}`;
+  document.getElementById("finished-maps").textContent =
+    `${passedTests} / ${totalTests}`;
 
   setTimeout(() => {
     document.getElementById("game-over-screen").style.display = "flex";
@@ -27,13 +28,12 @@ export function displayGameOver() {
   highscoreBoard.getHighscores().then((highscores) => {
     const playerRanking = calculatePlayerRanking(gameState.hiScore, highscores);
     const playersCount = highscores.length;
-    document.getElementById(
-      "player-ranking"
-    ).textContent = `${playerRanking} / ${playersCount}`;
+    document.getElementById("player-ranking").textContent =
+      `${playerRanking} / ${playersCount}`;
   });
 }
 
-function hideGameOver(){
+function hideGameOver() {
   document.getElementById("game-over-screen").style.display = "none";
 }
 
@@ -49,17 +49,20 @@ document
     fetch("/highscores")
       .then((response) => response.json())
       .then(async (highscores) => {
-        const nameExists = highscores.some(scoreEntry => scoreEntry.name === playerName);
+        const nameExists = highscores.some(
+          (scoreEntry) => scoreEntry.name === playerName,
+        );
 
         if (nameExists) {
-          document.getElementById("error-message").textContent = "Name is taken. Choose a different one.";
+          document.getElementById("error-message").textContent =
+            "Name is taken. Choose a different one.";
         } else if (playerName) {
           document.getElementById("spinner-overlay").style.display = "block";
           await highscoreBoard
             .saveHighscore(
               playerName,
               gameState.hiScore,
-              testReport.testCases.filter((t) => t.status === "PASS").length
+              testReport.testCases.filter((t) => t.status === "PASS").length,
             )
             .then(async () => {
               console.log("Highscore saved successfully.");
@@ -89,7 +92,9 @@ function calculatePlayerRanking(score, highscores) {
     return b.score - a.score; // Sort highscores in descending order
   });
 
-  const ranking = highscores.findIndex(scoreEntry => scoreEntry.name === "currentPlayer") + 1;
+  const ranking =
+    highscores.findIndex((scoreEntry) => scoreEntry.name === "currentPlayer") +
+    1;
   return ranking;
 }
 
