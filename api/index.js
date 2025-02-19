@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import supabase from "./supabaseClient.js";
 
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -15,77 +15,49 @@ app.use(cors()); // Enable CORS (for cross-origin requests if needed)
 app.use(express.static("public")); // Serve static files
 app.use(express.json()); // Parse incoming JSON requests
 
-// Ensure highscores.json exists
-const highscoresFilePath = path.join(__dirname, "..", "public", "highscores.json");
-
-// Create highscores file if it doesn't exist
-const createHighscoresFile = () => {
-  if (!fs.existsSync(highscoresFilePath)) {
-    fs.writeFileSync(highscoresFilePath, JSON.stringify([]), "utf8");
-    console.info("Created 'highscores.json' file");
-  }
-}
-
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "..", "public", "index.html"));
 });
 
-// Get highscores
-app.get("/highscores", (req, res) => {
-  const filePath = highscoresFilePath;
-  
-  // Ensure the file exists before reading
-  createHighscoresFile();
+// Fetch highscores
+app.get("/highscores", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("highscores")
+      .select("*")
+      .order("score", { ascending: false }); // Sort by highest score
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) return res.status(500).send("Error reading highscores file");
-    try {
-      const highscores = JSON.parse(data);
-      res.json(Array.isArray(highscores) ? highscores : []);
-    } catch {
-      res.json([]);
+    if (error) {
+      console.error("Error fetching highscores:", error);
+      return res.status(500).send("Error retrieving highscores");
     }
-  });
+
+    console.log("Fetched highscores:", data); // Debugging log
+    res.json(data);
+  } catch (error) {
+    console.error("Unexpected error fetching highscores:", error);
+    res.status(500).send("Error retrieving highscores");
+  }
 });
 
-// Save highscores
-app.post("/highscores", (req, res) => {
-  const newHighscore = req.body;
-  const filePath = highscoresFilePath;
+app.post("/highscores", async (req, res) => {
+  try {
+    const { name, score, tests } = req.body;
 
-  // Ensure the file exists before reading
-  createHighscoresFile();
-
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading highscores file:", err);
-      return res.status(500).send("Error reading highscores file");
+    if (!name || typeof score !== "number") {
+      return res.status(400).json({ error: "Invalid highscore data" });
     }
 
-    let highscores;
-    try {
-      highscores = JSON.parse(data);
-    } catch (parseErr) {
-      console.error("Error parsing highscores file:", parseErr);
-      highscores = [];
-    }
+    const { data, error } = await supabase
+      .from("highscores")
+      .insert([{ name, score, tests }]);
 
-    if (!Array.isArray(highscores)) {
-      highscores = [];
-    }
-    highscores.push(newHighscore);
-
-    highscores.sort((a, b) => b.score - a.score); // Sort descending
-
-    fs.writeFile(filePath, JSON.stringify(highscores, null, 2), "utf8", (err) => { // Prettify JSON
-      if (err) {
-        console.error("Error saving highscores:", err);
-        return res.status(500).send("Error saving highscores");
-      }
-      res.setHeader("Content-Type", "application/json");
-      res.status(200).send(JSON.stringify(highscores));
-    });
-  });
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    console.error("Error saving highscore:", err);
+    res.status(500).send("Error saving highscore");
+  }
 });
 
 app.listen(PORT, () => console.log(`Server ready on port ${PORT}.`));

@@ -61,9 +61,11 @@ document
               gameState.hiScore,
               testReport.testCases.filter((t) => t.status === "PASS").length
             )
-            .then((serverHighscores) => {
+            .then(async () => {
+              console.log("Highscore saved successfully.");
+              const updatedHighscores = await highscoreBoard.getHighscores();
               hideGameOver();
-              highscoreBoard.display(serverHighscores);
+              highscoreBoard.display(updatedHighscores);
               highscoreBoard.displayHelp();
               highscoreBoard.bindKeys();
               document.getElementById("game-over-screen").style.display =

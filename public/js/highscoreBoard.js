@@ -26,6 +26,7 @@ export const highscoreBoard = {
       })
       .catch((error) => {
         console.error("Failed to save highscore. Error:", error);
+        return null;
       });
   },
 
@@ -35,8 +36,13 @@ export const highscoreBoard = {
       .catch((error) => console.error("Error fetching highscores:", error));
   },
 
-  display(serverHighscores) {
-    const topScores = serverHighscores.slice(
+  display(highscores) {
+    if (!highscores || !Array.isArray(highscores)) {
+      console.error("Invalid highscores data:", highscores);
+      highscores = []; // Default to empty array
+    }
+
+    const topScores = highscores.slice(
       0,
       defaultGameSettings.bestScoresToDisplay
     );

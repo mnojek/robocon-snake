@@ -12,11 +12,13 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "fs": "^0.0.1-security"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
+    "@supabase/supabase-js": "^2.48.1",
     "eslint": "^9.13.0",
     "globals": "^15.11.0",
     "vercel": "^41.1.4"
