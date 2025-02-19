@@ -9,9 +9,13 @@
     "prettier": "prettier --write .",
     "lint": "eslint ."
   },
-  "keywords": ["robocon", "snake", "game"],
+  "keywords": [
+    "robocon",
+    "snake",
+    "game"
+  ],
   "author": "Mateusz Nojek <matnojek@gmail.com>",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
