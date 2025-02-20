@@ -1,59 +1,54 @@
-name: Check Package Version Bumped
+name: Version Check
 
 on:
   pull_request:
-    branches: [main]
-  push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  version-check:
+  check-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 2
-
-      - name: Install jq
-        run: sudo apt-get install jq
-
-      - name: Get previous version from package.json
-        id: prev
+          fetch-depth: 0
+      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install semver
+        run: npm install semver
+      
+      - name: Check PR branch versions match
+        id: pr_version
         run: |
-          PREV_VERSION=$(git show HEAD^:package.json | jq -r .version)
-          echo "prev_version=$PREV_VERSION" >> $GITHUB_OUTPUT
-          echo "Previous version: $PREV_VERSION"
-
-      - name: Get current version from package.json
-        id: curr
-        run: |
-          CURR_VERSION=$(jq -r .version package.json)
-          echo "curr_version=$CURR_VERSION" >> $GITHUB_OUTPUT
-          echo "Current version: $CURR_VERSION"
-
-      - name: Get version from public/version.js
-        id: public_ver
-        run: |
-          PUBLIC_VERSION=$(jq -r .version public/version.js)
-          echo "public_version=$PUBLIC_VERSION" >> $GITHUB_OUTPUT
-          echo "Public version: $PUBLIC_VERSION"
-
-      - name: Compare package.json version has been bumped
-        run: |
-          echo "Checking if package.json version has been bumped..."
-          if [ "${{ steps.curr.outputs.curr_version }}" = "${{ steps.prev.outputs.prev_version }}" ]; then
-            echo "Error: Package version was not bumped (still ${{ steps.curr.outputs.curr_version }})"
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          VERSION_JS=$(node -p "require('./version.js')")
+          
+          if [ "$PACKAGE_VERSION" != "$VERSION_JS" ]; then
+            echo "Version mismatch in PR branch!"
+            echo "package.json version: $PACKAGE_VERSION"
+            echo "version.js version: $VERSION_JS"
             exit 1
-          else
-            echo "Package version bumped from ${{ steps.prev.outputs.prev_version }} to ${{ steps.curr.outputs.curr_version }}."
           fi
-
-      - name: Verify public version matches package.json
+          echo "version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Get target branch version
+        id: target_version
         run: |
-          echo "Comparing package.json version '${{ steps.curr.outputs.curr_version }}' with public version '${{ steps.public_ver.outputs.public_version }}'"
-          if [ "${{ steps.curr.outputs.curr_version }}" != "${{ steps.public_ver.outputs.public_version }}" ]; then
-            echo "Error: Version in public/version.js does not match version in package.json"
+          git checkout origin/${{ github.base_ref }}
+          TARGET_VERSION=$(node -p "require('./package.json').version")
+          echo "version=$TARGET_VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Compare with target branch version
+        run: |
+          IS_HIGHER=$(node -p "require('semver').gt('${{ steps.pr_version.outputs.version }}', '${{ steps.target_version.outputs.version }}')")
+          
+          if [ "$IS_HIGHER" != "true" ]; then
+            echo "Error: New version (${{ steps.pr_version.outputs.version }}) must be higher than target branch version (${{ steps.target_version.outputs.version }})"
             exit 1
-          else
-            echo "Version in public/version.js matches package.json"
           fi
+          
+          echo "Version check passed:"
+          echo "- PR version: ${{ steps.pr_version.outputs.version }}"
+          echo "- Target version: ${{ steps.target_version.outputs.version }}"
