@@ -1,4 +1,5 @@
 // ui.js
+import { VERSION } from "../version.js";
 import { defaultGameSettings } from "./defaultGameSettings.js";
 import { gameState } from "./main.js";
 import { highscoreBoard } from "./highscoreBoard.js";
@@ -81,6 +82,10 @@ document
       })
       .catch((error) => console.error("Error fetching highscores:", error));
   });
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("version").textContent = `Version: ${VERSION}`;
+});
 
 // Calculate player's ranking based on score
 function calculatePlayerRanking(score, highscores) {

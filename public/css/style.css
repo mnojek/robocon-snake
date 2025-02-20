@@ -35,7 +35,7 @@ h2 {
 /* Add styles for the game-container and its children */
 #game-container {
   display: flex;
-  height: 100vh;
+  height: 95vh;
   /* Ensure full viewport height */
   justify-content: center;
   /* Center the content */
@@ -241,6 +241,13 @@ h2 {
 
 .player-tests {
   text-align: right;
+}
+
+#version {
+  font-size: 12px;
+  color: lightgrey;
+  text-align: center;
+  padding: 5px;
 }
 
 #spinner-overlay {

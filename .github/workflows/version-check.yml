@@ -31,12 +31,29 @@ jobs:
           echo "curr_version=$CURR_VERSION" >> $GITHUB_OUTPUT
           echo "Current version: $CURR_VERSION"
 
-      - name: Compare versions
+      - name: Get version from public/version.js
+        id: public_ver
         run: |
-          echo "Checking if version has been bumped..."
+          PUBLIC_VERSION=$(jq -r .version public/version.js)
+          echo "public_version=$PUBLIC_VERSION" >> $GITHUB_OUTPUT
+          echo "Public version: $PUBLIC_VERSION"
+
+      - name: Compare package.json version has been bumped
+        run: |
+          echo "Checking if package.json version has been bumped..."
           if [ "${{ steps.curr.outputs.curr_version }}" = "${{ steps.prev.outputs.prev_version }}" ]; then
             echo "Error: Package version was not bumped (still ${{ steps.curr.outputs.curr_version }})"
             exit 1
           else
             echo "Package version bumped from ${{ steps.prev.outputs.prev_version }} to ${{ steps.curr.outputs.curr_version }}."
+          fi
+
+      - name: Verify public version matches package.json
+        run: |
+          echo "Comparing package.json version '${{ steps.curr.outputs.curr_version }}' with public version '${{ steps.public_ver.outputs.public_version }}'"
+          if [ "${{ steps.curr.outputs.curr_version }}" != "${{ steps.public_ver.outputs.public_version }}" ]; then
+            echo "Error: Version in public/version.js does not match version in package.json"
+            exit 1
+          else
+            echo "Version in public/version.js matches package.json"
           fi
