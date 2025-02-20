@@ -30,7 +30,7 @@ jobs:
           fi
           
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          VERSION_JS=$(node -p "require('$VERSION_FILE')")
+          VERSION_JS=$(node -p "await import('$VERSION_FILE').then(m => m.default)")
           
           if [ "$PACKAGE_VERSION" != "$VERSION_JS" ]; then
             echo "Version mismatch in PR branch!"
