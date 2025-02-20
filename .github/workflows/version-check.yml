@@ -23,7 +23,7 @@ jobs:
         id: pr_version
         run: |
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          VERSION_JS=$(node -p "require('./../version.js')")
+          VERSION_JS=$(node -p "require('./public/version.js')")
           
           if [ "$PACKAGE_VERSION" != "$VERSION_JS" ]; then
             echo "Version mismatch in PR branch!"
