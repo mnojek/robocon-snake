@@ -7,8 +7,6 @@ on:
 jobs:
   check-version:
     runs-on: ubuntu-latest
-    env:
-      VERSION_FILE: ./public/version.js
     steps:
       - uses: actions/checkout@v3
         with:
@@ -18,27 +16,14 @@ jobs:
         with:
           node-version: '18'
       
-      - name: Install semver
+      - name: Install dependencies
         run: npm install semver
       
       - name: Check PR branch versions match
         id: pr_version
         run: |
-          if [ ! -f "$VERSION_FILE" ]; then
-            echo "Error: version.js file is missing at $VERSION_FILE"
-            exit 1
-          fi
-          
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          VERSION_JS=$(node -p "await import('$VERSION_FILE').then(m => m.default)")
-          
-          if [ "$PACKAGE_VERSION" != "$VERSION_JS" ]; then
-            echo "Version mismatch in PR branch!"
-            echo "package.json version: $PACKAGE_VERSION"
-            echo "version.js version: $VERSION_JS"
-            exit 1
-          fi
-          echo "version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          PR_VERSION=$(node scripts/version-check.js)
+          echo "version=$PR_VERSION" >> $GITHUB_OUTPUT
       
       - name: Get target branch version
         id: target_version
@@ -46,16 +31,7 @@ jobs:
           git checkout origin/${{ github.base_ref }}
           TARGET_VERSION=$(node -p "require('./package.json').version")
           echo "version=$TARGET_VERSION" >> $GITHUB_OUTPUT
-      
-      - name: Compare with target branch version
-        run: |
-          IS_HIGHER=$(node -p "require('semver').gt('${{ steps.pr_version.outputs.version }}', '${{ steps.target_version.outputs.version }}')")
           
-          if [ "$IS_HIGHER" != "true" ]; then
-            echo "Error: New version (${{ steps.pr_version.outputs.version }}) must be higher than target branch version (${{ steps.target_version.outputs.version }})"
-            exit 1
-          fi
-          
-          echo "Version check passed:"
-          echo "- PR version: ${{ steps.pr_version.outputs.version }}"
-          echo "- Target version: ${{ steps.target_version.outputs.version }}"
+          # Return to PR branch and check version comparison
+          git checkout -
+          node scripts/version-check.js "$TARGET_VERSION"
